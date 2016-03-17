@@ -17,7 +17,7 @@ the content with regular expression patterns you define.
     - navigate with <kbd>F3</kbd> and <kbd>⇧</kbd> + <kbd>F3</kbd>
 - adding of ignore patterns from selected text
     - use the shortcut <kbd>Ctrl</kbd> + <kbd>I</kbd>
-    - regular expressions will be used
+    - use regular expressions as patterns
 - searching for matching text of ignore patterns if you select them
 - removing all matches of ignore patterns from the text
     - empty lines will be removed by default
