@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setupStatusBar();
     ui->fileListWidget->installEventFilter(this);
     ui->ignoredPatternsListWidget->installEventFilter(this);
     ui->fileTextEdit->installEventFilter(this);
@@ -31,6 +32,11 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setupStatusBar() {
+    _lineCountLabel = new QLabel();
+    ui->statusBar->addPermanentWidget(_lineCountLabel);
 }
 
 void MainWindow::storeSettings() {
@@ -123,9 +129,14 @@ void MainWindow::loadLogFileList()
         for (int i = 0; i < logFiles.count(); i++) {
             QString logFile = logFiles.at(i);
 
-            QListWidgetItem *item = new QListWidgetItem();
-            item->setText(logFile);
-            ui->fileListWidget->addItem(item);
+            QFileInfo fileInfo = QFileInfo(logFile);
+
+            // skip files that are not readable
+            if (fileInfo.isReadable() && fileInfo.isFile()) {
+                QListWidgetItem *item = new QListWidgetItem();
+                item->setText(logFile);
+                ui->fileListWidget->addItem(item);
+            }
         }
 
         ui->fileListWidget->setCurrentRow(0);
@@ -206,8 +217,13 @@ void MainWindow::dropEvent(QDropEvent *e) {
             QString path(url.toLocalFile());
             QFileInfo fileInfo(path);
 
+            // check if file is readable
             if (fileInfo.isReadable() && fileInfo.isFile()) {
-                ui->fileListWidget->addItem(path);
+                // check if we have got the file already
+                if (ui->fileListWidget->
+                        findItems(path, Qt::MatchExactly).count() == 0) {
+                    ui->fileListWidget->addItem(path);
+                }
             }
         }
 
@@ -309,18 +325,6 @@ bool MainWindow::removeLogFiles() {
 }
 
 /**
- * Uses an other widget as parent for the search widget
- */
-void MainWindow::initSearchFrame() {
-    // remove the search widget from our layout
-    layout()->removeWidget(ui->editFrame);
-
-    QLayout *layout = ui->editFrame->layout();
-    layout->addWidget(ui->editFrame);
-    ui->editFrame->setLayout(layout);
-}
-
-/**
  * Finds the currently selected pattern in the currently selected log file
  */
 void MainWindow::findCurrentPattern() {
@@ -394,7 +398,44 @@ void MainWindow::importIgnorePatterns() {
 }
 
 /**
+ * Updates the line count
+ */
+void MainWindow::updateLineCount()
+{
+    // count the lines in the text
+    int lineCount = ui->fileTextEdit->toPlainText().count("\n") + 1;
+
+    // set the line count
+    _lineCountLabel->setText(tr("%L1 line(s)").arg(lineCount));
+}
+
+/**
  * Loads a log file
+ */
+void MainWindow::loadLogFile(QFile *file)
+{
+    qDebug() << __func__ << " - 'file': " << file->fileName();
+
+    if (!file->open(QIODevice::ReadOnly)) {
+        qDebug() << file->errorString();
+        ui->statusBar->showMessage(file->errorString(), 3000);
+
+        return;
+    }
+
+    ui->statusBar->showMessage(tr("Loading log file"));
+
+    ui->fileTextEdit->setPlainText(file->readAll());
+    file->close();
+
+    // update the line count
+    updateLineCount();
+
+    ui->statusBar->showMessage(tr("Done loading log file"), 1000);
+}
+
+/**
+ * Loads the current log file if a new log file got selected
  */
 void MainWindow::on_fileListWidget_currentItemChanged(
         QListWidgetItem *current, QListWidgetItem *previous)
@@ -406,15 +447,9 @@ void MainWindow::on_fileListWidget_currentItemChanged(
     }
 
     QFile file(current->text());
-    qDebug() << __func__ << " - 'file': " << file.fileName();
 
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << file.errorString();
-        return;
-    }
-
-    ui->fileTextEdit->setPlainText(file.readAll());
-    file.close();
+    // load the log file
+    loadLogFile(&file);
 }
 
 /**
@@ -427,6 +462,10 @@ void MainWindow::on_removeIgnoredPatternsButton_clicked()
                     QString("*"), Qt::MatchWrap | Qt::MatchWildcard);
     QString logText = ui->fileTextEdit->toPlainText();
 
+    ui->statusBar->showMessage(tr("Removing occurrences of the ignore "
+                                          "patterns in the text"));
+
+    // remove all occurrences of the ignore patterns from the text
     Q_FOREACH(QListWidgetItem *item, items) {
             if ( item->checkState() != Qt::Checked ) {
                 continue;
@@ -444,8 +483,17 @@ void MainWindow::on_removeIgnoredPatternsButton_clicked()
             .join("\n");
 
     ui->fileTextEdit->setPlainText(logText);
+
+    // update the line count
+    updateLineCount();
+
+    ui->statusBar->showMessage(tr("Done with removing occurrences of the "
+                                          "ignore patterns in the text"), 1000);
 }
 
+/**
+ * Adds an ignore pattern to the list
+ */
 void MainWindow::on_actionAdd_ignore_pattern_triggered()
 {
     QString selectedText = ui->fileTextEdit->textCursor().selectedText();
@@ -455,11 +503,16 @@ void MainWindow::on_actionAdd_ignore_pattern_triggered()
     item->setCheckState(Qt::Checked);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
     ui->ignoredPatternsListWidget->addItem(item);
+    ui->ignoredPatternsListWidget->scrollToItem(item);
+    ui->ignoredPatternsListWidget->editItem(item);
 
     // store ignore patterns
     storeIgnorePatterns();
 }
 
+/**
+ * Searches for the current pattern if an other item was selected
+ */
 void MainWindow::on_ignoredPatternsListWidget_currentItemChanged(
         QListWidgetItem *current, QListWidgetItem *previous)
 {
@@ -468,6 +521,10 @@ void MainWindow::on_ignoredPatternsListWidget_currentItemChanged(
     findCurrentPattern();
 }
 
+/**
+ * Stores the ignore patterns and searches for the current pattern if an item
+ * was changed
+ */
 void MainWindow::on_ignoredPatternsListWidget_itemChanged(QListWidgetItem *item)
 {
     // store ignore patterns
@@ -489,4 +546,19 @@ void MainWindow::on_actionExport_ignore_patterns_triggered()
 void MainWindow::on_actionImport_ignore_patterns_triggered()
 {
     importIgnorePatterns();
+}
+
+/**
+ * Reloads the current log file
+ */
+void MainWindow::on_action_Reload_file_triggered()
+{
+    QListWidgetItem *item = ui->fileListWidget->currentItem();
+
+    if (item != NULL) {
+        QFile file(item->text());
+
+        // load the log file
+        loadLogFile(&file);
+    }
 }

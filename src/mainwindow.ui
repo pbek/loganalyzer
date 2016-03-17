@@ -167,6 +167,7 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="action_Find_in_file"/>
+    <addaction name="action_Reload_file"/>
    </widget>
    <widget class="QMenu" name="menuIgnore_patterns">
     <property name="title">
@@ -188,6 +189,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_Find_in_file"/>
+   <addaction name="action_Reload_file"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_ignore_pattern"/>
    <addaction name="actionExport_ignore_patterns"/>
@@ -254,6 +256,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+I</string>
+   </property>
+  </action>
+  <action name="action_Reload_file">
+   <property name="icon">
+    <iconset theme="view-refresh" resource="media.qrc">
+     <normaloff>:/media/view-refresh.svg</normaloff>:/media/view-refresh.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Reload file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>

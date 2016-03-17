@@ -40,6 +40,8 @@ private slots:
 
     void on_actionImport_ignore_patterns_triggered();
 
+    void on_action_Reload_file_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -50,6 +52,7 @@ private:
     QSplitter *_mainSplitter;
     QSplitter *_leftSplitter;
     QTextEditSearchWidget *_searchWidget;
+    QLabel *_lineCountLabel;
 
     void setupMainSplitter();
 
@@ -71,13 +74,17 @@ private:
 
     void loadLogFileList();
 
-    void initSearchFrame();
-
     void setupLeftSplitter();
 
     void exportIgnorePatterns();
 
     void importIgnorePatterns();
+
+    void loadLogFile(QFile *file);
+
+    void setupStatusBar();
+
+    void updateLineCount();
 };
 
 #endif // MAINWINDOW_H
