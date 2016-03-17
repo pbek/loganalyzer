@@ -8,5 +8,6 @@ install:
   - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin
 
 build_script:
+  - cd src
   - qmake loganalyzer.pro -r -spec win32-g++
   - mingw32-make
