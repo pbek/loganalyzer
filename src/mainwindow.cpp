@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include "QDebug"
+#include "QFileDialog"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -134,7 +135,7 @@ void MainWindow::loadLogFileList()
 /**
  * Stores the ignore patterns
  */
-void MainWindow::storeIgnorePatterns()
+void MainWindow::storeIgnorePatterns(QSettings *settings)
 {
     QList<QListWidgetItem *> items =
             ui->ignoredPatternsListWidget->findItems(
@@ -148,34 +149,42 @@ void MainWindow::storeIgnorePatterns()
             checkedList.append(item->checkState() == Qt::Checked);
         }
 
-    QSettings settings;
-    settings.setValue("ignorePatternExpressions", patternList);
-    settings.setValue("ignorePatternCheckedStates", checkedList);
+    if (settings == NULL) {
+        settings = new QSettings();
+    }
+
+    settings->setValue("ignorePatternExpressions", patternList);
+    settings->setValue("ignorePatternCheckedStates", checkedList);
 }
 
 /**
  * Loads the ignore patterns
  */
-void MainWindow::loadIgnorePatterns()
+void MainWindow::loadIgnorePatterns(QSettings *settings)
 {
-    QSettings settings;
+    if (settings == NULL) {
+        settings = new QSettings();
+    }
+
     QStringList patternList =
-            settings.value("ignorePatternExpressions").toStringList();
+            settings->value("ignorePatternExpressions").toStringList();
     QList<QVariant> checkedList =
-            settings.value("ignorePatternCheckedStates").toList();
+            settings->value("ignorePatternCheckedStates").toList();
 
     if (patternList.count() > 0) {
-        ui->ignoredPatternsListWidget->clear();
+        const QSignalBlocker blocker(this->ui->ignoredPatternsListWidget);
+        {
+            Q_UNUSED(blocker);
+            for (int i = 0; i < patternList.count(); i++) {
+                QString pattern = patternList.at(i);
+                bool checked = checkedList.at(i).toBool();
 
-        for (int i = 0; i < patternList.count(); i++) {
-            QString pattern = patternList.at(i);
-            bool checked = checkedList.at(i).toBool();
-
-            QListWidgetItem *item = new QListWidgetItem();
-            item->setText(pattern);
-            item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
-            item->setFlags(item->flags() | Qt::ItemIsEditable);
-            ui->ignoredPatternsListWidget->addItem(item);
+                QListWidgetItem *item = new QListWidgetItem();
+                item->setText(pattern);
+                item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
+                item->setFlags(item->flags() | Qt::ItemIsEditable);
+                ui->ignoredPatternsListWidget->addItem(item);
+            }
         }
     }
 }
@@ -330,6 +339,61 @@ void MainWindow::findCurrentPattern() {
 }
 
 /**
+ * Exports the ignore patterns to an ini-file
+ */
+void MainWindow::exportIgnorePatterns() {
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setNameFilter(tr("INI files (*.ini)"));
+    dialog.setWindowTitle(tr("Export ignore patterns as INI"));
+    dialog.selectFile("loganalyzer-ignore-patterns.ini");
+    int ret = dialog.exec();
+
+    if (ret == QDialog::Accepted) {
+        QStringList fileNames = dialog.selectedFiles();
+        if (fileNames.count() > 0) {
+            QString fileName = fileNames.at(0);
+
+            if (QFileInfo(fileName).suffix().isEmpty()) {
+                fileName.append(".ini");
+            }
+
+            QSettings *exportSettings =
+                    new QSettings(fileName, QSettings::IniFormat);
+            storeIgnorePatterns(exportSettings);
+        }
+    }
+}
+
+/**
+ * Imports the ignore patterns from ini-files
+ */
+void MainWindow::importIgnorePatterns() {
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setNameFilter(tr("INI files (*.ini)"));
+    dialog.setWindowTitle(tr("Import ignore patterns from INI-file"));
+    int ret = dialog.exec();
+
+    if (ret == QDialog::Accepted) {
+        QStringList fileNames = dialog.selectedFiles();
+        if (fileNames.count() > 0) {
+            Q_FOREACH(QString fileName, fileNames) {
+                    QSettings *importSettings =
+                            new QSettings(fileName, QSettings::IniFormat);
+                    loadIgnorePatterns(importSettings);
+                }
+
+            storeIgnorePatterns();
+        }
+    }
+}
+
+/**
  * Loads a log file
  */
 void MainWindow::on_fileListWidget_currentItemChanged(
@@ -354,9 +418,9 @@ void MainWindow::on_fileListWidget_currentItemChanged(
 }
 
 /**
- * Removes occurances of the ignore patterns from the text
+ * Removes occurrences of the ignore patterns from the text
  */
-void MainWindow::on_removeIgnoredPattersButton_clicked()
+void MainWindow::on_removeIgnoredPatternsButton_clicked()
 {
     QList<QListWidgetItem *> items =
             ui->ignoredPatternsListWidget->findItems(
@@ -415,4 +479,14 @@ void MainWindow::on_ignoredPatternsListWidget_itemChanged(QListWidgetItem *item)
 void MainWindow::on_action_Find_in_file_triggered()
 {
     _searchWidget->activate();
+}
+
+void MainWindow::on_actionExport_ignore_patterns_triggered()
+{
+    exportIgnorePatterns();
+}
+
+void MainWindow::on_actionImport_ignore_patterns_triggered()
+{
+    importIgnorePatterns();
 }

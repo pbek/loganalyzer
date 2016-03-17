@@ -4,22 +4,38 @@
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
 
 **LogAnalyzer** is a tool that helps you analyzing your log files by reducing 
-their content with patterns you define.  
+the content with regular expression patterns you define.  
 
 ## Screenshot
+
 ![Screenhot](screenshots/screenshot.png)
 
 ## Features
 
+- adding log files via drag and drop
+- finding text in the log file with <kbd>Ctrl</kbd> + <kbd>F</kbd>
+    - navigate with <kbd>F3</kbd> and <kbd>⇧</kbd> + <kbd>F3</kbd>
+- adding of ignore patterns from selected text
+    - use the shortcut <kbd>Ctrl</kbd> + <kbd>I</kbd>
+    - regular expressions will be used
+- searching for matching text of ignore patterns if you select them
+- removing all matches of ignore patterns from the text
+    - empty lines will be removed by default
+- exporting of ignore patterns with <kbd>Ctrl</kbd> + <kbd>⇧</kbd> + 
+  <kbd>E</kbd>
+- importing of ignore patterns with <kbd>Ctrl</kbd> + <kbd>⇧</kbd> + 
+  <kbd>I</kbd>
+
 ## Building LogAnalyzer
+
 To get the most current features you can build the application from the 
 source code. Download the latest source here: 
-[LogAnalyzer Source on GitHub as ZIP](https://github.com/pbek/loganalyzer/archive/master.zip)
+[LogAnalyzer Source on GitHub as ZIP](https://github.com/pbek/loganalyzer/archive/develop.zip)
 
 Alternatively you can also checkout the code directly from the git repository:
 
 ```shell
-git clone https://github.com/pbek/loganalyzer.git -b master
+git clone https://github.com/pbek/loganalyzer.git -b develop
 cd loganalyzer
 ```
 

@@ -94,34 +94,12 @@
              <property name="selectionMode">
               <enum>QAbstractItemView::ExtendedSelection</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>.+Solr.+\n</string>
-              </property>
-              <property name="checkState">
-               <enum>Unchecked</enum>
-              </property>
-              <property name="flags">
-               <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>\[ [^\]]+ \] \[\] eZNewsImage::removeImage\(\):\sCould not remove image file: \/var\/storage.+\s</string>
-              </property>
-              <property name="checkState">
-               <enum>Checked</enum>
-              </property>
-              <property name="flags">
-               <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="removeIgnoredPattersButton">
+            <widget class="QPushButton" name="removeIgnoredPatternsButton">
              <property name="text">
-              <string>Remove ignored patterns from file</string>
+              <string>Remove ignored patterns from view</string>
              </property>
              <property name="icon">
               <iconset theme="list-remove" resource="media.qrc">
@@ -180,20 +158,27 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="action_Find_in_file"/>
-    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuIgnore_patterns">
+    <property name="title">
+     <string>&amp;Ignore patterns</string>
+    </property>
     <addaction name="actionAdd_ignore_pattern"/>
+    <addaction name="actionExport_ignore_patterns"/>
+    <addaction name="actionImport_ignore_patterns"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuIgnore_patterns"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -202,8 +187,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionAdd_ignore_pattern"/>
    <addaction name="action_Find_in_file"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd_ignore_pattern"/>
+   <addaction name="actionExport_ignore_patterns"/>
+   <addaction name="actionImport_ignore_patterns"/>
    <addaction name="separator"/>
    <addaction name="action_Quit"/>
   </widget>
@@ -226,7 +214,7 @@
      <normaloff>:/media/format-add-node.svg</normaloff>:/media/format-add-node.svg</iconset>
    </property>
    <property name="text">
-    <string>Add ignore pattern</string>
+    <string>&amp;Add ignore pattern</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -242,6 +230,30 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionExport_ignore_patterns">
+   <property name="icon">
+    <iconset theme="document-export" resource="media.qrc">
+     <normaloff>:/media/document-export.svg</normaloff>:/media/document-export.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Export patterns</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+E</string>
+   </property>
+  </action>
+  <action name="actionImport_ignore_patterns">
+   <property name="icon">
+    <iconset theme="document-import" resource="media.qrc">
+     <normaloff>:/media/document-import.svg</normaloff>:/media/document-import.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Import patterns</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+I</string>
    </property>
   </action>
  </widget>
