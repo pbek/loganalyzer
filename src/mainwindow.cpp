@@ -223,7 +223,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 
         if (obj == ui->ignoredPatternsListWidget) {
             if (keyEvent->key() == Qt::Key_Delete) {
-                return removeIgnorePatterns();
+                return removeSelectedIgnorePatterns();
             }
         } else if (obj == ui->fileListWidget) {
             if (keyEvent->key() == Qt::Key_Delete) {
@@ -246,9 +246,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 }
 
 /**
- * Removes all selected ignore patterns
+ * Removes all selected ignore patterns from the list
  */
-bool MainWindow::removeIgnorePatterns() {
+bool MainWindow::removeSelectedIgnorePatterns() {
     int selectedItemsCount =
             ui->ignoredPatternsListWidget->selectedItems().size();
 
@@ -353,6 +353,9 @@ void MainWindow::on_fileListWidget_currentItemChanged(
     file.close();
 }
 
+/**
+ * Removes occurances of the ignore patterns from the text
+ */
 void MainWindow::on_removeIgnoredPattersButton_clicked()
 {
     QList<QListWidgetItem *> items =
@@ -369,9 +372,12 @@ void MainWindow::on_removeIgnoredPattersButton_clicked()
             qDebug() << __func__ << " - 'pattern': " << pattern;
 
             QRegularExpression expression(pattern + "\n");
-//            QRegExp expression(pattern);
             logText.remove(expression);
         }
+
+    // remove empty lines
+    logText = logText.split(QRegExp("\n|\r\n"), QString::SkipEmptyParts)
+            .join("\n");
 
     ui->fileTextEdit->setPlainText(logText);
 }

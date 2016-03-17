@@ -52,7 +52,7 @@ private:
 
     void readSettings();
 
-    bool removeIgnorePatterns();
+    bool removeSelectedIgnorePatterns();
 
     void findCurrentPattern();
 
