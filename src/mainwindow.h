@@ -43,6 +43,7 @@ protected:
 private:
     Ui::MainWindow *ui;
     QSplitter *_mainSplitter;
+    QSplitter *_leftSplitter;
     QTextEditSearchWidget *_searchWidget;
 
     void setupMainSplitter();
@@ -66,6 +67,8 @@ private:
     void loadLogFileList();
 
     void initSearchFrame();
+
+    void setupLeftSplitter();
 };
 
 #endif // MAINWINDOW_H

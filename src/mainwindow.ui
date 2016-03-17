@@ -56,13 +56,16 @@
            <height>0</height>
           </size>
          </property>
+         <property name="toolTip">
+          <string>drop log files here</string>
+         </property>
          <property name="selectionMode">
           <enum>QAbstractItemView::ExtendedSelection</enum>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTabWidget" name="tabWidget">
+        <widget class="QTabWidget" name="toolTabWidget">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -85,6 +88,9 @@
            </property>
            <item row="0" column="0">
             <widget class="QListWidget" name="ignoredPatternsListWidget">
+             <property name="toolTip">
+              <string>regular expressions are used here</string>
+             </property>
              <property name="selectionMode">
               <enum>QAbstractItemView::ExtendedSelection</enum>
              </property>

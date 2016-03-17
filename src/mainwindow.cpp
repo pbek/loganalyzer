@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ignoredPatternsListWidget->installEventFilter(this);
     ui->fileTextEdit->installEventFilter(this);
     setupMainSplitter();
+    setupLeftSplitter();
     readSettings();
     setAcceptDrops(true);
 
@@ -38,6 +39,8 @@ void MainWindow::storeSettings() {
     settings.setValue("MainWindow/windowState", saveState());
     settings.setValue(
             "MainWindow/mainSplitterState", _mainSplitter->saveState());
+    settings.setValue(
+            "MainWindow/leftSplitterState", _leftSplitter->saveState());
     settings.setValue("MainWindow/menuBarGeometry",
                       ui->menuBar->saveGeometry());
 
@@ -69,6 +72,21 @@ void MainWindow::setupMainSplitter() {
     _mainSplitter->restoreState(state);
 
     ui->centralWidget->layout()->addWidget(this->_mainSplitter);
+}
+
+void MainWindow::setupLeftSplitter() {
+    _leftSplitter = new QSplitter(Qt::Vertical);
+
+    _leftSplitter->addWidget(ui->fileListWidget);
+    _leftSplitter->addWidget(ui->toolTabWidget);
+
+    // restore splitter sizes
+    QSettings settings;
+    QByteArray state =
+            settings.value("MainWindow/leftSplitterState").toByteArray();
+    _leftSplitter->restoreState(state);
+
+    ui->controlFrame->layout()->addWidget(this->_leftSplitter);
 }
 
 /**

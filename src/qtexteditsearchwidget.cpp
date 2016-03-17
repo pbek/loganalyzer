@@ -25,8 +25,7 @@ QTextEditSearchWidget::QTextEditSearchWidget(QPlainTextEdit *parent) : QWidget(
     this->hide();
     this->setAutoFillBackground(true);
     QHBoxLayout *layout = new QHBoxLayout;
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 5);
 
     // add the close button
     _closeButton = new QPushButton();
