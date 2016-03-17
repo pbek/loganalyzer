@@ -46,7 +46,7 @@ script:
       ;
     fi
   - cd src
-  - qmake loganalyzer.pro CONFIG+=$CONFIG
+  - qmake LogAnalyzer.pro CONFIG+=$CONFIG
   - make
 
 notifications:

@@ -9,5 +9,5 @@ install:
 
 build_script:
   - cd src
-  - qmake loganalyzer.pro -r -spec win32-g++
+  - qmake LogAnalyzer.pro -r -spec win32-g++
   - mingw32-make
