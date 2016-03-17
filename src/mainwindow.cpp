@@ -14,10 +14,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->fileListWidget->installEventFilter(this);
     ui->ignoredPatternsListWidget->installEventFilter(this);
+    ui->fileTextEdit->installEventFilter(this);
     setupMainSplitter();
     readSettings();
     setAcceptDrops(true);
+
+    // add the hidden search widget
+    _searchWidget = new QTextEditSearchWidget(ui->fileTextEdit);
+    ui->editFrame->layout()->addWidget(_searchWidget);
 }
 
 MainWindow::~MainWindow()
@@ -31,11 +37,12 @@ void MainWindow::storeSettings() {
     settings.setValue("MainWindow/geometry", saveGeometry());
     settings.setValue("MainWindow/windowState", saveState());
     settings.setValue(
-            "MainWindow/mainSplitterState", mainSplitter->saveState());
+            "MainWindow/mainSplitterState", _mainSplitter->saveState());
     settings.setValue("MainWindow/menuBarGeometry",
                       ui->menuBar->saveGeometry());
 
     storeIgnorePatterns();
+    storeLogFileList();
 }
 
 void MainWindow::readSettings() {
@@ -45,22 +52,65 @@ void MainWindow::readSettings() {
     ui->menuBar->restoreGeometry(
             settings.value("MainWindow/menuBarGeometry").toByteArray());
 
+    loadLogFileList();
     loadIgnorePatterns();
 }
 
 void MainWindow::setupMainSplitter() {
-    mainSplitter = new QSplitter;
+    _mainSplitter = new QSplitter;
 
-    mainSplitter->addWidget(ui->controlFrame);
-    mainSplitter->addWidget(ui->editFrame);
+    _mainSplitter->addWidget(ui->controlFrame);
+    _mainSplitter->addWidget(ui->editFrame);
 
     // restore splitter sizes
     QSettings settings;
     QByteArray state =
             settings.value("MainWindow/mainSplitterState").toByteArray();
-    mainSplitter->restoreState(state);
+    _mainSplitter->restoreState(state);
 
-    ui->centralWidget->layout()->addWidget(this->mainSplitter);
+    ui->centralWidget->layout()->addWidget(this->_mainSplitter);
+}
+
+/**
+ * Stores the log file list
+ */
+void MainWindow::storeLogFileList()
+{
+    QList<QListWidgetItem *> items =
+            ui->fileListWidget->findItems(
+                    QString("*"), Qt::MatchWrap | Qt::MatchWildcard);
+
+    QStringList logFiles;
+
+    Q_FOREACH(QListWidgetItem *item, items) {
+            logFiles.append(item->text());
+        }
+
+    QSettings settings;
+    settings.setValue("logFiles", logFiles);
+}
+
+/**
+ * Loads the log file list
+ */
+void MainWindow::loadLogFileList()
+{
+    QSettings settings;
+    QStringList logFiles = settings.value("logFiles").toStringList();
+
+    if (logFiles.count() > 0) {
+        ui->fileListWidget->clear();
+
+        for (int i = 0; i < logFiles.count(); i++) {
+            QString logFile = logFiles.at(i);
+
+            QListWidgetItem *item = new QListWidgetItem();
+            item->setText(logFile);
+            ui->fileListWidget->addItem(item);
+        }
+
+        ui->fileListWidget->setCurrentRow(0);
+    }
 }
 
 /**
@@ -133,6 +183,8 @@ void MainWindow::dropEvent(QDropEvent *e) {
                 ui->fileListWidget->addItem(path);
             }
         }
+
+        storeLogFileList();
     }
 }
 
@@ -154,6 +206,20 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
         if (obj == ui->ignoredPatternsListWidget) {
             if (keyEvent->key() == Qt::Key_Delete) {
                 return removeIgnorePatterns();
+            }
+        } else if (obj == ui->fileListWidget) {
+            if (keyEvent->key() == Qt::Key_Delete) {
+                return removeLogFiles();
+            }
+        } else if (obj == ui->fileTextEdit) {
+            if ((keyEvent->key() == Qt::Key_Escape) &&
+                    _searchWidget->isVisible()) {
+                _searchWidget->deactivate();
+                return true;
+            } else if ((keyEvent->key() == Qt::Key_F3)) {
+                _searchWidget->doSearch(
+                        !keyEvent->modifiers().testFlag(Qt::ShiftModifier));
+                return true;
             }
         }
     }
@@ -181,6 +247,7 @@ bool MainWindow::removeIgnorePatterns() {
                     0, 1) == 0) {
         // remove all selected ignore patterns
         qDeleteAll(ui->ignoredPatternsListWidget->selectedItems());
+        storeIgnorePatterns();
         return true;
     }
 
@@ -188,7 +255,46 @@ bool MainWindow::removeIgnorePatterns() {
 }
 
 /**
- *
+ * Removes all selected log files
+ */
+bool MainWindow::removeLogFiles() {
+    int selectedItemsCount =
+            ui->fileListWidget->selectedItems().size();
+
+    if (selectedItemsCount == 0) {
+        return false;
+    }
+
+    if (QMessageBox::information(
+                    NULL,
+                    tr("Remove selected files"),
+                    tr("Remove <strong>%n</strong> file(s) from list?",
+                       "", selectedItemsCount),
+                    tr("&Remove"), tr("&Cancel"), QString::null,
+                    0, 1) == 0) {
+        // remove all selected ignore patterns
+        qDeleteAll(ui->fileListWidget->selectedItems());
+        storeLogFileList();
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Uses an other widget as parent for the search widget
+ */
+void MainWindow::initSearchFrame() {
+    // remove the search widget from our layout
+    layout()->removeWidget(ui->editFrame);
+
+    QLayout *layout = ui->editFrame->layout();
+    layout->addWidget(ui->editFrame);
+    ui->editFrame->setLayout(layout);
+}
+
+/**
+ * Finds the currently selected pattern in the currently selected log file
  */
 void MainWindow::findCurrentPattern() {
     QListWidgetItem *item = ui->ignoredPatternsListWidget->currentItem();
@@ -219,7 +325,6 @@ void MainWindow::on_fileListWidget_currentItemChanged(
 
     QFile file(current->text());
     qDebug() << __func__ << " - 'file': " << file.fileName();
-    qDebug() << __func__ << " - 'file.isReadable()': " << file.isReadable();
 
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << file.errorString();
@@ -245,9 +350,8 @@ void MainWindow::on_removeIgnoredPattersButton_clicked()
             QString pattern = item->text();
             qDebug() << __func__ << " - 'pattern': " << pattern;
 
-            QRegularExpression expression(
-                    pattern, QRegularExpression::CaseInsensitiveOption |
-                    QRegularExpression::MultilineOption);
+            QRegularExpression expression(pattern + "\n");
+//            QRegExp expression(pattern);
             logText.remove(expression);
         }
 
@@ -282,4 +386,9 @@ void MainWindow::on_ignoredPatternsListWidget_itemChanged(QListWidgetItem *item)
     storeIgnorePatterns();
 
     findCurrentPattern();
+}
+
+void MainWindow::on_action_Find_in_file_triggered()
+{
+    _searchWidget->activate();
 }

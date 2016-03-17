@@ -12,14 +12,20 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Svg REQUIRED )
 
+set(RESOURCE_FILES
+    media.qrc
+)
+
 set(SOURCE_FILES
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    qtexteditsearchwidget.cpp
+    qtexteditsearchwidget.h
 )
 
-add_executable(LogAnalyzer ${SOURCE_FILES})
+add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_FILES})
 
 
 # The Qt5Widgets_INCLUDES also includes the include directories for

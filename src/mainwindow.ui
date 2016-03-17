@@ -56,6 +56,9 @@
            <height>0</height>
           </size>
          </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::ExtendedSelection</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -83,7 +86,7 @@
            <item row="0" column="0">
             <widget class="QListWidget" name="ignoredPatternsListWidget">
              <property name="selectionMode">
-              <enum>QAbstractItemView::MultiSelection</enum>
+              <enum>QAbstractItemView::ExtendedSelection</enum>
              </property>
              <item>
               <property name="text">
@@ -114,6 +117,10 @@
              <property name="text">
               <string>Remove ignored patterns from file</string>
              </property>
+             <property name="icon">
+              <iconset theme="list-remove" resource="media.qrc">
+               <normaloff>:/media/list-remove.svg</normaloff>:/media/list-remove.svg</iconset>
+             </property>
             </widget>
            </item>
           </layout>
@@ -131,7 +138,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QGridLayout" name="gridLayout_2">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -144,7 +151,7 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item>
+       <item row="0" column="0">
         <widget class="QPlainTextEdit" name="fileTextEdit">
          <property name="readOnly">
           <bool>true</bool>
@@ -175,6 +182,8 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="action_Find_in_file"/>
+    <addaction name="separator"/>
     <addaction name="actionAdd_ignore_pattern"/>
    </widget>
    <addaction name="menuFile"/>
@@ -187,9 +196,17 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionAdd_ignore_pattern"/>
+   <addaction name="action_Find_in_file"/>
+   <addaction name="separator"/>
+   <addaction name="action_Quit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Quit">
+   <property name="icon">
+    <iconset theme="application-exit" resource="media.qrc">
+     <normaloff>:/media/application-exit.svg</normaloff>:/media/application-exit.svg</iconset>
+   </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
@@ -198,6 +215,10 @@
    </property>
   </action>
   <action name="actionAdd_ignore_pattern">
+   <property name="icon">
+    <iconset theme="format-add-node" resource="media.qrc">
+     <normaloff>:/media/format-add-node.svg</normaloff>:/media/format-add-node.svg</iconset>
+   </property>
    <property name="text">
     <string>Add ignore pattern</string>
    </property>
@@ -205,8 +226,22 @@
     <string>Ctrl+I</string>
    </property>
   </action>
+  <action name="action_Find_in_file">
+   <property name="icon">
+    <iconset theme="edit-find" resource="media.qrc">
+     <normaloff>:/media/edit-find.svg</normaloff>:/media/edit-find.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Find in file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="media.qrc"/>
+ </resources>
  <connections/>
 </ui>

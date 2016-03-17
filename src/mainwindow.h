@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSplitter>
 #include <QListWidgetItem>
+#include "qtexteditsearchwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,8 @@ private slots:
 
     void on_ignoredPatternsListWidget_itemChanged(QListWidgetItem *item);
 
+    void on_action_Find_in_file_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -39,7 +42,8 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QSplitter *mainSplitter;
+    QSplitter *_mainSplitter;
+    QTextEditSearchWidget *_searchWidget;
 
     void setupMainSplitter();
 
@@ -54,6 +58,14 @@ private:
     void storeIgnorePatterns();
 
     void loadIgnorePatterns();
+
+    bool removeLogFiles();
+
+    void storeLogFileList();
+
+    void loadLogFileList();
+
+    void initSearchFrame();
 };
 
 #endif // MAINWINDOW_H

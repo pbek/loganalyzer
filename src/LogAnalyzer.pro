@@ -12,9 +12,14 @@ TARGET = LogAnalyzer
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp \
+        mainwindow.cpp \
+        qtexteditsearchwidget.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+        qtexteditsearchwidget.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    media.qrc

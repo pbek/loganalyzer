@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>media/window-close.svg</file>
+        <file>media/go-top.svg</file>
+        <file>media/go-bottom.svg</file>
+        <file>media/list-remove.svg</file>
+        <file>media/application-exit.svg</file>
+        <file>media/edit-find.svg</file>
+        <file>media/format-add-node.svg</file>
+    </qresource>
+</RCC>
