@@ -13,6 +13,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
+        version.h \
+        release.h \
         mainwindow.cpp \
         qtexteditsearchwidget.cpp
 

@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include "QDebug"
 #include "QFileDialog"
+#include "version.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("LogAnalyzer " + QString(VERSION));
+
     setupStatusBar();
     ui->fileListWidget->installEventFilter(this);
     ui->ignoredPatternsListWidget->installEventFilter(this);

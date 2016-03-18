@@ -17,6 +17,8 @@ set(RESOURCE_FILES
 )
 
 set(SOURCE_FILES
+    version.h
+    release.h
     main.cpp
     mainwindow.cpp
     mainwindow.h
