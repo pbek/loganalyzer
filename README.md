@@ -42,7 +42,7 @@ cd loganalyzer
 
 Then download [Qt Creator](http://www.qt.io/download-open-source), 
 open the project file `src/LogAnalyzer.pro` and click on 
-*Build / Build Project QOwnNotes*.
+*Build / Build Project LogAnalyzer*.
 
 Or you can build it directly in your terminal:
 
