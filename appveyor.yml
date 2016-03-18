@@ -11,6 +11,7 @@ install:
 
 build_script:
   - cd src
+  - "echo #define RELEASE \"AppVeyor\" > release.h"
   - qmake LogAnalyzer.pro -r -spec win32-g++
   - mingw32-make
   # creating the release path
