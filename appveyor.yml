@@ -22,7 +22,6 @@ build_script:
   # http://doc.qt.io/qt-5/windows-deployment.html
   - windeployqt --release LogAnalyzer.exe
   # this dll was missed by windeployqt
-  - dir ".."
   - copy ..\libwinpthread-1.dll . /y
   # this dll didn't work when released by windeployqt
   - copy "..\libstdc++-6.dll" . /y
