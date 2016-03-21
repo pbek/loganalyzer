@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 0.3
+- added a desktop icon
+
 ## 0.2
 - added ignore pattern filtering
 - added moving of ignore patterns via drag and drop

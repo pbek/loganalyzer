@@ -119,7 +119,7 @@
            <item row="2" column="0">
             <widget class="QPushButton" name="removeIgnoredPatternsButton">
              <property name="text">
-              <string>Remove ignored patterns from view</string>
+              <string>Remove ignored patterns from text</string>
              </property>
              <property name="icon">
               <iconset theme="list-remove" resource="media.qrc">
