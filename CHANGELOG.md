@@ -2,6 +2,7 @@
 
 ## 0.2
 - added ignore pattern filtering
+- added moving of ignore patterns via drag and drop
 
 ## 0.1
 - adding log files via drag and drop
