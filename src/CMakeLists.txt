@@ -16,6 +16,8 @@ set(RESOURCE_FILES
     media.qrc
 )
 
+qt5_add_resources(RESOURCE_ADDED ${RESOURCE_FILES})
+
 set(SOURCE_FILES
     version.h
     release.h
@@ -27,7 +29,7 @@ set(SOURCE_FILES
     qtexteditsearchwidget.h
 )
 
-add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_FILES})
+add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_ADDED})
 
 
 # The Qt5Widgets_INCLUDES also includes the include directories for
