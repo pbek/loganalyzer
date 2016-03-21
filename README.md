@@ -25,7 +25,9 @@ the content with regular expression patterns you define.
   <kbd>E</kbd>
 - importing of ignore patterns with <kbd>Ctrl</kbd> + <kbd>⇧</kbd> + 
   <kbd>I</kbd>
+- moving of ignore patterns via drag and drop
 - reloading of current file with <kbd>Ctrl</kbd> + <kbd>R</kbd>
+- filtering of ignore pattern 
 
 ## Building LogAnalyzer
 

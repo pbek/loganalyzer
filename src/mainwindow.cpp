@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupLeftSplitter();
     readSettings();
     setAcceptDrops(true);
+    ui->toolTabWidget->setCurrentIndex(0);
 
     // add the hidden search widget
     _searchWidget = new QTextEditSearchWidget(ui->fileTextEdit);
