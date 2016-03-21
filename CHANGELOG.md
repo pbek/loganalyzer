@@ -1,7 +1,7 @@
 # LogAnalyzer Changelog
 
 ## 0.2
-- 
+- added ignore pattern filtering
 
 ## 0.1
 - adding log files via drag and drop

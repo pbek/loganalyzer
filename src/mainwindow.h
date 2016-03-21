@@ -42,6 +42,8 @@ private slots:
 
     void on_action_Reload_file_triggered();
 
+    void on_ignorePatternFilterLineEdit_textChanged(const QString &arg1);
+
 protected:
     void closeEvent(QCloseEvent *event);
 

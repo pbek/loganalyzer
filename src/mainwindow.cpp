@@ -565,3 +565,28 @@ void MainWindow::on_action_Reload_file_triggered()
         loadLogFile(&file);
     }
 }
+
+/**
+ * Filters ignore patterns by a text
+ */
+void MainWindow::on_ignorePatternFilterLineEdit_textChanged(const QString &arg1)
+{
+    // search patterns when at least 2 characters were entered
+    if (arg1.count() >= 2) {
+        QList<QListWidgetItem*> foundItems = ui->ignoredPatternsListWidget->
+                findItems(arg1, Qt::MatchContains);
+
+        for (int i = 0; i < this->ui->ignoredPatternsListWidget->count(); ++i) {
+            QListWidgetItem *item =
+                    this->ui->ignoredPatternsListWidget->item(i);
+            item->setHidden(!foundItems.contains(item));
+        }
+    } else {
+        // show all items otherwise
+        for (int i = 0; i < this->ui->ignoredPatternsListWidget->count(); ++i) {
+            QListWidgetItem *item =
+                    this->ui->ignoredPatternsListWidget->item(i);
+            item->setHidden(false);
+        }
+    }
+}
