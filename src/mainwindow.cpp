@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     readSettings();
     setAcceptDrops(true);
     ui->toolTabWidget->setCurrentIndex(0);
+    ui->reportPatternTab->setDisabled(true);
 
     // add the hidden search widget
     _searchWidget = new QTextEditSearchWidget(ui->fileTextEdit);
