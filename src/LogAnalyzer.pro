@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = LogAnalyzer
 TEMPLATE = app
 RC_FILE = LogAnalyzer.rc
+CONFIG += c++11
 
 SOURCES += main.cpp \
         version.h \

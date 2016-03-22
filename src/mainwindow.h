@@ -16,6 +16,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    enum ToolTabs {
+        IgnorePatternTab,
+        ReportPatternTab
+    };
+
+    Q_ENUMS(ToolTabs)
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -24,15 +31,17 @@ private slots:
     void dropEvent(QDropEvent *e);
     void on_action_Quit_triggered();
 
-    void on_fileListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_fileListWidget_currentItemChanged(
+            QListWidgetItem *current, QListWidgetItem *previous);
 
     void on_removeIgnoredPatternsButton_clicked();
 
     void on_actionAdd_ignore_pattern_triggered();
 
-    void on_ignoredPatternsListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_ignorePatternsListWidget_currentItemChanged(
+            QListWidgetItem *current, QListWidgetItem *previous);
 
-    void on_ignoredPatternsListWidget_itemChanged(QListWidgetItem *item);
+    void on_ignorePatternsListWidget_itemChanged(QListWidgetItem *item);
 
     void on_action_Find_in_file_triggered();
 
@@ -43,6 +52,17 @@ private slots:
     void on_action_Reload_file_triggered();
 
     void on_ignorePatternFilterLineEdit_textChanged(const QString &arg1);
+
+    void on_actionAdd_report_pattern_triggered();
+
+    void on_actionExport_report_patterns_triggered();
+
+    void on_actionImport_report_patterns_triggered();
+
+    void on_reportPatternsListWidget_currentItemChanged(
+            QListWidgetItem *current, QListWidgetItem *previous);
+
+    void on_reportPatternFilterLineEdit_textChanged(const QString &arg1);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -64,7 +84,7 @@ private:
 
     bool removeSelectedIgnorePatterns();
 
-    void findCurrentPattern();
+    void findCurrentIgnorePattern();
 
     void storeIgnorePatterns(QSettings *settings = 0);
 
@@ -87,6 +107,18 @@ private:
     void setupStatusBar();
 
     void updateLineCount();
+
+    void storeReportPatterns(QSettings *settings = 0);
+
+    void loadReportPatterns(QSettings *settings = 0);
+
+    bool removeSelectedReportPatterns();
+
+    void exportReportPatterns();
+
+    void importReportPatterns();
+
+    void findCurrentReportPattern();
 };
 
 #endif // MAINWINDOW_H

@@ -71,7 +71,7 @@
        <item>
         <widget class="QTabWidget" name="toolTabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="ignorePatternTab">
           <attribute name="title">
@@ -94,7 +94,7 @@
             <number>0</number>
            </property>
            <item row="1" column="0">
-            <widget class="QListWidget" name="ignoredPatternsListWidget">
+            <widget class="QListWidget" name="ignorePatternsListWidget">
              <property name="toolTip">
               <string>regular expressions are used here</string>
              </property>
@@ -249,9 +249,18 @@
     <addaction name="actionExport_ignore_patterns"/>
     <addaction name="actionImport_ignore_patterns"/>
    </widget>
+   <widget class="QMenu" name="menu_Report_patterns">
+    <property name="title">
+     <string>&amp;Report patterns</string>
+    </property>
+    <addaction name="actionAdd_report_pattern"/>
+    <addaction name="actionExport_report_patterns"/>
+    <addaction name="actionImport_report_patterns"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuIgnore_patterns"/>
+   <addaction name="menu_Report_patterns"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -340,6 +349,42 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionAdd_report_pattern">
+   <property name="icon">
+    <iconset theme="format-add-node" resource="media.qrc">
+     <normaloff>:/media/format-add-node.svg</normaloff>:/media/format-add-node.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Add report pattern</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionExport_report_patterns">
+   <property name="icon">
+    <iconset theme="document-export" resource="media.qrc">
+     <normaloff>:/media/document-export.svg</normaloff>:/media/document-export.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Export report patterns</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+E</string>
+   </property>
+  </action>
+  <action name="actionImport_report_patterns">
+   <property name="icon">
+    <iconset theme="document-import" resource="media.qrc">
+     <normaloff>:/media/document-import.svg</normaloff>:/media/document-import.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Import report patterns</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+I</string>
    </property>
   </action>
  </widget>
