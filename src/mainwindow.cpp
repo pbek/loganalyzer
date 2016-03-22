@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     readSettings();
     setAcceptDrops(true);
     ui->toolTabWidget->setCurrentIndex(ToolTabs::IgnorePatternTab);
+    ui->viewTabWidget->setCurrentIndex(ViewTabs::FileViewTab);
 
     // add the hidden search widget
     _searchWidget = new QTextEditSearchWidget(ui->fileTextEdit);
@@ -630,6 +631,8 @@ void MainWindow::on_fileListWidget_currentItemChanged(
  */
 void MainWindow::on_removeIgnoredPatternsButton_clicked()
 {
+    ui->viewTabWidget->setCurrentIndex(ViewTabs::FileViewTab);
+
     QList<QListWidgetItem *> items =
             ui->ignorePatternsListWidget->findItems(
                     QString("*"), Qt::MatchWrap | Qt::MatchWildcard);
@@ -848,5 +851,5 @@ void MainWindow::on_actionShow_releases_triggered()
 
 void MainWindow::on_reportPatternsButton_clicked()
 {
-
+    ui->viewTabWidget->setCurrentIndex(ViewTabs::ReportViewTab);
 }

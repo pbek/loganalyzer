@@ -1,6 +1,7 @@
 # LogAnalyzer Changelog
 
 ## 0.4
+- report pattern CRUD, import and export
 - added a help menu entry to open the change log page
 - added a help menu entry to open the issue page
 - added a help menu entry to open the release page

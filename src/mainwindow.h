@@ -21,6 +21,11 @@ public:
         ReportPatternTab
     };
 
+    enum ViewTabs {
+        FileViewTab,
+        ReportViewTab
+    };
+
     Q_ENUMS(ToolTabs)
 
     explicit MainWindow(QWidget *parent = 0);
