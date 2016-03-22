@@ -2,6 +2,8 @@
 
 ## 0.4
 - report pattern CRUD, import and export
+- adding of report patterns from selected text
+    - use the shortcut <kbd>Ctrl</kbd> + <kbd>E</kbd>
 - added a help menu entry to open the change log page
 - added a help menu entry to open the issue page
 - added a help menu entry to open the release page
