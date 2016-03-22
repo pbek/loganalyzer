@@ -845,3 +845,8 @@ void MainWindow::on_actionShow_releases_triggered()
     QDesktopServices::openUrl(
             QUrl("https://github.com/pbek/loganalyzer/releases"));
 }
+
+void MainWindow::on_reportPatternsButton_clicked()
+{
+
+}

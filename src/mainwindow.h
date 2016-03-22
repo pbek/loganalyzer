@@ -70,6 +70,8 @@ private slots:
 
     void on_actionShow_releases_triggered();
 
+    void on_reportPatternsButton_clicked();
+
 protected:
     void closeEvent(QCloseEvent *event);
 

@@ -1,5 +1,9 @@
 # LogAnalyzer 
 
+[Changelog](https://github.com/pbek/loganalyzer/blob/develop/CHANGELOG.md) | 
+[Issues](https://github.com/pbek/loganalyzer/issues) | 
+[Releases](https://github.com/pbek/loganalyzer/releases) |
+
 [![Build Status Linux / OS X](https://travis-ci.org/pbek/loganalyzer.svg?branch=develop)](https://travis-ci.org/pbek/loganalyzer)
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
 
@@ -18,16 +22,16 @@ the content with regular expression patterns you define.
 - adding of ignore patterns from selected text
     - use the shortcut <kbd>Ctrl</kbd> + <kbd>I</kbd>
     - use regular expressions as patterns
+- adding of report patterns from selected text
+    - use the shortcut <kbd>Ctrl</kbd> + <kbd>E</kbd>
+    - use regular expressions as patterns
 - searching for matching text of ignore patterns if you select them
 - removing all matches of ignore patterns from the text
     - empty lines will be removed by default
-- exporting of ignore patterns with <kbd>Ctrl</kbd> + <kbd>⇧</kbd> + 
-  <kbd>E</kbd>
-- importing of ignore patterns with <kbd>Ctrl</kbd> + <kbd>⇧</kbd> + 
-  <kbd>I</kbd>
-- moving of ignore patterns via drag and drop
+- exporting and importing of ignore and report patterns
+- moving of patterns via drag and drop
 - reloading of current file with <kbd>Ctrl</kbd> + <kbd>R</kbd>
-- filtering of ignore pattern 
+- filtering of pattern 
 
 ## Building LogAnalyzer
 

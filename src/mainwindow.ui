@@ -177,6 +177,10 @@
              <property name="text">
               <string>Report on patterns in view</string>
              </property>
+             <property name="icon">
+              <iconset theme="edit-find" resource="media.qrc">
+               <normaloff>:/media/edit-find.svg</normaloff>:/media/edit-find.svg</iconset>
+             </property>
             </widget>
            </item>
           </layout>
@@ -411,7 +415,7 @@
      <normaloff>:/media/face-smile.svg</normaloff>:/media/face-smile.svg</iconset>
    </property>
    <property name="text">
-    <string>Report &amp;issues</string>
+    <string>Report &amp;issues or ideas</string>
    </property>
   </action>
   <action name="actionShow_releases">
