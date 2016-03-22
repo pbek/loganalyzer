@@ -257,10 +257,19 @@
     <addaction name="actionExport_report_patterns"/>
     <addaction name="actionImport_report_patterns"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionShow_changelog"/>
+    <addaction name="actionReport_issues"/>
+    <addaction name="actionShow_releases"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuIgnore_patterns"/>
    <addaction name="menu_Report_patterns"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -385,6 +394,33 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+I</string>
+   </property>
+  </action>
+  <action name="actionShow_changelog">
+   <property name="icon">
+    <iconset theme="text-x-changelog" resource="media.qrc">
+     <normaloff>:/media/text-x-changelog.svg</normaloff>:/media/text-x-changelog.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show &amp;changelog</string>
+   </property>
+  </action>
+  <action name="actionReport_issues">
+   <property name="icon">
+    <iconset theme="face-smile" resource="media.qrc">
+     <normaloff>:/media/face-smile.svg</normaloff>:/media/face-smile.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Report &amp;issues</string>
+   </property>
+  </action>
+  <action name="actionShow_releases">
+   <property name="icon">
+    <iconset theme="svn-update" resource="media.qrc">
+     <normaloff>:/media/svn-update.svg</normaloff>:/media/svn-update.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Show &amp;releases</string>
    </property>
   </action>
  </widget>

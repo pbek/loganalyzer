@@ -64,6 +64,12 @@ private slots:
 
     void on_reportPatternFilterLineEdit_textChanged(const QString &arg1);
 
+    void on_actionShow_changelog_triggered();
+
+    void on_actionReport_issues_triggered();
+
+    void on_actionShow_releases_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
 

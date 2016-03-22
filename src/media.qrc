@@ -11,5 +11,8 @@
         <file>media/document-export.svg</file>
         <file>media/document-import.svg</file>
         <file>media/view-refresh.svg</file>
+        <file>media/text-x-changelog.svg</file>
+        <file>media/face-smile.svg</file>
+        <file>media/svn-update.svg</file>
     </qresource>
 </RCC>

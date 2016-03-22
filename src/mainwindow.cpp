@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include "QDebug"
 #include "QFileDialog"
+#include <QDesktopServices>
 #include "version.h"
 
 
@@ -825,4 +826,22 @@ void MainWindow::on_reportPatternsListWidget_currentItemChanged(
     Q_UNUSED(current);
     Q_UNUSED(previous);
     findCurrentReportPattern();
+}
+
+void MainWindow::on_actionShow_changelog_triggered()
+{
+    QDesktopServices::openUrl(
+            QUrl("https://github.com/pbek/loganalyzer/blob/develop/CHANGELOG.md"));
+}
+
+void MainWindow::on_actionReport_issues_triggered()
+{
+    QDesktopServices::openUrl(
+            QUrl("https://github.com/pbek/loganalyzer/issues"));
+}
+
+void MainWindow::on_actionShow_releases_triggered()
+{
+    QDesktopServices::openUrl(
+            QUrl("https://github.com/pbek/loganalyzer/releases"));
 }

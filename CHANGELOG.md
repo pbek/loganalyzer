@@ -1,5 +1,10 @@
 # LogAnalyzer Changelog
 
+## 0.4
+- added a help menu entry to open the change log page
+- added a help menu entry to open the issue page
+- added a help menu entry to open the release page
+
 ## 0.3
 - added a desktop icon
 
