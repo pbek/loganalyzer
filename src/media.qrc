@@ -14,5 +14,8 @@
         <file>media/text-x-changelog.svg</file>
         <file>media/face-smile.svg</file>
         <file>media/svn-update.svg</file>
+        <file>media/application-pdf.svg</file>
+        <file>media/document-new.svg</file>
+        <file>media/document-print.svg</file>
     </qresource>
 </RCC>

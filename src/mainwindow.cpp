@@ -9,6 +9,8 @@
 #include "QDebug"
 #include "QFileDialog"
 #include <QDesktopServices>
+#include <QPrinter>
+#include <QPrintDialog>
 #include "version.h"
 
 
@@ -302,12 +304,18 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     QMainWindow::closeEvent(event);
 }
 
+/**
+ * Quits the application
+ */
 void MainWindow::on_action_Quit_triggered()
 {
     storeSettings();
     QApplication::quit();
 }
 
+/**
+ * Handles the event filtering
+ */
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
@@ -710,16 +718,25 @@ void MainWindow::on_ignorePatternsListWidget_itemChanged(QListWidgetItem *item)
     findCurrentIgnorePattern();
 }
 
+/**
+ * Opens the find widget
+ */
 void MainWindow::on_action_Find_in_file_triggered()
 {
     _searchWidget->activate();
 }
 
+/**
+ * Exports ignore patterns
+ */
 void MainWindow::on_actionExport_ignore_patterns_triggered()
 {
     exportIgnorePatterns();
 }
 
+/**
+ * Imports ignore patterns
+ */
 void MainWindow::on_actionImport_ignore_patterns_triggered()
 {
     importIgnorePatterns();
@@ -810,11 +827,17 @@ void MainWindow::on_actionAdd_report_pattern_triggered()
     storeIgnorePatterns();
 }
 
+/**
+ * Exports report patterns
+ */
 void MainWindow::on_actionExport_report_patterns_triggered()
 {
     exportReportPatterns();
 }
 
+/**
+ * Imports report patterns
+ */
 void MainWindow::on_actionImport_report_patterns_triggered()
 {
     importReportPatterns();
@@ -831,25 +854,191 @@ void MainWindow::on_reportPatternsListWidget_currentItemChanged(
     findCurrentReportPattern();
 }
 
+/**
+ * Opens the change log on GitHub
+ */
 void MainWindow::on_actionShow_changelog_triggered()
 {
     QDesktopServices::openUrl(
-            QUrl("https://github.com/pbek/loganalyzer/blob/develop/CHANGELOG.md"));
+            QUrl("https://github.com/pbek/loganalyzer/blob/develop/"
+                         "CHANGELOG.md"));
 }
 
+/**
+ * Opens the issues page on GitHub
+ */
 void MainWindow::on_actionReport_issues_triggered()
 {
     QDesktopServices::openUrl(
             QUrl("https://github.com/pbek/loganalyzer/issues"));
 }
 
+/**
+ * Opens the releases page on GitHub
+ */
 void MainWindow::on_actionShow_releases_triggered()
 {
     QDesktopServices::openUrl(
             QUrl("https://github.com/pbek/loganalyzer/releases"));
 }
 
+/**
+ * Generates a report from the report patterns
+ */
 void MainWindow::on_reportPatternsButton_clicked()
 {
     ui->viewTabWidget->setCurrentIndex(ViewTabs::ReportViewTab);
+
+    QList<QListWidgetItem *> items =
+            ui->reportPatternsListWidget->findItems(
+                    QString("*"), Qt::MatchWrap | Qt::MatchWildcard);
+    QString logText = ui->fileTextEdit->toPlainText();
+    QString reportHtml = "<html>"
+            "<head>"
+            "<style>"
+            "* {font-family: 'Open Sans', Arial, Helvetica, sans-serif;}"
+            "pre, code, h2 {"
+            "font-family: 'Droid Sans Mono', monospace;"
+            "}"
+            "pre, code {"
+            "white-space: pre-wrap;"
+            "background-color: #efefef;"
+            "}"
+            "h2 {margin: 30px 0 20px 0;}"
+            "</style>"
+            "<head>"
+            "<body>";
+    reportHtml += tr("<h1>LogAnalyzer report</h1>log file: <code>%1</code>")
+            .arg(ui->fileListWidget->currentItem()->text());
+
+    ui->statusBar->showMessage(tr("Reporting on occurrences of the report "
+                                          "patterns in the text"));
+
+    // find all occurrences of the report patterns from the text
+    for (int index = 0; index < items.count(); index++) {
+        QListWidgetItem *item = items.at(index);
+
+        if ( item->checkState() != Qt::Checked ) {
+            continue;
+        }
+
+        QString pattern = item->text();
+        QHash<QString, int> matchesCounts;
+
+        QRegularExpression re(pattern);
+        QRegularExpressionMatchIterator iterator = re.globalMatch(logText);
+        while (iterator.hasNext()) {
+            QRegularExpressionMatch match = iterator.next();
+            QString text = match.captured(1);
+
+            if (text.isEmpty()) {
+                text = match.captured(0);
+            }
+
+            matchesCounts[text]++;
+        }
+
+
+        if (matchesCounts.count() > 0) {
+            reportHtml += QString("<h2>%1</h2><ul>").arg(pattern);
+
+            QHashIterator<QString, int> i(matchesCounts);
+            while (i.hasNext()) {
+                i.next();
+                QString text = i.key();
+                int count = i.value();
+
+                reportHtml +=
+                        "<li>"
+                        + tr("<pre>%1</pre> found: %n time(s)", "", count)
+                                                          .arg(text)
+                        + "</li>";
+            }
+
+            reportHtml += "</ul>";
+        }
+    }
+
+    reportHtml += "</body></html>";
+
+    ui->reportTextEdit->setHtml(reportHtml);
+    ui->statusBar->showMessage(tr("Done with reporting occurrences of the "
+                                          "report patterns in the text"), 1000);
+}
+
+/**
+ * Generates the report if the report view tab was clicked
+ */
+void MainWindow::on_viewTabWidget_tabBarClicked(int index)
+{
+    if (index == ViewTabs::ReportViewTab) {
+        on_reportPatternsButton_clicked();
+    }
+}
+
+/**
+ * Exports the report as PDF
+ */
+void MainWindow::on_action_Export_report_as_PDF_triggered()
+{
+    on_reportPatternsButton_clicked();
+    exportTextEditContentAsPDF(ui->reportTextEdit);
+}
+
+/**
+ * Prints the report
+ */
+void MainWindow::on_action_Print_report_triggered()
+{
+    on_reportPatternsButton_clicked();
+    printTextEditContent(ui->reportTextEdit);
+}
+
+
+/**
+ * Prints the content of a text edit widget
+ * @param textEdit
+ */
+void MainWindow::printTextEditContent(QTextEdit *textEdit) {
+    QPrinter printer;
+
+    QPrintDialog dialog(&printer, this);
+    dialog.setWindowTitle(tr("Print report"));
+
+    if (dialog.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    textEdit->document()->print(&printer);
+}
+
+/**
+ * Exports the content of a text edit widget as PDF
+ * @param textEdit
+ */
+void MainWindow::exportTextEditContentAsPDF(QTextEdit *textEdit) {
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setNameFilter(tr("PDF files (*.pdf)"));
+    dialog.setWindowTitle(tr("Export report as PDF"));
+    dialog.selectFile("LogAnalyzer Report.pdf");
+    int ret = dialog.exec();
+
+    if (ret == QDialog::Accepted) {
+        QStringList fileNames = dialog.selectedFiles();
+        if (fileNames.count() > 0) {
+            QString fileName = fileNames.at(0);
+
+            if (QFileInfo(fileName).suffix().isEmpty()) {
+                fileName.append(".pdf");
+            }
+
+            QPrinter printer(QPrinter::HighResolution);
+            printer.setOutputFormat(QPrinter::PdfFormat);
+            printer.setOutputFileName(fileName);
+            textEdit->document()->print(&printer);
+        }
+    }
 }

@@ -1,5 +1,11 @@
 # LogAnalyzer Changelog
 
+## 0.5
+- you can now generate a report from the report patterns
+- you can export the report as PDF
+- you can print the report
+- the user interface of the pattern lists are slightly improved 
+
 ## 0.4
 - report pattern CRUD, import and export
 - adding of report patterns from selected text

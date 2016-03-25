@@ -31,7 +31,10 @@ the content with regular expression patterns you define.
 - exporting and importing of ignore and report patterns
 - moving of patterns via drag and drop
 - reloading of current file with <kbd>Ctrl</kbd> + <kbd>R</kbd>
-- filtering of pattern 
+- filtering of patterns 
+- generation of reports from the report patterns
+- exporting of the report as PDF
+- printing of the report
 
 ## Building LogAnalyzer
 

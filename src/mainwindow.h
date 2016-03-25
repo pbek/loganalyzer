@@ -77,6 +77,12 @@ private slots:
 
     void on_reportPatternsButton_clicked();
 
+    void on_viewTabWidget_tabBarClicked(int index);
+
+    void on_action_Export_report_as_PDF_triggered();
+
+    void on_action_Print_report_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -132,6 +138,10 @@ private:
     void importReportPatterns();
 
     void findCurrentReportPattern();
+
+    void exportTextEditContentAsPDF(QTextEdit *textEdit);
+
+    void printTextEditContent(QTextEdit *textEdit);
 };
 
 #endif // MAINWINDOW_H
