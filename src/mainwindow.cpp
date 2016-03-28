@@ -12,6 +12,7 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include "version.h"
+#include <dialogs/settingsdialog.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -1094,4 +1095,31 @@ void MainWindow::on_reportPatternFilterLineEdit_returnPressed()
 {
     // add report pattern
     addReportPattern(ui->reportPatternFilterLineEdit->text());
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    // open the settings dialog
+    openSettingsDialog();
+}
+
+/**
+ * @brief Opens the settings dialog
+ */
+void MainWindow::openSettingsDialog(int tab) {
+    // open the settings dialog
+    SettingsDialog *dialog = new SettingsDialog(tab, this);
+    int dialogResult = dialog->exec();
+
+    if (dialogResult == QDialog::Accepted) {
+        // read all relevant settings, that can be set in the settings dialog
+        readSettingsFromSettingsDialog();
+    }
+}
+
+/**
+ * @brief Reads all relevant settings, that can be set in the settings dialog
+ */
+void MainWindow::readSettingsFromSettingsDialog() {
+    QSettings settings;
 }

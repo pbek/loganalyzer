@@ -17,12 +17,15 @@ SOURCES += main.cpp \
         version.h \
         release.h \
         mainwindow.cpp \
-        qtexteditsearchwidget.cpp
+        qtexteditsearchwidget.cpp \
+    dialogs/settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
-        qtexteditsearchwidget.h
+        qtexteditsearchwidget.h \
+    dialogs/settingsdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialogs/settingsdialog.ui
 
 RESOURCES += \
     media.qrc

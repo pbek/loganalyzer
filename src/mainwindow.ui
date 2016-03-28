@@ -310,6 +310,8 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_Export_report_as_PDF"/>
     <addaction name="action_Print_report"/>
     <addaction name="separator"/>
+    <addaction name="action_Settings"/>
+    <addaction name="separator"/>
     <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -526,6 +528,18 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+P</string>
+   </property>
+  </action>
+  <action name="action_Settings">
+   <property name="icon">
+    <iconset theme="configure" resource="media.qrc">
+     <normaloff>:/media/configure.svg</normaloff>:/media/configure.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Settings</string>
+   </property>
+   <property name="shortcut">
+    <string notr="true">Ctrl+,</string>
    </property>
   </action>
  </widget>

@@ -8,6 +8,7 @@
     - reports will be generated over all selected log files
 - ignore and report patterns can now be created by hitting <kbd>Return</kbd> 
   in the respective filter line edits
+- start of settings dialog implementation to make log file sources configurable
 
 ## 0.5
 - you can now generate a report from the report patterns

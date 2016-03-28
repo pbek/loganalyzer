@@ -13,6 +13,8 @@ find_package( Qt5Gui REQUIRED )
 find_package( Qt5Svg REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
 
+qt5_wrap_ui(dialogs/ui_settingsdialog.h settingsdialog.ui)
+
 set(RESOURCE_FILES
     media.qrc
 )
@@ -28,6 +30,9 @@ set(SOURCE_FILES
     mainwindow.ui
     qtexteditsearchwidget.cpp
     qtexteditsearchwidget.h
+    dialogs/settingsdialog.ui
+    dialogs/settingsdialog.h
+    dialogs/settingsdialog.cpp
 )
 
 add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_ADDED})

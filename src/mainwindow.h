@@ -86,6 +86,8 @@ private slots:
 
     void on_reportPatternFilterLineEdit_returnPressed();
 
+    void on_action_Settings_triggered();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -149,6 +151,10 @@ private:
     void addReportPattern(QString text);
 
     void addIgnorePattern(QString text);
+
+    void openSettingsDialog(int tab = 0);
+
+    void readSettingsFromSettingsDialog();
 };
 
 #endif // MAINWINDOW_H

@@ -17,5 +17,9 @@
         <file>media/application-pdf.svg</file>
         <file>media/document-new.svg</file>
         <file>media/document-print.svg</file>
+        <file>media/configure.svg</file>
+        <file>media/edit-delete.svg</file>
+        <file>media/folder-new.svg</file>
+        <file>media/document-open.svg</file>
     </qresource>
 </RCC>
