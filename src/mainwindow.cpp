@@ -687,8 +687,17 @@ void MainWindow::on_actionAdd_ignore_pattern_triggered()
     ui->toolTabWidget->setCurrentIndex(ToolTabs::IgnorePatternTab);
     QString selectedText = ui->fileTextEdit->textCursor().selectedText();
 
+    // add an ignore pattern
+    addIgnorePattern(selectedText);
+}
+
+/**
+ * Adds text as ignore pattern to the list
+ */
+void MainWindow::addIgnorePattern(QString text)
+{
     QListWidgetItem *item = new QListWidgetItem();
-    item->setText(selectedText);
+    item->setText(text);
     item->setCheckState(Qt::Checked);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
     ui->ignorePatternsListWidget->addItem(item);
@@ -806,15 +815,24 @@ void MainWindow::on_reportPatternFilterLineEdit_textChanged(const QString &arg1)
 }
 
 /**
- * Adds an report pattern to the list
+ * Adds a report pattern to the list
  */
 void MainWindow::on_actionAdd_report_pattern_triggered()
 {
     ui->toolTabWidget->setCurrentIndex(ToolTabs::ReportPatternTab);
     QString selectedText = ui->fileTextEdit->textCursor().selectedText();
 
+    // add report pattern
+    addReportPattern(selectedText);
+}
+
+/**
+ * Adds text as report pattern to the list
+ */
+void MainWindow::addReportPattern(QString text)
+{
     QListWidgetItem *item = new QListWidgetItem();
-    item->setText(selectedText);
+    item->setText(text);
     item->setCheckState(Qt::Checked);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
     ui->reportPatternsListWidget->addItem(item);
@@ -1058,4 +1076,22 @@ void MainWindow::exportTextEditContentAsPDF(QTextEdit *textEdit) {
 void MainWindow::on_fileListWidget_itemSelectionChanged()
 {
     loadLogFiles();
+}
+
+/**
+ * Adds an ignore pattern from the filter text
+ */
+void MainWindow::on_ignorePatternFilterLineEdit_returnPressed()
+{
+    // add ignore pattern
+    addIgnorePattern(ui->ignorePatternFilterLineEdit->text());
+}
+
+/**
+ * Adds a report pattern from the filter text
+ */
+void MainWindow::on_reportPatternFilterLineEdit_returnPressed()
+{
+    // add report pattern
+    addReportPattern(ui->reportPatternFilterLineEdit->text());
 }

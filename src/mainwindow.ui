@@ -118,7 +118,7 @@
            <item row="0" column="0">
             <widget class="QLineEdit" name="ignorePatternFilterLineEdit">
              <property name="placeholderText">
-              <string>filter patterns</string>
+              <string>filter or create pattern</string>
              </property>
             </widget>
            </item>
@@ -158,7 +158,7 @@
            <item row="0" column="0">
             <widget class="QLineEdit" name="reportPatternFilterLineEdit">
              <property name="placeholderText">
-              <string>filter patterns</string>
+              <string>filter or create pattern</string>
              </property>
             </widget>
            </item>

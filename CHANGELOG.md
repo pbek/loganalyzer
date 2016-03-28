@@ -6,6 +6,8 @@
     - the content of all selected log files will be open in the log text edit
     - ignore patterns can be used on all selected log files
     - reports will be generated over all selected log files
+- ignore and report patterns can now be created by hitting <kbd>Return</kbd> 
+  in the respective filter line edits
 
 ## 0.5
 - you can now generate a report from the report patterns

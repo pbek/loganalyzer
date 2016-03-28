@@ -82,6 +82,10 @@ private slots:
 
     void on_fileListWidget_itemSelectionChanged();
 
+    void on_ignorePatternFilterLineEdit_returnPressed();
+
+    void on_reportPatternFilterLineEdit_returnPressed();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -141,6 +145,10 @@ private:
     void exportTextEditContentAsPDF(QTextEdit *textEdit);
 
     void printTextEditContent(QTextEdit *textEdit);
+
+    void addReportPattern(QString text);
+
+    void addIgnorePattern(QString text);
 };
 
 #endif // MAINWINDOW_H
