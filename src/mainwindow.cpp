@@ -594,44 +594,48 @@ void MainWindow::updateLineCount()
 /**
  * Loads a log file
  */
-void MainWindow::loadLogFile(QFile *file)
+void MainWindow::loadLogFiles()
 {
-    qDebug() << __func__ << " - 'file': " << file->fileName();
+    QString logString;
 
-    if (!file->open(QIODevice::ReadOnly)) {
-        qDebug() << file->errorString();
-        ui->statusBar->showMessage(file->errorString(), 3000);
+    QList<QListWidgetItem *> items = ui->fileListWidget->selectedItems();
+    Q_FOREACH(QListWidgetItem *item, items) {
+            qDebug() << __func__ << " - 'item': " << item;
 
-        return;
-    }
+            QFile file(item->text());
 
-    ui->statusBar->showMessage(tr("Loading log file"));
+            if (!file.exists()) {
+                QString warning = tr("File '%1' does not exist!")
+                                      .arg(file.fileName());
+                qWarning() << warning;
+                ui->statusBar->showMessage(warning);
+                continue;
+            }
 
-    ui->fileTextEdit->setPlainText(file->readAll());
-    file->close();
+            if (!file.open(QIODevice::ReadOnly)) {
+                qWarning() << file.errorString();
+                ui->statusBar->showMessage(file.errorString());
+                continue;
+            }
+
+            qDebug() << __func__ << " - 'file': " << file.fileName();
+
+            ui->statusBar->showMessage(
+                    tr("Loading log file <strong>%1</strong>")
+                            .arg(file.fileName()));
+
+            logString += file.readAll();
+            file.close();
+        }
+
+    ui->statusBar->showMessage(tr("Updating line count"));
+
+    ui->fileTextEdit->setPlainText(logString);
 
     // update the line count
     updateLineCount();
 
-    ui->statusBar->showMessage(tr("Done loading log file"), 1000);
-}
-
-/**
- * Loads the current log file if a new log file got selected
- */
-void MainWindow::on_fileListWidget_currentItemChanged(
-        QListWidgetItem *current, QListWidgetItem *previous)
-{
-    Q_UNUSED(previous);
-
-    if (current == NULL) {
-        return;
-    }
-
-    QFile file(current->text());
-
-    // load the log file
-    loadLogFile(&file);
+    ui->statusBar->showMessage(tr("Done loading log files"), 1000);
 }
 
 /**
@@ -747,14 +751,8 @@ void MainWindow::on_actionImport_ignore_patterns_triggered()
  */
 void MainWindow::on_action_Reload_file_triggered()
 {
-    QListWidgetItem *item = ui->fileListWidget->currentItem();
-
-    if (item != NULL) {
-        QFile file(item->text());
-
-        // load the log file
-        loadLogFile(&file);
-    }
+    // load the log files
+    loadLogFiles();
 }
 
 /**
@@ -897,7 +895,7 @@ void MainWindow::on_reportPatternsButton_clicked()
             "<head>"
             "<style>"
             "* {font-family: 'Open Sans', Arial, Helvetica, sans-serif;}"
-            "pre, code, h2 {"
+            "pre, code, h2.code {"
             "font-family: 'Droid Sans Mono', monospace;"
             "}"
             "pre, code {"
@@ -908,8 +906,19 @@ void MainWindow::on_reportPatternsButton_clicked()
             "</style>"
             "<head>"
             "<body>";
-    reportHtml += tr("<h1>LogAnalyzer report</h1>log file: <code>%1</code>")
-            .arg(ui->fileListWidget->currentItem()->text());
+    reportHtml += tr("<h1>LogAnalyzer report</h1>");
+
+    // add log file information
+    QList<QListWidgetItem *> logFileItems = ui->fileListWidget->selectedItems();
+    if (logFileItems.count() > 0) {
+        reportHtml += tr("<h2>Log files</h2><ul>");
+
+        Q_FOREACH(QListWidgetItem *logFileItem, logFileItems) {
+                reportHtml += QString("<li>%1</li>").arg(logFileItem->text());
+            }
+
+        reportHtml += tr("</ul>");
+    }
 
     ui->statusBar->showMessage(tr("Reporting on occurrences of the report "
                                           "patterns in the text"));
@@ -940,7 +949,7 @@ void MainWindow::on_reportPatternsButton_clicked()
 
 
         if (matchesCounts.count() > 0) {
-            reportHtml += QString("<h2>%1</h2><ul>").arg(pattern);
+            reportHtml += QString("<h2 class='code'>%1</h2><ul>").arg(pattern);
 
             QHashIterator<QString, int> i(matchesCounts);
             while (i.hasNext()) {
@@ -1041,4 +1050,12 @@ void MainWindow::exportTextEditContentAsPDF(QTextEdit *textEdit) {
             textEdit->document()->print(&printer);
         }
     }
+}
+
+/**
+ * Loads the selected log files
+ */
+void MainWindow::on_fileListWidget_itemSelectionChanged()
+{
+    loadLogFiles();
 }

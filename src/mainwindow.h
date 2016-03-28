@@ -36,9 +36,6 @@ private slots:
     void dropEvent(QDropEvent *e);
     void on_action_Quit_triggered();
 
-    void on_fileListWidget_currentItemChanged(
-            QListWidgetItem *current, QListWidgetItem *previous);
-
     void on_removeIgnoredPatternsButton_clicked();
 
     void on_actionAdd_ignore_pattern_triggered();
@@ -83,6 +80,8 @@ private slots:
 
     void on_action_Print_report_triggered();
 
+    void on_fileListWidget_itemSelectionChanged();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -121,7 +120,7 @@ private:
 
     void importIgnorePatterns();
 
-    void loadLogFile(QFile *file);
+    void loadLogFiles();
 
     void setupStatusBar();
 

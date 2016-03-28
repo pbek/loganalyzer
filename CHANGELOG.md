@@ -1,5 +1,12 @@
 # LogAnalyzer Changelog
 
+## 0.6
+- multiple log files can now be evaluated simultaneously by selecting multiple 
+  items in the log file widget
+    - the content of all selected log files will be open in the log text edit
+    - ignore patterns can be used on all selected log files
+    - reports will be generated over all selected log files
+
 ## 0.5
 - you can now generate a report from the report patterns
 - you can export the report as PDF
