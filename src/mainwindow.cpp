@@ -730,6 +730,8 @@ void MainWindow::on_ignorePatternsListWidget_currentItemChanged(
  */
 void MainWindow::on_ignorePatternsListWidget_itemChanged(QListWidgetItem *item)
 {
+    Q_UNUSED(item);
+
     // store ignore patterns
     storeIgnorePatterns();
 
