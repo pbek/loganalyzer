@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 0.7
+- log file source CRUD was implemented
+
 ## 0.6
 - multiple log files can now be evaluated simultaneously by selecting multiple 
   items in the log file widget

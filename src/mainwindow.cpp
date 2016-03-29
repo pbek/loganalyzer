@@ -13,6 +13,7 @@
 #include <QPrintDialog>
 #include "version.h"
 #include <dialogs/settingsdialog.h>
+#include <services/databaseservice.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -21,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("LogAnalyzer " + QString(VERSION));
+
+    DatabaseService::createConnection();
+    DatabaseService::setupTables();
 
     setupStatusBar();
     ui->fileListWidget->installEventFilter(this);

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport
+QT       += core gui svg sql printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,11 +18,15 @@ SOURCES += main.cpp \
         release.h \
         mainwindow.cpp \
         qtexteditsearchwidget.cpp \
-    dialogs/settingsdialog.cpp
+        services/databaseservice.cpp \
+        entities/logfilesource.cpp \
+        dialogs/settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
         qtexteditsearchwidget.h \
-    dialogs/settingsdialog.h
+        services/databaseservice.h \
+        entities/logfilesource.h \
+        dialogs/settingsdialog.h
 
 FORMS    += mainwindow.ui \
     dialogs/settingsdialog.ui
