@@ -1,7 +1,10 @@
 # LogAnalyzer Changelog
 
 ## 0.7
-- log file source CRUD was implemented
+- you can now configure multiple log file sources in the settings
+- files from local log file sources can now be added to the log file list
+- now a log file can only be once in the log file list
+- improved removal of items from the log file list
 
 ## 0.6
 - multiple log files can now be evaluated simultaneously by selecting multiple 

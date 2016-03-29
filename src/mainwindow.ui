@@ -99,7 +99,7 @@
               <string>add the selected files to the log file list</string>
              </property>
              <property name="text">
-              <string>&amp;add selected files</string>
+              <string>&amp;Add selected files</string>
              </property>
              <property name="icon">
               <iconset theme="list-add" resource="media.qrc">

@@ -1193,7 +1193,7 @@ void MainWindow::on_logFileSourceComboBox_currentIndexChanged(int index)
 
 void MainWindow::changeLogFileSource(LogFileSource logFileSource)
 {
-    qDebug() << __func__ << " - 'logFileSource': " << logFileSource;
+    logFileSource.setAsActive();
     int type = logFileSource.getType();
     ui->logFileSourceStackedWidget->setCurrentIndex(type - 1);
 
