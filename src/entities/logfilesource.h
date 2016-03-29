@@ -10,7 +10,7 @@ public:
         LocalType = 1,
         EzPublishServerType
     };
-    Q_ENUMS(LogFileSourceType)
+    Q_ENUMS(LogFileSourceType);
 
     explicit LogFileSource();
 
