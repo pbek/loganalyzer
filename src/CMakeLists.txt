@@ -31,6 +31,8 @@ set(SOURCE_FILES
     mainwindow.ui
     qtexteditsearchwidget.cpp
     qtexteditsearchwidget.h
+    utils/misc.cpp
+    utils/misc.h
     services/databaseservice.cpp
     services/databaseservice.h
     entities/logfilesource.cpp

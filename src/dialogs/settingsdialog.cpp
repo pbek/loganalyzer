@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDebug>
+#include <utils/misc.h>
 
 SettingsDialog::SettingsDialog(int tab, QWidget *parent) :
     QDialog(parent),
@@ -178,6 +179,7 @@ void SettingsDialog::on_logFileSourceLocalPathButton_clicked()
     QDir d = QDir(dir);
 
     if (d.exists() && (dir != "")) {
+        dir = Utils::Misc::removeIfEndsWith(dir, QDir::separator());
         ui->logFileSourceLocalPathLineEdit->setText(dir);
         _selectedLogFileSource.setLocalPath(dir);
         _selectedLogFileSource.store();

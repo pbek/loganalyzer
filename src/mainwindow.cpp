@@ -26,6 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
     DatabaseService::createConnection();
     DatabaseService::setupTables();
 
+    _localDirectoryWatcher = new QFileSystemWatcher(this);
+    QObject::connect(
+            _localDirectoryWatcher,
+            SIGNAL(directoryChanged(QString)),
+            this,
+            SLOT(loadLocalLogFileSourceFiles(QString)));
+
     setupStatusBar();
     ui->fileListWidget->installEventFilter(this);
     ui->ignorePatternsListWidget->installEventFilter(this);
@@ -1150,6 +1157,9 @@ void MainWindow::readSettingsFromSettingsDialog() {
 
     ui->logFileSourceFrame->setVisible(logFileSourceCount > 0);
 
+    // remove all filter watchers
+    setLocalDirectoryWatcherPath("");
+
     updateLogFileSourceComboBox();
 }
 
@@ -1197,30 +1207,49 @@ void MainWindow::changeLogFileSource(LogFileSource logFileSource)
     int type = logFileSource.getType();
     ui->logFileSourceStackedWidget->setCurrentIndex(type - 1);
 
+    // remove all watcher paths
+    setLocalDirectoryWatcherPath("");
+
     if (type == LogFileSource::LocalType) {
         QString localPath = logFileSource.getLocalPath();
-
-        QDir dir(localPath);
-
-        // only show log files
-        QStringList filters;
-        filters << "*.log*";
-
-        QStringList files = dir.entryList(filters, QDir::Files, QDir::Name);
-
-        ui->localFilesListWidget->clear();
-        Q_FOREACH(QString fileName, files) {
-                QListWidgetItem *item = new QListWidgetItem(fileName);
-                QString filePath =
-                        dir.absolutePath() + QDir::separator() + fileName;
-                item->setData(Qt::UserRole, filePath);
-                item->setToolTip(filePath);
-                ui->localFilesListWidget->addItem(item);
-            }
-
+        setLocalDirectoryWatcherPath(localPath);
+        loadLocalLogFileSourceFiles(localPath);
     } else if (type == LogFileSource::EzPublishServerType) {
-
     }
+}
+
+void MainWindow::setLocalDirectoryWatcherPath(QString path)
+{
+    // clear all paths from the directory watcher
+    _localDirectoryWatcher->removePaths(_localDirectoryWatcher->directories());
+    _localDirectoryWatcher->removePaths(_localDirectoryWatcher->files());
+
+    if (!path.isEmpty() && QDir(path).exists()) {
+        _localDirectoryWatcher->addPath(path);
+    }
+}
+
+void MainWindow::loadLocalLogFileSourceFiles(QString localPath)
+{
+    qDebug() << __func__ << " - 'localPath': " << localPath;
+
+    QDir dir(localPath);
+
+    // only show log files
+    QStringList filters;
+    filters << "*.log*";
+
+    QStringList files = dir.entryList(filters, QDir::Files, QDir::Name);
+
+    ui->localFilesListWidget->clear();
+    Q_FOREACH(QString fileName, files) {
+            QListWidgetItem *item = new QListWidgetItem(fileName);
+            QString filePath =
+                    dir.absolutePath() + QDir::separator() + fileName;
+            item->setData(Qt::UserRole, filePath);
+            item->setToolTip(filePath);
+            ui->localFilesListWidget->addItem(item);
+        }
 }
 
 /**

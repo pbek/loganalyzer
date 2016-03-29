@@ -3,6 +3,8 @@
 ## 0.7
 - you can now configure multiple log file sources in the settings
 - files from local log file sources can now be added to the log file list
+    - if files are added or removed from an active local folder the list with
+      them will be reloaded
 - now a log file can only be once in the log file list
 - improved removal of items from the log file list
 

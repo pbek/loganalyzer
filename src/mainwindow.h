@@ -5,6 +5,7 @@
 #include <QSplitter>
 #include <QListWidgetItem>
 #include <QSettings>
+#include <QFileSystemWatcher>
 #include <entities/logfilesource.h>
 #include "qtexteditsearchwidget.h"
 
@@ -95,6 +96,8 @@ private slots:
 
     void on_localFilesListWidget_itemDoubleClicked(QListWidgetItem *item);
 
+    void loadLocalLogFileSourceFiles(QString localPath);
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -106,6 +109,7 @@ private:
     QSplitter *_leftSplitter;
     QTextEditSearchWidget *_searchWidget;
     QLabel *_lineCountLabel;
+    QFileSystemWatcher *_localDirectoryWatcher;
 
     void setupMainSplitter();
 
@@ -168,6 +172,8 @@ private:
     void changeLogFileSource(LogFileSource logFileSource);
 
     void addPathToFileListWidget(QString path);
+
+    void setLocalDirectoryWatcherPath(QString path);
 };
 
 #endif // MAINWINDOW_H

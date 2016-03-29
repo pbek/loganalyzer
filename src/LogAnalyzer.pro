@@ -18,12 +18,14 @@ SOURCES += main.cpp \
         release.h \
         mainwindow.cpp \
         qtexteditsearchwidget.cpp \
+        utils/misc.cpp \
         services/databaseservice.cpp \
         entities/logfilesource.cpp \
         dialogs/settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
         qtexteditsearchwidget.h \
+        utils/misc.h \
         services/databaseservice.h \
         entities/logfilesource.h \
         dialogs/settingsdialog.h
