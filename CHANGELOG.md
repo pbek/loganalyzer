@@ -5,8 +5,8 @@
 - files from local log file sources can now be added to the log file list
     - if files are added or removed from an active local folder the list with
       them will be reloaded
-- now a log file can only be once in the log file list
-- improved removal of items from the log file list
+- now a log file can only exist once in the log file list
+- improved removal speed of items from the log file list
 
 ## 0.6
 - multiple log files can now be evaluated simultaneously by selecting multiple 
