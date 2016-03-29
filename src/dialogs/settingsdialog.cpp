@@ -105,13 +105,19 @@ void SettingsDialog::on_logFileSourceRemoveButton_clicked()
                     .arg(_selectedLogFileSource.getName()),
             tr("&Remove"), tr("&Cancel"), QString::null,
             0, 1) == 0) {
-        bool wasCurrent = _selectedLogFileSource.isCurrent();
+        bool wasCurrent = _selectedLogFileSource.isActive();
 
         // remove the log file source from the database
         _selectedLogFileSource.remove();
 
-        const QSignalBlocker blocker(ui->logFileSourceListWidget);
-        Q_UNUSED(blocker);
+        // block the event that would load a new current item after the last
+        // items was removed
+        if (LogFileSource::countAll() == 0) {
+            const QSignalBlocker blocker(ui->logFileSourceListWidget);
+            Q_UNUSED(blocker);
+
+            _selectedLogFileSource = LogFileSource();
+        }
 
         // remove the list item
         ui->logFileSourceListWidget->takeItem(
@@ -125,7 +131,7 @@ void SettingsDialog::on_logFileSourceRemoveButton_clicked()
         if (wasCurrent) {
             QList<LogFileSource> logFileSources = LogFileSource::fetchAll();
             if (logFileSources.count() > 0) {
-                logFileSources[0].setAsCurrent();
+                logFileSources[0].setAsActive();
             }
         }
     }
@@ -187,7 +193,7 @@ void SettingsDialog::on_logFileSourceActiveCheckBox_stateChanged(int arg1)
         Q_UNUSED(blocker);
         ui->logFileSourceActiveCheckBox->setChecked(true);
     } else {
-        _selectedLogFileSource.setAsCurrent();
+        _selectedLogFileSource.setAsActive();
     }
 }
 
@@ -195,6 +201,9 @@ void SettingsDialog::on_logFileSourceListWidget_currentItemChanged(
         QListWidgetItem *current, QListWidgetItem *previous)
 {
     Q_UNUSED(previous);
+    if (current == NULL) {
+        return;
+    }
 
     int logFileSourceId = current->data(Qt::UserRole).toInt();
     _selectedLogFileSource = LogFileSource::fetch(logFileSourceId);
@@ -215,6 +224,6 @@ void SettingsDialog::on_logFileSourceListWidget_currentItemChanged(
         const QSignalBlocker blocker(ui->logFileSourceActiveCheckBox);
         Q_UNUSED(blocker);
         ui->logFileSourceActiveCheckBox->setChecked(
-                _selectedLogFileSource.isCurrent());
+                _selectedLogFileSource.isActive());
     }
 }

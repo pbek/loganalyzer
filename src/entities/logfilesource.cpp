@@ -229,37 +229,37 @@ bool LogFileSource::isFetched() {
     return (this->id > 0);
 }
 
-void LogFileSource::setAsCurrent() {
+void LogFileSource::setAsActive() {
     QSettings settings;
-    settings.setValue("currentLogFileSourceId", id);
+    settings.setValue("activeLogFileSourceId", id);
 }
 
 /**
  * Checks if this note folder is the current one
  */
-bool LogFileSource::isCurrent() {
-    return currentLogFileSourceId() == id;
+bool LogFileSource::isActive() {
+    return activeLogFileSourceId() == id;
 }
 
 /**
  * Returns the id of the current note folder in the settings
  */
-int LogFileSource::currentLogFileSourceId() {
+int LogFileSource::activeLogFileSourceId() {
     QSettings settings;
-    return settings.value("currentLogFileSourceId").toInt();
+    return settings.value("activeLogFileSourceId").toInt();
 }
 
 /**
  * Returns the current note folder
  */
-LogFileSource LogFileSource::currentLogFileSource() {
-    return LogFileSource::fetch(currentLogFileSourceId());
+LogFileSource LogFileSource::activeLogFileSource() {
+    return LogFileSource::fetch(activeLogFileSourceId());
 }
 
 QDebug operator<<(QDebug dbg, const LogFileSource &logFileSource) {
     dbg.nospace() << "LogFileSource: <id>" << logFileSource.id << " <name>" <<
             logFileSource.name << " <localPath>" << logFileSource.localPath <<
             " <ezpServerUrl>" << logFileSource.ezpServerUrl <<
-            " <priority>" << logFileSource.priority;
+            " <type>" << logFileSource.type;
     return dbg.space();
 }

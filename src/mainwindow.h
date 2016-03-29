@@ -5,6 +5,7 @@
 #include <QSplitter>
 #include <QListWidgetItem>
 #include <QSettings>
+#include <entities/logfilesource.h>
 #include "qtexteditsearchwidget.h"
 
 namespace Ui {
@@ -88,6 +89,12 @@ private slots:
 
     void on_action_Settings_triggered();
 
+    void on_logFileSourceComboBox_currentIndexChanged(int index);
+
+    void on_localFileUsePushButton_clicked();
+
+    void on_localFilesListWidget_itemDoubleClicked(QListWidgetItem *item);
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -155,6 +162,12 @@ private:
     void openSettingsDialog(int tab = 0);
 
     void readSettingsFromSettingsDialog();
+
+    void updateLogFileSourceComboBox();
+
+    void changeLogFileSource(LogFileSource logFileSource);
+
+    void addPathToFileListWidget(QString path);
 };
 
 #endif // MAINWINDOW_H

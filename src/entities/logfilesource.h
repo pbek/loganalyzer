@@ -38,10 +38,10 @@ public:
     void setEzpUsername(QString text);
     void setEzpPassword(QString text);
     static int countAll();
-    void setAsCurrent();
-    bool isCurrent();
-    static int currentLogFileSourceId();
-    static LogFileSource currentLogFileSource();
+    void setAsActive();
+    bool isActive();
+    static int activeLogFileSourceId();
+    static LogFileSource activeLogFileSource();
     bool localPathExists();
 
 private:

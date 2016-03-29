@@ -80,19 +80,30 @@ void MainWindow::readSettings() {
     loadLogFileList();
     loadIgnorePatterns();
     loadReportPatterns();
+
+    // read all relevant settings, that can be set in the settings dialog
+    readSettingsFromSettingsDialog();
 }
 
 void MainWindow::setupMainSplitter() {
     _mainSplitter = new QSplitter;
 
+    _mainSplitter->addWidget(ui->logFileSourceFrame);
     _mainSplitter->addWidget(ui->controlFrame);
     _mainSplitter->addWidget(ui->editFrame);
 
-    // restore splitter sizes
     QSettings settings;
-    QByteArray state =
-            settings.value("MainWindow/mainSplitterState").toByteArray();
-    _mainSplitter->restoreState(state);
+    int reset = settings.value("MainWindow/mainSplitterReset").toInt();
+
+    // we need to reset the splitter once for the logFileSourceFrame
+    if (reset > 0) {
+        // restore splitter sizes
+        QByteArray state =
+                settings.value("MainWindow/mainSplitterState").toByteArray();
+        _mainSplitter->restoreState(state);
+    } else {
+        settings.setValue("MainWindow/mainSplitterReset", 1);
+    }
 
     ui->centralWidget->layout()->addWidget(this->_mainSplitter);
 }
@@ -150,8 +161,7 @@ void MainWindow::loadLogFileList()
             // skip files that are not readable
             if (fileInfo.isReadable() && fileInfo.isFile()) {
                 QListWidgetItem *item = new QListWidgetItem();
-                item->setText(logFile);
-                ui->fileListWidget->addItem(item);
+                addPathToFileListWidget(logFile);
             }
         }
 
@@ -292,11 +302,7 @@ void MainWindow::dropEvent(QDropEvent *e) {
 
             // check if file is readable
             if (fileInfo.isReadable() && fileInfo.isFile()) {
-                // check if we have got the file already
-                if (ui->fileListWidget->
-                        findItems(path, Qt::MatchExactly).count() == 0) {
-                    ui->fileListWidget->addItem(path);
-                }
+                addPathToFileListWidget(path);
             }
         }
 
@@ -425,9 +431,18 @@ bool MainWindow::removeLogFiles() {
                        "", selectedItemsCount),
                     tr("&Remove"), tr("&Cancel"), QString::null,
                     0, 1) == 0) {
+        const QSignalBlocker blocker(this->ui->fileListWidget);
+        Q_UNUSED(blocker);
+
         // remove all selected log files from the list
         qDeleteAll(ui->fileListWidget->selectedItems());
         storeLogFileList();
+
+        ui->fileTextEdit->clear();
+
+        // update the line count
+        updateLineCount();
+
         return true;
     }
 
@@ -1118,14 +1133,126 @@ void MainWindow::openSettingsDialog(int tab) {
     int dialogResult = dialog->exec();
 
     if (dialogResult == QDialog::Accepted) {
-        // read all relevant settings, that can be set in the settings dialog
-        readSettingsFromSettingsDialog();
     }
+    
+    // read all relevant settings, that can be set in the settings dialog
+    readSettingsFromSettingsDialog();
 }
 
 /**
  * @brief Reads all relevant settings, that can be set in the settings dialog
  */
 void MainWindow::readSettingsFromSettingsDialog() {
-    QSettings settings;
+//    QSettings settings;
+
+    int logFileSourceCount = LogFileSource::countAll();
+    qDebug() << __func__ << " - 'logFileSourceCount': " << logFileSourceCount;
+
+    ui->logFileSourceFrame->setVisible(logFileSourceCount > 0);
+
+    updateLogFileSourceComboBox();
+}
+
+void MainWindow::updateLogFileSourceComboBox() {
+    ui->logFileSourceComboBox->clear();
+
+    QList<LogFileSource> logFileSources = LogFileSource::fetchAll();
+    int logFileSourcesCount = logFileSources.count();
+
+    // populate the log file source combo box
+    if (logFileSourcesCount > 0) {
+        int currentId = LogFileSource::activeLogFileSourceId();
+        int activeIndex = 0;
+        int index = 0;
+
+        Q_FOREACH(LogFileSource logFileSource, logFileSources) {
+                // add an entry to the combo box
+                ui->logFileSourceComboBox->addItem(logFileSource.getName(),
+                                                   logFileSource.getId());
+                if (currentId == logFileSource.getId()) {
+                    activeIndex = index;
+                }
+
+                index++;
+            }
+
+        // set the active element
+        ui->logFileSourceComboBox->setCurrentIndex(activeIndex);
+    }
+}
+
+void MainWindow::on_logFileSourceComboBox_currentIndexChanged(int index)
+{
+    int logFileSourceId = ui->logFileSourceComboBox->itemData(index).toInt();
+    LogFileSource logFileSource = LogFileSource::fetch(logFileSourceId);
+    if (logFileSource.isFetched()) {
+        changeLogFileSource(logFileSource);
+    }
+
+}
+
+void MainWindow::changeLogFileSource(LogFileSource logFileSource)
+{
+    qDebug() << __func__ << " - 'logFileSource': " << logFileSource;
+    int type = logFileSource.getType();
+    ui->logFileSourceStackedWidget->setCurrentIndex(type - 1);
+
+    if (type == LogFileSource::LocalType) {
+        QString localPath = logFileSource.getLocalPath();
+
+        QDir dir(localPath);
+
+        // only show log files
+        QStringList filters;
+        filters << "*.log*";
+
+        QStringList files = dir.entryList(filters, QDir::Files, QDir::Name);
+
+        ui->localFilesListWidget->clear();
+        Q_FOREACH(QString fileName, files) {
+                QListWidgetItem *item = new QListWidgetItem(fileName);
+                QString filePath =
+                        dir.absolutePath() + QDir::separator() + fileName;
+                item->setData(Qt::UserRole, filePath);
+                item->setToolTip(filePath);
+                ui->localFilesListWidget->addItem(item);
+            }
+
+    } else if (type == LogFileSource::EzPublishServerType) {
+
+    }
+}
+
+/**
+ * Adds multiple local files to the file list
+ */
+void MainWindow::on_localFileUsePushButton_clicked()
+{
+    Q_FOREACH(QListWidgetItem *item,
+              ui->localFilesListWidget->selectedItems()) {
+            QString filePath = item->data(Qt::UserRole).toString();
+            addPathToFileListWidget(filePath);
+        }
+}
+
+/**
+ * Adds a single local file to the file list
+ */
+void MainWindow::on_localFilesListWidget_itemDoubleClicked(
+        QListWidgetItem *item)
+{
+    QString filePath = item->data(Qt::UserRole).toString();
+    addPathToFileListWidget(filePath);
+}
+
+/**
+ * Adds a path to the log file list widget if it doesn't already exist there
+ */
+void MainWindow::addPathToFileListWidget(QString path)
+{
+    if (ui->fileListWidget->findItems(path, Qt::MatchExactly).count() == 0) {
+        ui->fileListWidget->addItem(path);
+    } else {
+        ui->statusBar->showMessage(tr("%1 was already in the list").arg(path));
+    }
 }
