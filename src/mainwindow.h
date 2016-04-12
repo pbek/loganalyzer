@@ -33,6 +33,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void openSettingsDialog(int tab = 0);
+
 private slots:
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
@@ -98,6 +100,8 @@ private slots:
 
     void loadLocalLogFileSourceFiles(QString localPath);
 
+    void on_logFileSourceRemoteReloadButton_clicked();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -162,8 +166,6 @@ private:
     void addReportPattern(QString text);
 
     void addIgnorePattern(QString text);
-
-    void openSettingsDialog(int tab = 0);
 
     void readSettingsFromSettingsDialog();
 

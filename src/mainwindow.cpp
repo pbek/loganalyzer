@@ -14,6 +14,7 @@
 #include "version.h"
 #include <dialogs/settingsdialog.h>
 #include <services/databaseservice.h>
+#include <services/ezpublishservice.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -162,12 +163,10 @@ void MainWindow::loadLogFileList()
 
         for (int i = 0; i < logFiles.count(); i++) {
             QString logFile = logFiles.at(i);
-
             QFileInfo fileInfo = QFileInfo(logFile);
 
             // skip files that are not readable
             if (fileInfo.isReadable() && fileInfo.isFile()) {
-                QListWidgetItem *item = new QListWidgetItem();
                 addPathToFileListWidget(logFile);
             }
         }
@@ -1284,4 +1283,10 @@ void MainWindow::addPathToFileListWidget(QString path)
     } else {
         ui->statusBar->showMessage(tr("%1 was already in the list").arg(path));
     }
+}
+
+void MainWindow::on_logFileSourceRemoteReloadButton_clicked()
+{
+    EzPublishService *service = new EzPublishService(this);
+    service->loadLogFileList(this);
 }

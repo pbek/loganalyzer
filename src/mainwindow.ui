@@ -40,7 +40,7 @@
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
@@ -67,7 +67,7 @@
        <item row="1" column="0">
         <widget class="QStackedWidget" name="logFileSourceStackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="logFileSourceTypeLocalPage">
           <layout class="QGridLayout" name="gridLayout_8">
@@ -123,11 +123,18 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QListWidget" name="eZPublishLocalFilesListWidget"/>
            </item>
            <item row="0" column="0">
             <widget class="QListWidget" name="eZPublishRemoteFilesListWidget"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="logFileSourceRemoteReloadButton">
+             <property name="text">
+              <string>&amp;Reload</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -145,7 +152,7 @@
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
@@ -328,7 +335,7 @@
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>

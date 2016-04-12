@@ -13,6 +13,7 @@ find_package( Qt5Gui REQUIRED )
 find_package( Qt5Sql REQUIRED )
 find_package( Qt5Svg REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
+find_package( Qt5Network REQUIRED )
 
 qt5_wrap_ui(dialogs/ui_settingsdialog.h settingsdialog.ui)
 
@@ -40,6 +41,12 @@ set(SOURCE_FILES
     dialogs/settingsdialog.ui
     dialogs/settingsdialog.h
     dialogs/settingsdialog.cpp
+    libraries/simplecrypt/simplecrypt.h
+    libraries/simplecrypt/simplecrypt.cpp
+    services/cryptoservice.h
+    services/cryptoservice.cpp
+    services/ezpublishservice.h
+    services/ezpublishservice.cpp
 )
 
 add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_ADDED})
@@ -47,17 +54,37 @@ add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_ADDED})
 
 # The Qt5Widgets_INCLUDES also includes the include directories for
 # dependencies QtCore and QtGui
-include_directories(${Qt5Widgets_INCLUDES} ${Qt5Sql_INCLUDES} ${Qt5Svg_INCLUDES} ${Qt5PrintSupport_INCLUDES})
+include_directories(
+        ${Qt5Widgets_INCLUDES}
+        ${Qt5Sql_INCLUDES}
+        ${Qt5Svg_INCLUDES}
+        ${Qt5PrintSupport_INCLUDES}
+        ${Qt5Network_INCLUDES}
+)
 
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
-add_definitions(${Qt5Widgets_DEFINITIONS} ${Qt5Sql_DEFINITIONS} ${Qt5Svg_DEFINITIONS} ${Qt5PrintSupport_DEFINITIONS})
+add_definitions(
+        ${Qt5Widgets_DEFINITIONS}
+        ${Qt5Sql_DEFINITIONS}
+        ${Qt5Svg_DEFINITIONS}
+        ${Qt5PrintSupport_DEFINITIONS}
+        ${Qt5Network_DEFINITIONS}
+)
 
 # Executables fail to build with Qt 5 in the default configuration
 # without -fPIE. We add that here.
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "${Qt5Sql_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "${Qt5Svg_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${Qt5Network_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "-std=c++0x")
 
 # The Qt5Widgets_LIBRARIES variable also includes QtGui and QtCore
-target_link_libraries(LogAnalyzer ${Qt5Widgets_LIBRARIES} ${Qt5Sql_LIBRARIES} ${Qt5Svg_LIBRARIES} ${Qt5PrintSupport_LIBRARIES})
+target_link_libraries(
+        LogAnalyzer
+        ${Qt5Widgets_LIBRARIES}
+        ${Qt5Sql_LIBRARIES}
+        ${Qt5Svg_LIBRARIES}
+        ${Qt5PrintSupport_LIBRARIES}
+        ${Qt5Network_LIBRARIES}
+)

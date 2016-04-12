@@ -29,20 +29,21 @@ public:
     QString getEzpServerUrl();
     int getPriority();
     QString getEzpUsername();
-    QString getEzpPassword();
+    QString getEzpPassword(bool decrypt = true);
     void setName(QString text);
     void setLocalPath(QString text);
     void setPriority(int value);
     void setType(int id);
     void setEzpServerUrl(QString text);
     void setEzpUsername(QString text);
-    void setEzpPassword(QString text);
+    void setEzpPassword(QString text, bool encrypt = true);
     static int countAll();
     void setAsActive();
     bool isActive();
     static int activeLogFileSourceId();
     static LogFileSource activeLogFileSource();
     bool localPathExists();
+    bool isEzPublishTypeValid();
 
 private:
     int id;

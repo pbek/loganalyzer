@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QSettings>
 #include <QDir>
+#include <services/cryptoservice.h>
 
 
 LogFileSource::LogFileSource() {
@@ -35,8 +36,9 @@ QString LogFileSource::getEzpUsername() {
     return this->ezpUsername;
 }
 
-QString LogFileSource::getEzpPassword() {
-    return this->ezpPassword;
+QString LogFileSource::getEzpPassword(bool decrypt) {
+    return decrypt ? CryptoService::instance()->decryptToString(ezpPassword)
+                   : ezpPassword;
 }
 
 int LogFileSource::getType() {
@@ -71,8 +73,9 @@ void LogFileSource::setEzpUsername(QString text) {
     this->ezpUsername = text;
 }
 
-void LogFileSource::setEzpPassword(QString text) {
-    this->ezpPassword = text;
+void LogFileSource::setEzpPassword(QString text, bool encrypt) {
+    this->ezpPassword =
+            encrypt ? CryptoService::instance()->encryptToString(text) : text;
 }
 
 void LogFileSource::setPriority(int value) {
@@ -254,6 +257,23 @@ int LogFileSource::activeLogFileSourceId() {
  */
 LogFileSource LogFileSource::activeLogFileSource() {
     return LogFileSource::fetch(activeLogFileSourceId());
+}
+
+/**
+ * Checks if the fields for the eZ Publish type are valid
+ */
+bool LogFileSource::isEzPublishTypeValid() {
+    if ( type != LogFileSource::EzPublishServerType ) {
+        return false;
+    }
+
+    if ( ezpUsername.isEmpty()
+         || ezpServerUrl.isEmpty()
+         || getEzpPassword().isEmpty() ) {
+        return false;
+    }
+
+    return true;
 }
 
 QDebug operator<<(QDebug dbg, const LogFileSource &logFileSource) {

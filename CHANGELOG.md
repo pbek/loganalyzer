@@ -1,5 +1,10 @@
 # LogAnalyzer Changelog
 
+## 0.8
+- eZ Publish passwords will now be stored (not very securely) encrypted
+- some small styling changes
+- start of implementation of connection to eZ Publish servers
+
 ## 0.7
 - you can now configure multiple log file sources in the settings
 - files from local log file sources can now be added to the log file list
