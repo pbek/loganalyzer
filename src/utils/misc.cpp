@@ -19,6 +19,7 @@
 #include <QRegularExpression>
 #include <QtCore/QCoreApplication>
 #include <QtWidgets/QApplication>
+#include <cmath>
 #include "misc.h"
 
 #ifdef Q_OS_WIN
