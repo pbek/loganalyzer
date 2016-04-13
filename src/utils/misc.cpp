@@ -17,12 +17,23 @@
 #include <QDir>
 #include <QUrl>
 #include <QRegularExpression>
+#include <QtCore/QCoreApplication>
+#include <QtWidgets/QApplication>
 #include "misc.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
 
+static struct { const char *source; const char *comment; } units[] = {
+        QT_TRANSLATE_NOOP3("misc", "B", "bytes"),
+        QT_TRANSLATE_NOOP3("misc", "KiB", "kibibytes (1024 bytes)"),
+        QT_TRANSLATE_NOOP3("misc", "MiB", "mebibytes (1024 kibibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "GiB", "gibibytes (1024 mibibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "TiB", "tebibytes (1024 gibibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "PiB", "pebibytes (1024 tebibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "EiB", "exbibytes (1024 pebibytes)")
+};
 
 /**
  * Open the given path with an appropriate application
@@ -181,4 +192,78 @@ QString Utils::Misc::appendIfDoesNotEndWith(
     }
 
     return text;
+}
+
+/**
+ * (thank you to qBittorrent for the inspiration)
+ */
+QString Utils::Misc::unitString(Utils::Misc::SizeUnit unit)
+{
+    return QCoreApplication::translate(
+            "misc",
+            units[static_cast<int>(unit)].source,
+            units[static_cast<int>(unit)].comment);
+}
+
+/**
+ * Returns best user-friendly storage unit (B, KiB, MiB, GiB, TiB, ...)
+ *
+ * use Binary prefix standards from IEC 60027-2
+ * see http://en.wikipedia.org/wiki/Kilobyte
+ * value must be given in bytes
+ * to send numbers instead of strings with suffixes
+ * (thank you to qBittorrent for the inspiration)
+ */
+bool Utils::Misc::friendlyUnit(
+        qint64 sizeInBytes, qreal &val, Utils::Misc::SizeUnit &unit)
+{
+    if (sizeInBytes < 0) return false;
+
+    int i = 0;
+    qreal rawVal = static_cast<qreal>(sizeInBytes);
+
+    while ((rawVal >= 1024.) && (i <= static_cast<int>(SizeUnit::ExbiByte))) {
+        rawVal /= 1024.;
+        ++i;
+    }
+    val = rawVal;
+    unit = static_cast<SizeUnit>(i);
+    return true;
+}
+
+/**
+ * (thank you to qBittorrent for the inspiration)
+ */
+QString Utils::Misc::friendlyUnit(qint64 bytesValue, bool isSpeed)
+{
+    SizeUnit unit;
+    qreal friendlyVal;
+    if (!friendlyUnit(bytesValue, friendlyVal, unit)) {
+        return QCoreApplication::translate("misc", "Unknown", "Unknown (size)");
+    }
+    QString ret;
+    if (unit == SizeUnit::Byte)
+        ret = QString::number(bytesValue) + " " + unitString(unit);
+    else
+        ret = fromDouble(friendlyVal, 1) + " " + unitString(unit);
+    if (isSpeed)
+        ret += QCoreApplication::translate("misc", "/s", "per second");
+    return ret;
+}
+
+/**
+ * To send numbers instead of strings with suffixes
+ * (thank you to qBittorrent for the inspiration)
+ */
+QString Utils::Misc::fromDouble(double n, int precision)
+{
+    /* HACK because QString rounds up. Eg QString::number(0.999*100.0, 'f' ,1) == 99.9
+    ** but QString::number(0.9999*100.0, 'f' ,1) == 100.0 The problem manifests when
+    ** the number has more digits after the decimal than we want AND the digit after
+    ** our 'wanted' is >= 5. In this case our last digit gets rounded up. So for each
+    ** precision we add an extra 0 behind 1 in the below algorithm. */
+
+    double prec = std::pow(10.0, precision);
+    return QLocale::system().toString(
+            std::floor(n * prec) / prec, 'f', precision);
 }

@@ -123,17 +123,71 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item row="2" column="0">
+           <item row="4" column="0">
             <widget class="QListWidget" name="eZPublishLocalFilesListWidget"/>
            </item>
-           <item row="0" column="0">
-            <widget class="QListWidget" name="eZPublishRemoteFilesListWidget"/>
-           </item>
            <item row="1" column="0">
+            <widget class="QListWidget" name="eZPublishRemoteFilesListWidget">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::ExtendedSelection</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="logFileSourceRemoteDownloadButton">
+             <property name="toolTip">
+              <string>Download selected files</string>
+             </property>
+             <property name="text">
+              <string>&amp;Download</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
             <widget class="QPushButton" name="logFileSourceRemoteReloadButton">
+             <property name="toolTip">
+              <string>Reload remote file list</string>
+             </property>
              <property name="text">
               <string>&amp;Reload</string>
              </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QTableWidget" name="eZPublishRemoteFilesTableWidget">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <attribute name="horizontalHeaderHighlightSections">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderHighlightSections">
+              <bool>false</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string>File name</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>File size</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Download</string>
+              </property>
+             </column>
             </widget>
            </item>
           </layout>

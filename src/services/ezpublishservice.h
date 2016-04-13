@@ -16,6 +16,8 @@ public:
 
     void loadLogFileList(MainWindow *mainWindow);
 
+    void downloadLogFile(MainWindow *mainWindow, QString fileName);
+
 private:
 
     QNetworkAccessManager *networkManager;
@@ -23,6 +25,7 @@ private:
     static const QString rootPath;
     static const QString format;
     QString logFileListPath;
+    QString logFileDownloadPath;
 
     void addAuthHeader(QNetworkRequest *r);
 
@@ -30,6 +33,8 @@ private:
 
     void showEzPublishServerErrorMessage(
             QString message = QString(""), bool withSettingsButton = true);
+
+    QString getHeaderValue(QNetworkReply *reply, QString key);
 
 signals:
 

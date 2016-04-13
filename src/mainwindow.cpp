@@ -15,6 +15,8 @@
 #include <dialogs/settingsdialog.h>
 #include <services/databaseservice.h>
 #include <services/ezpublishservice.h>
+#include <QtCore/QJsonObject>
+#include <utils/misc.h>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -1214,6 +1216,7 @@ void MainWindow::changeLogFileSource(LogFileSource logFileSource)
         setLocalDirectoryWatcherPath(localPath);
         loadLocalLogFileSourceFiles(localPath);
     } else if (type == LogFileSource::EzPublishServerType) {
+        on_logFileSourceRemoteReloadButton_clicked();
     }
 }
 
@@ -1285,8 +1288,97 @@ void MainWindow::addPathToFileListWidget(QString path)
     }
 }
 
+/**
+ * Loads the log file list from the server and calls
+ * fillEzPublishRemoteFilesListWidget with the results
+ */
 void MainWindow::on_logFileSourceRemoteReloadButton_clicked()
 {
+    ui->statusBar->showMessage(tr("Fetching file list from remote server"));
     EzPublishService *service = new EzPublishService(this);
     service->loadLogFileList(this);
+}
+
+/**
+ * Shows the files from a string list in the eZPublishRemoteFilesListWidget
+ */
+void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
+{
+    ui->eZPublishRemoteFilesListWidget->clear();
+    ui->eZPublishRemoteFilesTableWidget->clear();
+
+    ui->eZPublishRemoteFilesTableWidget->setRowCount(fileList.count());
+
+    QTableWidgetItem *nameHeader = new QTableWidgetItem(tr("File name"));
+    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(0, nameHeader);
+
+    QTableWidgetItem *sizeHeader = new QTableWidgetItem(tr("File size"));
+    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(1, sizeHeader);
+
+    QTableWidgetItem *downloadHeader = new QTableWidgetItem(tr("Download"));
+    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(
+            2, downloadHeader);
+
+    ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
+            ->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
+            ->setSectionResizeMode(1, QHeaderView::Interactive);
+//            setResizeMode( 0, QHeaderView::Stretch );
+
+    int i = 0;
+    Q_FOREACH(QJsonValue jsonValue, fileList) {
+            QJsonObject obj = jsonValue.toObject();
+            QString fileName = obj.value("file_name").toString();
+            int fileSize = obj.value("file_size").toInt();
+
+            QListWidgetItem *item = new QListWidgetItem(fileName);
+            item->setToolTip(
+                    tr("<strong>%1</strong><br />size: %2").arg(
+                            fileName, Utils::Misc::friendlyUnit(fileSize)));
+
+            ui->eZPublishRemoteFilesListWidget->addItem(item);
+
+            QTableWidgetItem *nameItem = new QTableWidgetItem(fileName);
+            ui->eZPublishRemoteFilesTableWidget->setItem(i, 0, nameItem);
+
+            // we use our custom table widget item for our custom sorting
+            // mechanism
+            FileSizeTableWidgetItem *sizeItem = new FileSizeTableWidgetItem();
+            sizeItem->setData(Qt::UserRole, fileSize);
+            sizeItem->setText(Utils::Misc::friendlyUnit(fileSize));
+            sizeItem->setFlags(sizeItem->flags() & ~Qt::ItemIsSelectable);
+            ui->eZPublishRemoteFilesTableWidget->setItem(i, 1, sizeItem);
+
+            QTableWidgetItem *downloadItem = new QTableWidgetItem();
+            downloadItem->setData(Qt::UserRole, fileName);
+            downloadItem->setCheckState(Qt::Unchecked);
+            downloadItem->setFlags(
+                    (downloadItem->flags() | Qt::ItemIsUserCheckable)
+                    & ~Qt::ItemIsSelectable);
+            ui->eZPublishRemoteFilesTableWidget->setItem(i, 2, downloadItem);
+
+            i++;
+        }
+
+    ui->statusBar->clearMessage();
+}
+
+/**
+ * Downloads the selected log files from the eZ Publish server
+ */
+void MainWindow::on_logFileSourceRemoteDownloadButton_clicked()
+{
+    ui->statusBar->showMessage(tr("Downloading log files from remote server"),
+                               2000);
+    EzPublishService *service = new EzPublishService(this);
+
+//    Q_FOREACH(QListWidgetItem *item,
+//               ui->eZPublishRemoteFilesListWidget->selectedItems() ) {
+//            service->downloadLogFile(this, item->text());
+//        }
+
+    Q_FOREACH(QTableWidgetItem *item,
+               ui->eZPublishRemoteFilesTableWidget->selectedItems() ) {
+            service->downloadLogFile(this, item->text());
+        }
 }

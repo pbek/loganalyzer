@@ -6,6 +6,8 @@
 #include <QListWidgetItem>
 #include <QSettings>
 #include <QFileSystemWatcher>
+#include <QJsonArray>
+#include <QTableWidgetItem>
 #include <entities/logfilesource.h>
 #include "qtexteditsearchwidget.h"
 
@@ -34,6 +36,8 @@ public:
     ~MainWindow();
 
     void openSettingsDialog(int tab = 0);
+
+    void fillEzPublishRemoteFilesListWidget(QJsonArray fileList);
 
 private slots:
     void dragEnterEvent(QDragEnterEvent *e);
@@ -101,6 +105,8 @@ private slots:
     void loadLocalLogFileSourceFiles(QString localPath);
 
     void on_logFileSourceRemoteReloadButton_clicked();
+
+    void on_logFileSourceRemoteDownloadButton_clicked();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -176,6 +182,15 @@ private:
     void addPathToFileListWidget(QString path);
 
     void setLocalDirectoryWatcherPath(QString path);
+};
+
+
+class FileSizeTableWidgetItem : public QTableWidgetItem {
+public:
+    bool operator <(const QTableWidgetItem &other) const
+    {
+        return data(Qt::UserRole).toInt() < other.data(Qt::UserRole).toInt();
+    }
 };
 
 #endif // MAINWINDOW_H

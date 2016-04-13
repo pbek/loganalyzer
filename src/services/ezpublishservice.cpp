@@ -4,7 +4,10 @@
 #include <QUrlQuery>
 #include <QMessageBox>
 #include <QBuffer>
+#include <QNetworkReply>
+#include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <utils/misc.h>
 #include <dialogs/settingsdialog.h>
 #include "cryptoservice.h"
@@ -15,6 +18,7 @@ const QString EzPublishService::rootPath =
 EzPublishService::EzPublishService(QObject *parent)
         : QObject(parent) {
     logFileListPath = rootPath + "get_log_file_list";
+    logFileDownloadPath = rootPath + "get_log_file";
 
     networkManager = new QNetworkAccessManager();
 
@@ -46,9 +50,21 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             qDebug() << "Reply from log file list";
             qDebug() << data;
 
-            // TODO(pbek): put file names into a string list and output them
-            // in the list widget
-            qDebug() << QJsonDocument::fromJson(data.toUtf8());
+            // show the files in the main window
+            QJsonArray list =  QJsonDocument::fromJson(data.toUtf8()).array();
+            mainWindow->fillEzPublishRemoteFilesListWidget(list);
+            return;
+        } else if (reply->url().path().endsWith(logFileDownloadPath)) {
+
+            qDebug() << "Reply from log file download";
+            qDebug() << data;
+//            qDebug() << reply->rawHeaderPairs();
+
+            QString fileName = getHeaderValue(reply, "X-FILE-NAME");
+            int fileSize = getHeaderValue(reply, "X-FILE-SIZE").toInt();
+
+            qDebug() << __func__ << " - 'fileName': " << fileName;
+            qDebug() << __func__ << " - 'fileSize': " << fileSize;
 
             return;
         }
@@ -59,6 +75,19 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
 
         qWarning() << "network error: " << reply->errorString();
     }
+}
+
+/**
+ * Returns a value for a key from the raw header of a QNetworkReply
+ */
+QString EzPublishService::getHeaderValue(QNetworkReply *reply, QString key) {
+    Q_FOREACH(QNetworkReply::RawHeaderPair pair, reply->rawHeaderPairs()) {
+            if (key == pair.first) {
+                return pair.second;
+            }
+        }
+
+    return "";
 }
 
 /**
@@ -86,6 +115,33 @@ void EzPublishService::loadLogFileList(MainWindow *mainWindow) {
 
     QString serverUrl = logFileSource.getEzpServerUrl();
     QUrl url(serverUrl + logFileListPath);
+
+    QNetworkRequest r(url);
+    addAuthHeader(&r);
+
+    QNetworkReply *reply = networkManager->get(r);
+    ignoreSslErrorsIfAllowed(reply);
+}
+
+/**
+ * Downloads a the log file from the active eZ Publish server
+ */
+void EzPublishService::downloadLogFile(MainWindow *mainWindow,
+                                       QString fileName) {
+    this->mainWindow = mainWindow;
+
+    LogFileSource logFileSource = LogFileSource::activeLogFileSource();
+    if (!logFileSource.isEzPublishTypeValid()) {
+        showEzPublishServerErrorMessage();
+        return;
+    }
+
+    QString serverUrl = logFileSource.getEzpServerUrl();
+    QUrl url(serverUrl + logFileDownloadPath);
+
+    QUrlQuery q;
+    q.addQueryItem("file_name", fileName);
+    url.setQuery(q);
 
     QNetworkRequest r(url);
     addAuthHeader(&r);
