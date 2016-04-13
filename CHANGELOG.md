@@ -3,7 +3,12 @@
 ## 0.8
 - eZ Publish passwords will now be stored (not very securely) encrypted
 - some small styling changes
-- start of implementation of connection to eZ Publish servers
+- remote log files can now be selected in a table and downloaded from there
+    - it's possible to download multiple log files at the same time
+    - a download indicator will be shown for log file in the table
+    - the file size of each remote log file is viewed in the table
+    - the log files in the table can be sorted by name and file size
+    - (downloaded log files will not be stored yet)
 
 ## 0.7
 - you can now configure multiple log file sources in the settings

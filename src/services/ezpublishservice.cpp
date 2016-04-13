@@ -41,12 +41,12 @@ void EzPublishService::slotAuthenticationRequired(
 
 void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
     qDebug() << "Reply from " << reply->url().path();
+    QByteArray arr = reply->readAll();
+    QString data = QString(arr);
 
     if (reply->error() == QNetworkReply::NoError) {
-        QByteArray arr = reply->readAll();
-        QString data = QString(arr);
-
         if (reply->url().path().endsWith(logFileListPath)) {
+
             qDebug() << "Reply from log file list";
             qDebug() << data;
 
@@ -55,16 +55,14 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             mainWindow->fillEzPublishRemoteFilesListWidget(list);
             return;
         } else if (reply->url().path().endsWith(logFileDownloadPath)) {
-
             qDebug() << "Reply from log file download";
-            qDebug() << data;
-//            qDebug() << reply->rawHeaderPairs();
+//            qDebug() << data;
+
+            // TODO(pbek): store local log files
+//            LogFileSource logFileSource = LogFileSource::activeLogFileSource();
 
             QString fileName = getHeaderValue(reply, "X-FILE-NAME");
-            int fileSize = getHeaderValue(reply, "X-FILE-SIZE").toInt();
-
-            qDebug() << __func__ << " - 'fileName': " << fileName;
-            qDebug() << __func__ << " - 'fileSize': " << fileSize;
+            mainWindow->updateEzPublishRemoteFileDownloadStatus(fileName, 100);
 
             return;
         }
@@ -146,8 +144,31 @@ void EzPublishService::downloadLogFile(MainWindow *mainWindow,
     QNetworkRequest r(url);
     addAuthHeader(&r);
 
-    QNetworkReply *reply = networkManager->get(r);
+    reply = networkManager->get(r);
+
+    connect(reply, SIGNAL(downloadProgress(qint64, qint64)),
+            this, SLOT(logFileDownloadProgress(qint64, qint64)));
+
     ignoreSslErrorsIfAllowed(reply);
+}
+
+/**
+ * Show percentage of downloaded log file data
+ */
+void EzPublishService::logFileDownloadProgress(
+        qint64 bytesReceived, qint64 bytesTotal) {
+    Q_UNUSED(bytesTotal);
+
+    if (reply == NULL) {
+        return;
+    }
+
+    QString fileName = getHeaderValue(reply, "X-FILE-NAME");
+    ulong fileSize = getHeaderValue(reply, "X-FILE-SIZE").toULong();
+
+    double percent = 100 * bytesReceived / fileSize;
+
+    mainWindow->updateEzPublishRemoteFileDownloadStatus(fileName, percent);
 }
 
 void EzPublishService::addAuthHeader(QNetworkRequest *r) {

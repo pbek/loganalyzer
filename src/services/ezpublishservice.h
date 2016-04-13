@@ -21,6 +21,7 @@ public:
 private:
 
     QNetworkAccessManager *networkManager;
+    QNetworkReply *reply;
     MainWindow *mainWindow;
     static const QString rootPath;
     static const QString format;
@@ -44,4 +45,6 @@ private slots:
                                     QAuthenticator *authenticator);
 
     void slotReplyFinished(QNetworkReply *);
+
+    void logFileDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 };

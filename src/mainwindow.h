@@ -37,7 +37,9 @@ public:
 
     void openSettingsDialog(int tab = 0);
 
-    void fillEzPublishRemoteFilesListWidget(QJsonArray fileList);
+    void fillEzPublishRemoteFilesListWidget(QJsonArray fileDataList);
+
+    void updateEzPublishRemoteFileDownloadStatus(QString fileName, double percent);
 
 private slots:
     void dragEnterEvent(QDragEnterEvent *e);

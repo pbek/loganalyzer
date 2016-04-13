@@ -1302,11 +1302,11 @@ void MainWindow::on_logFileSourceRemoteReloadButton_clicked()
 /**
  * Shows the files from a string list in the eZPublishRemoteFilesListWidget
  */
-void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
+void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileDataList)
 {
     ui->eZPublishRemoteFilesTableWidget->clear();
 
-    ui->eZPublishRemoteFilesTableWidget->setRowCount(fileList.count());
+    ui->eZPublishRemoteFilesTableWidget->setRowCount(fileDataList.count());
 
     QTableWidgetItem *nameHeader = new QTableWidgetItem(tr("File name"));
     ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(0, nameHeader);
@@ -1322,10 +1322,9 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
             ->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
             ->setSectionResizeMode(1, QHeaderView::Interactive);
-//            setResizeMode( 0, QHeaderView::Stretch );
 
     int i = 0;
-    Q_FOREACH(QJsonValue jsonValue, fileList) {
+    Q_FOREACH(QJsonValue jsonValue, fileDataList) {
             QJsonObject obj = jsonValue.toObject();
             QString fileName = obj.value("file_name").toString();
             int fileSize = obj.value("file_size").toInt();
@@ -1348,16 +1347,45 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
 
             QTableWidgetItem *downloadItem = new QTableWidgetItem();
             downloadItem->setData(Qt::UserRole, fileName);
-            downloadItem->setCheckState(Qt::Unchecked);
-            downloadItem->setFlags(
-                    (downloadItem->flags() | Qt::ItemIsUserCheckable)
-                    & ~Qt::ItemIsSelectable);
+            downloadItem->setFlags(downloadItem->flags()
+                                   & ~Qt::ItemIsSelectable);
             ui->eZPublishRemoteFilesTableWidget->setItem(i, 2, downloadItem);
 
             i++;
         }
 
     ui->statusBar->clearMessage();
+}
+
+
+/**
+ * Updates the download indicator of log file downloads
+ */
+void MainWindow::updateEzPublishRemoteFileDownloadStatus(
+        QString fileName, double percent)
+{
+    for (int i = 0; i < ui->eZPublishRemoteFilesTableWidget->rowCount(); i++) {
+        QTableWidgetItem *downloadItem =
+                ui->eZPublishRemoteFilesTableWidget->item(i, 2);
+
+        if (fileName != downloadItem->data(Qt::UserRole)) {
+            continue;
+        }
+
+        downloadItem->setText(QString("%1 %").arg(QString::number(percent)));
+
+        QTableWidgetItem *nameItem =
+                ui->eZPublishRemoteFilesTableWidget->item(i, 0);
+
+        // disable selecting while downloading
+        if (percent < 100) {
+            nameItem->setFlags(downloadItem->flags() & ~Qt::ItemIsSelectable);
+        } else {
+            nameItem->setFlags(downloadItem->flags() | Qt::ItemIsSelectable);
+        }
+
+        break;
+    }
 }
 
 /**
