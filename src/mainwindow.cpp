@@ -1304,7 +1304,6 @@ void MainWindow::on_logFileSourceRemoteReloadButton_clicked()
  */
 void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
 {
-    ui->eZPublishRemoteFilesListWidget->clear();
     ui->eZPublishRemoteFilesTableWidget->clear();
 
     ui->eZPublishRemoteFilesTableWidget->setRowCount(fileList.count());
@@ -1320,7 +1319,7 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
             2, downloadHeader);
 
     ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
-            ->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+            ->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
             ->setSectionResizeMode(1, QHeaderView::Interactive);
 //            setResizeMode( 0, QHeaderView::Stretch );
@@ -1335,8 +1334,6 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileList)
             item->setToolTip(
                     tr("<strong>%1</strong><br />size: %2").arg(
                             fileName, Utils::Misc::friendlyUnit(fileSize)));
-
-            ui->eZPublishRemoteFilesListWidget->addItem(item);
 
             QTableWidgetItem *nameItem = new QTableWidgetItem(fileName);
             ui->eZPublishRemoteFilesTableWidget->setItem(i, 0, nameItem);

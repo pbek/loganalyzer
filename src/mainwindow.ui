@@ -35,7 +35,7 @@
      <widget class="QFrame" name="logFileSourceFrame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>1</horstretch>
+        <horstretch>2</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
@@ -123,17 +123,10 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item row="4" column="0">
+           <item row="3" column="0">
             <widget class="QListWidget" name="eZPublishLocalFilesListWidget"/>
            </item>
-           <item row="1" column="0">
-            <widget class="QListWidget" name="eZPublishRemoteFilesListWidget">
-             <property name="selectionMode">
-              <enum>QAbstractItemView::ExtendedSelection</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
+           <item row="2" column="0">
             <widget class="QPushButton" name="logFileSourceRemoteDownloadButton">
              <property name="toolTip">
               <string>Download selected files</string>
@@ -153,7 +146,7 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="1" column="0">
             <widget class="QTableWidget" name="eZPublishRemoteFilesTableWidget">
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
