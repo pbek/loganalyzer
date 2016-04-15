@@ -102,13 +102,13 @@ private slots:
 
     void on_localFileUsePushButton_clicked();
 
-    void on_localFilesListWidget_itemDoubleClicked(QListWidgetItem *item);
-
     void loadLocalLogFileSourceFiles(QString localPath);
 
     void on_logFileSourceRemoteReloadButton_clicked();
 
     void on_logFileSourceRemoteDownloadButton_clicked();
+
+    void on_localFilesTableWidget_doubleClicked(const QModelIndex &index);
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -1243,14 +1243,42 @@ void MainWindow::loadLocalLogFileSourceFiles(QString localPath)
 
     QStringList files = dir.entryList(filters, QDir::Files, QDir::Name);
 
-    ui->localFilesListWidget->clear();
+    ui->localFilesTableWidget->clear();
+
+    ui->localFilesTableWidget->setRowCount(files.count());
+
+    QTableWidgetItem *nameHeader = new QTableWidgetItem(tr("File name"));
+    ui->localFilesTableWidget->setHorizontalHeaderItem(0, nameHeader);
+
+    QTableWidgetItem *sizeHeader = new QTableWidgetItem(tr("File size"));
+    ui->localFilesTableWidget->setHorizontalHeaderItem(1, sizeHeader);
+
+    ui->localFilesTableWidget->horizontalHeader()
+            ->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->localFilesTableWidget->horizontalHeader()
+            ->setSectionResizeMode(1, QHeaderView::Interactive);
+
+    int i = 0;
     Q_FOREACH(QString fileName, files) {
-            QListWidgetItem *item = new QListWidgetItem(fileName);
             QString filePath =
                     dir.absolutePath() + QDir::separator() + fileName;
-            item->setData(Qt::UserRole, filePath);
-            item->setToolTip(filePath);
-            ui->localFilesListWidget->addItem(item);
+            QFileInfo fileInfo(filePath);
+            qint64 fileSize = fileInfo.size();
+
+            QTableWidgetItem *nameItem = new QTableWidgetItem(fileName);
+            nameItem->setData(Qt::UserRole, filePath);
+            nameItem->setToolTip(filePath);
+            ui->localFilesTableWidget->setItem(i, 0, nameItem);
+
+            // we use our custom table widget item for our custom sorting
+            // mechanism
+            FileSizeTableWidgetItem *sizeItem = new FileSizeTableWidgetItem();
+            sizeItem->setData(Qt::UserRole, fileSize);
+            sizeItem->setText(Utils::Misc::friendlyUnit(fileSize));
+            sizeItem->setFlags(sizeItem->flags() & ~Qt::ItemIsSelectable);
+            ui->localFilesTableWidget->setItem(i, 1, sizeItem);
+
+            i++;
         }
 }
 
@@ -1259,8 +1287,8 @@ void MainWindow::loadLocalLogFileSourceFiles(QString localPath)
  */
 void MainWindow::on_localFileUsePushButton_clicked()
 {
-    Q_FOREACH(QListWidgetItem *item,
-              ui->localFilesListWidget->selectedItems()) {
+    Q_FOREACH(QTableWidgetItem *item,
+              ui->localFilesTableWidget->selectedItems()) {
             QString filePath = item->data(Qt::UserRole).toString();
             addPathToFileListWidget(filePath);
         }
@@ -1269,11 +1297,13 @@ void MainWindow::on_localFileUsePushButton_clicked()
 /**
  * Adds a single local file to the file list
  */
-void MainWindow::on_localFilesListWidget_itemDoubleClicked(
-        QListWidgetItem *item)
+void MainWindow::on_localFilesTableWidget_doubleClicked(
+        const QModelIndex &index)
 {
-    QString filePath = item->data(Qt::UserRole).toString();
-    addPathToFileListWidget(filePath);
+    QString filePath = index.data(Qt::UserRole).toString();
+    qDebug() << __func__ << " - 'filePath': " << filePath;
+
+//    addPathToFileListWidget(filePath);
 }
 
 /**
@@ -1328,11 +1358,6 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileDataList)
             QJsonObject obj = jsonValue.toObject();
             QString fileName = obj.value("file_name").toString();
             int fileSize = obj.value("file_size").toInt();
-
-            QListWidgetItem *item = new QListWidgetItem(fileName);
-            item->setToolTip(
-                    tr("<strong>%1</strong><br />size: %2").arg(
-                            fileName, Utils::Misc::friendlyUnit(fileSize)));
 
             QTableWidgetItem *nameItem = new QTableWidgetItem(fileName);
             ui->eZPublishRemoteFilesTableWidget->setItem(i, 0, nameItem);
