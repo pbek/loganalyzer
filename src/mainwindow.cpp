@@ -1208,14 +1208,14 @@ void MainWindow::changeLogFileSource(LogFileSource logFileSource)
     int type = logFileSource.getType();
     ui->logFileSourceStackedWidget->setCurrentIndex(type - 1);
 
-    // remove all watcher paths
-    setLocalDirectoryWatcherPath("");
+    QString localPath = logFileSource.getLocalPath();
+    setLocalDirectoryWatcherPath(localPath);
+    loadLocalLogFileSourceFiles(localPath);
 
     if (type == LogFileSource::LocalType) {
-        QString localPath = logFileSource.getLocalPath();
-        setLocalDirectoryWatcherPath(localPath);
-        loadLocalLogFileSourceFiles(localPath);
+        ui->logFileSourceStackedWidget->hide();
     } else if (type == LogFileSource::EzPublishServerType) {
+        ui->logFileSourceStackedWidget->show();
         on_logFileSourceRemoteReloadButton_clicked();
     }
 }

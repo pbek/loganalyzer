@@ -8,7 +8,6 @@
     - a download indicator will be shown for log file in the table
     - the file size of each remote log file is viewed in the table
     - the log files in the table can be sorted by name and file size
-    - (downloaded log files will not be stored yet)
 
 ## 0.7
 - you can now configure multiple log file sources in the settings

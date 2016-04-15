@@ -22,5 +22,7 @@
         <file>media/folder-new.svg</file>
         <file>media/document-open.svg</file>
         <file>media/list-add.svg</file>
+        <file>media/edit-download.svg</file>
+        <file>media/folder-sync.svg</file>
     </qresource>
 </RCC>

@@ -24,9 +24,9 @@ private:
     QNetworkReply *reply;
     MainWindow *mainWindow;
     static const QString rootPath;
-    static const QString format;
     QString logFileListPath;
     QString logFileDownloadPath;
+    LogFileSource logFileSource;
 
     void addAuthHeader(QNetworkRequest *r);
 

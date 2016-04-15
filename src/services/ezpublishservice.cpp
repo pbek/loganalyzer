@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QDir>
 #include <utils/misc.h>
 #include <dialogs/settingsdialog.h>
 #include "cryptoservice.h"
@@ -29,6 +30,8 @@ EzPublishService::EzPublishService(QObject *parent)
                                                      QAuthenticator *)));
     QObject::connect(networkManager, SIGNAL(finished(QNetworkReply *)), this,
                      SLOT(slotReplyFinished(QNetworkReply *)));
+
+    logFileSource = LogFileSource::activeLogFileSource();
 }
 
 void EzPublishService::slotAuthenticationRequired(
@@ -46,9 +49,8 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
 
     if (reply->error() == QNetworkReply::NoError) {
         if (reply->url().path().endsWith(logFileListPath)) {
-
             qDebug() << "Reply from log file list";
-            qDebug() << data;
+//            qDebug() << data;
 
             // show the files in the main window
             QJsonArray list =  QJsonDocument::fromJson(data.toUtf8()).array();
@@ -58,11 +60,31 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             qDebug() << "Reply from log file download";
 //            qDebug() << data;
 
-            // TODO(pbek): store local log files
-//            LogFileSource logFileSource = LogFileSource::activeLogFileSource();
-
             QString fileName = getHeaderValue(reply, "X-FILE-NAME");
             mainWindow->updateEzPublishRemoteFileDownloadStatus(fileName, 100);
+
+            // generate local log file path
+            QString localFilePath =
+                    logFileSource.getLocalPath() + QDir::separator() +
+                    logFileSource.getName() + " - " +
+                    QDateTime::currentDateTime().toString("yyyyMMddhhmmss") +
+                    " - " + fileName;
+
+            qDebug() << __func__ << " - 'localFilePath': " << localFilePath;
+
+            QFile file(localFilePath);
+
+            // store local log file
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QTextStream out(&file);
+                out << data;
+                file.flush();
+                file.close();
+            } else {
+                qWarning() <<
+                    tr("could not store to file: %1").arg(localFilePath);
+                qWarning() << file.errorString();
+            }
 
             return;
         }
@@ -71,7 +93,7 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             showEzPublishServerErrorMessage(reply->errorString());
         }
 
-        qWarning() << "network error: " << reply->errorString();
+        qWarning() << tr("network error: %1").arg(reply->errorString());
     }
 }
 
