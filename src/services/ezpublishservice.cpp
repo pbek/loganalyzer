@@ -81,9 +81,11 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
                 file.flush();
                 file.close();
             } else {
-                qWarning() <<
-                    tr("could not store to file: %1").arg(localFilePath);
-                qWarning() << file.errorString();
+                QMessageBox::critical(
+                        0, tr("Could not store to file"),
+                        tr("Could not store to file:\n%1\n\n%2\n\nIs your "
+                                   "local path writable?")
+                                .arg(localFilePath, file.errorString()));
             }
 
             return;
