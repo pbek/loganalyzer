@@ -184,6 +184,8 @@ private:
     void addPathToFileListWidget(QString path);
 
     void setLocalDirectoryWatcherPath(QString path);
+
+    bool removeLocalLogFiles();
 };
 
 

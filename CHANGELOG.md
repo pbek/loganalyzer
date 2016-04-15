@@ -1,13 +1,19 @@
 # LogAnalyzer Changelog
 
 ## 0.8
-- eZ Publish passwords will now be stored (not very securely) encrypted
-- some small styling changes
+- eZ Publish passwords will now be stored encrypted (but not very securely)
+- some styling changes
 - remote log files can now be selected in a table and downloaded from there
     - it's possible to download multiple log files at the same time
-    - a download indicator will be shown for log file in the table
-    - the file size of each remote log file is viewed in the table
-    - the log files in the table can be sorted by name and file size
+    - a download indicator (percentage) will be shown for log file in the table
+    - the file size of each remote and local log file is viewed in their tables
+    - the remote and local log files in the table can be sorted by name and 
+      file size
+    - local log files can be removed from the file system in the table by 
+      pressing <kbd>Del</kbd>
+        - Note: removed local files are not yet removed from the global log 
+          file list (this list will be a table too in the future) 
+    - Note: log files are not yet compressed before downloading
 
 ## 0.7
 - you can now configure multiple log file sources in the settings

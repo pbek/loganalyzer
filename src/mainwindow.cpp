@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ignorePatternsListWidget->installEventFilter(this);
     ui->reportPatternsListWidget->installEventFilter(this);
     ui->fileTextEdit->installEventFilter(this);
+    ui->localFilesTableWidget->installEventFilter(this);
     setupMainSplitter();
     setupLeftSplitter();
     readSettings();
@@ -351,6 +352,10 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
             if (keyEvent->key() == Qt::Key_Delete) {
                 return removeLogFiles();
             }
+        } else if (obj == ui->localFilesTableWidget) {
+            if (keyEvent->key() == Qt::Key_Delete) {
+                return removeLocalLogFiles();
+            }
         } else if (obj == ui->fileTextEdit) {
             if ((keyEvent->key() == Qt::Key_Escape) &&
                     _searchWidget->isVisible()) {
@@ -422,7 +427,7 @@ bool MainWindow::removeSelectedReportPatterns() {
 }
 
 /**
- * Removes all selected log files
+ * Removes all selected log files from the list
  */
 bool MainWindow::removeLogFiles() {
     int selectedItemsCount =
@@ -450,6 +455,47 @@ bool MainWindow::removeLogFiles() {
 
         // update the line count
         updateLineCount();
+
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Removes all selected local log files from the file system
+ */
+bool MainWindow::removeLocalLogFiles() {
+    int selectedItemsCount =
+            ui->localFilesTableWidget->selectedItems().size();
+
+    if (selectedItemsCount == 0) {
+        return false;
+    }
+
+    if (QMessageBox::information(
+                    NULL,
+                    tr("Remove selected files"),
+                    tr("Remove <strong>%n</strong> file(s) from the "
+                               "filesystem?",
+                       "", selectedItemsCount),
+                    tr("&Remove"), tr("&Cancel"), QString::null,
+                    0, 1) == 0) {
+        const QSignalBlocker blocker(this->ui->fileListWidget);
+        Q_UNUSED(blocker);
+
+        // remove all selected log files from the file system
+        Q_FOREACH(QTableWidgetItem *item,
+                  ui->localFilesTableWidget->selectedItems()) {
+                QString filePath = item->data(Qt::UserRole).toString();
+                QFile file(filePath);
+                if (file.exists()) {
+
+                    if (file.remove()) {
+                        // TODO(pbek): remove item from ui->fileListWidget
+                    }
+                }
+            }
 
         return true;
     }
@@ -1244,7 +1290,6 @@ void MainWindow::loadLocalLogFileSourceFiles(QString localPath)
     QStringList files = dir.entryList(filters, QDir::Files, QDir::Name);
 
     ui->localFilesTableWidget->clear();
-
     ui->localFilesTableWidget->setRowCount(files.count());
 
     QTableWidgetItem *nameHeader = new QTableWidgetItem(tr("File name"));
@@ -1303,7 +1348,7 @@ void MainWindow::on_localFilesTableWidget_doubleClicked(
     QString filePath = index.data(Qt::UserRole).toString();
     qDebug() << __func__ << " - 'filePath': " << filePath;
 
-//    addPathToFileListWidget(filePath);
+    addPathToFileListWidget(filePath);
 }
 
 /**

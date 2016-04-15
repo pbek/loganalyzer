@@ -28,12 +28,12 @@
 
 static struct { const char *source; const char *comment; } units[] = {
         QT_TRANSLATE_NOOP3("misc", "B", "bytes"),
-        QT_TRANSLATE_NOOP3("misc", "KiB", "kibibytes (1024 bytes)"),
-        QT_TRANSLATE_NOOP3("misc", "MiB", "mebibytes (1024 kibibytes)"),
-        QT_TRANSLATE_NOOP3("misc", "GiB", "gibibytes (1024 mibibytes)"),
-        QT_TRANSLATE_NOOP3("misc", "TiB", "tebibytes (1024 gibibytes)"),
-        QT_TRANSLATE_NOOP3("misc", "PiB", "pebibytes (1024 tebibytes)"),
-        QT_TRANSLATE_NOOP3("misc", "EiB", "exbibytes (1024 pebibytes)")
+        QT_TRANSLATE_NOOP3("misc", "kB", "kibibytes (1024 bytes)"),
+        QT_TRANSLATE_NOOP3("misc", "MB", "mebibytes (1024 kibibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "GB", "gibibytes (1024 mibibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "TB", "tebibytes (1024 gibibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "PB", "pebibytes (1024 tebibytes)"),
+        QT_TRANSLATE_NOOP3("misc", "EB", "exbibytes (1024 pebibytes)")
 };
 
 /**
