@@ -1,5 +1,11 @@
 # LogAnalyzer Changelog
 
+## 16.04.2
+- **switched LogAnalyzer release versioning** to a more *rolling release 
+  style*, so it doesn't get confused with semantic versioning
+    - `<year of release>.<month of release>.<release number in the month>` 
+- implemented extracting of gz-compressed log files 
+
 ## 0.8
 - eZ Publish passwords will now be stored encrypted (but not very securely)
 - some styling changes

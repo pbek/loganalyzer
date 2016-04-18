@@ -19,6 +19,7 @@ SOURCES += main.cpp \
         mainwindow.cpp \
         qtexteditsearchwidget.cpp \
         libraries/simplecrypt/simplecrypt.cpp \
+        libraries/miniz/tinfl.c \
         services/cryptoservice.cpp \
         services/ezpublishservice.cpp \
         utils/misc.cpp \

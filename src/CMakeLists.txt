@@ -43,6 +43,7 @@ set(SOURCE_FILES
     dialogs/settingsdialog.cpp
     libraries/simplecrypt/simplecrypt.h
     libraries/simplecrypt/simplecrypt.cpp
+    libraries/miniz/tinfl.c
     services/cryptoservice.h
     services/cryptoservice.cpp
     services/ezpublishservice.h
@@ -62,6 +63,9 @@ include_directories(
         ${Qt5Network_INCLUDES}
 )
 
+#include_directories(${PROJECT_SOURCE_DIR}/libraries/miniz/.)
+
+
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(
         ${Qt5Widgets_DEFINITIONS}
@@ -78,6 +82,12 @@ set(CMAKE_CXX_FLAGS "${Qt5Sql_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "${Qt5Svg_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "${Qt5Network_EXECUTABLE_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS "-std=c++0x")
+
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra")
+#set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
+#set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 # The Qt5Widgets_LIBRARIES variable also includes QtGui and QtCore
 target_link_libraries(

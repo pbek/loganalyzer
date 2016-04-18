@@ -48,5 +48,6 @@ namespace Utils
         bool friendlyUnit(qint64 sizeInBytes, qreal& val, SizeUnit& unit);
         QString friendlyUnit(qint64 bytesValue, bool isSpeed = false);
         QString fromDouble(double n, int precision);
+        QByteArray gUncompress(const QByteArray &data);
     }
 }

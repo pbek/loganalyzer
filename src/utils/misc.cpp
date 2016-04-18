@@ -21,10 +21,13 @@
 #include <QtWidgets/QApplication>
 #include <cmath>
 #include "misc.h"
+#include "libraries/miniz/tinfl.c"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
+
+
 
 static struct { const char *source; const char *comment; } units[] = {
         QT_TRANSLATE_NOOP3("misc", "B", "bytes"),
@@ -35,6 +38,11 @@ static struct { const char *source; const char *comment; } units[] = {
         QT_TRANSLATE_NOOP3("misc", "PB", "pebibytes (1024 tebibytes)"),
         QT_TRANSLATE_NOOP3("misc", "EB", "exbibytes (1024 pebibytes)")
 };
+
+static tinfl_decompressor inflator;
+
+static QByteArray result(TINFL_LZ_DICT_SIZE, 0);
+
 
 /**
  * Open the given path with an appropriate application
@@ -267,4 +275,50 @@ QString Utils::Misc::fromDouble(double n, int precision)
     double prec = std::pow(10.0, precision);
     return QLocale::system().toString(
             std::floor(n * prec) / prec, 'f', precision);
+}
+
+QByteArray Utils::Misc::gUncompress(QByteArray const& data)
+{
+    mz_uint8 const* inPtr(reinterpret_cast<mz_uint8 const*>(data.data()) + 10);
+
+    tinfl_init(&inflator);
+
+    size_t inAvail(data.size());
+    size_t outTotal(0);
+
+    tinfl_status ret;
+
+    do
+    {
+        size_t inSize(inAvail);
+        size_t outSize(result.size() - outTotal);
+
+        ret = tinfl_decompress(&inflator,
+                               inPtr,
+                               &inSize,
+                               reinterpret_cast<mz_uint8*>(result.data()),
+                               reinterpret_cast<mz_uint8*>(result.data()) + outTotal,
+                               &outSize,
+                               0
+        );
+
+        switch (ret)
+        {
+            case TINFL_STATUS_HAS_MORE_OUTPUT:
+                inAvail -= inSize;
+                inPtr += inSize;
+
+                result.resize(2 * result.size());
+
+            case TINFL_STATUS_DONE:
+                outTotal += outSize;
+                break;
+
+            default:
+                throw std::runtime_error("error decompressing gzipped content");
+        }
+    }
+    while (TINFL_STATUS_DONE != ret);
+
+    return QByteArray::fromRawData(result.data(), outTotal);
 }

@@ -63,6 +63,12 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             QString fileName = getHeaderValue(reply, "X-FILE-NAME");
             mainWindow->updateEzPublishRemoteFileDownloadStatus(fileName, 100);
 
+            // uncompress log file if it was compressed
+            if (fileName.endsWith(".gz")) {
+                data = QString(Utils::Misc::gUncompress(arr));
+                Utils::Misc::removeIfEndsWith(fileName, ".gz");
+            }
+
             // generate local log file path
             QString localFilePath =
                     logFileSource.getLocalPath() + QDir::separator() +
@@ -239,4 +245,3 @@ void EzPublishService::showEzPublishServerErrorMessage(
         QMessageBox::warning(0, headline, text);
     }
 }
-
