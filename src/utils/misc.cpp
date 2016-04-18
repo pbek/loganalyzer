@@ -12,6 +12,7 @@
  *
  */
 
+#include <QtCore>
 #include <QProcess>
 #include <QDesktopServices>
 #include <QDir>
@@ -20,6 +21,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtWidgets/QApplication>
 #include <cmath>
+#include <stdexcept>
 #include "misc.h"
 #include "libraries/miniz/tinfl.c"
 
@@ -288,22 +290,20 @@ QByteArray Utils::Misc::gUncompress(QByteArray const& data)
 
     tinfl_status ret;
 
-    do
-    {
+    do {
         size_t inSize(inAvail);
         size_t outSize(result.size() - outTotal);
 
-        ret = tinfl_decompress(&inflator,
-                               inPtr,
-                               &inSize,
-                               reinterpret_cast<mz_uint8*>(result.data()),
-                               reinterpret_cast<mz_uint8*>(result.data()) + outTotal,
-                               &outSize,
-                               0
-        );
+        ret = tinfl_decompress(
+                &inflator,
+                inPtr,
+                &inSize,
+                reinterpret_cast<mz_uint8*>(result.data()),
+                reinterpret_cast<mz_uint8*>(result.data()) + outTotal,
+                &outSize,
+                0 );
 
-        switch (ret)
-        {
+        switch (ret) {
             case TINFL_STATUS_HAS_MORE_OUTPUT:
                 inAvail -= inSize;
                 inPtr += inSize;
@@ -317,8 +317,7 @@ QByteArray Utils::Misc::gUncompress(QByteArray const& data)
             default:
                 throw std::runtime_error("error decompressing gzipped content");
         }
-    }
-    while (TINFL_STATUS_DONE != ret);
+    } while (TINFL_STATUS_DONE != ret);
 
     return QByteArray::fromRawData(result.data(), outTotal);
 }
