@@ -1564,3 +1564,48 @@ void MainWindow::on_eZPublishRemoteFilesTableWidget_itemDoubleClicked(
     Q_UNUSED(item);
     on_logFileSourceRemoteDownloadButton_clicked();
 }
+
+/**
+ * Shows the context menu for the local log file list
+ */
+void MainWindow::on_localFilesTableWidget_customContextMenuRequested(
+        const QPoint &pos)
+{
+    QPoint globalPos = ui->localFilesTableWidget->mapToGlobal(pos);
+    QMenu menu;
+
+    QAction *addAction = menu.addAction(
+            tr("&Add files to evaluation list"));
+    QAction *removeAction = menu.addAction(
+            tr("&Remove files from file system"));
+
+    QAction *selectedItem = menu.exec(globalPos);
+    if (selectedItem) {
+        if (selectedItem == removeAction) {
+            // remove selected local log files
+            removeLocalLogFiles();
+        } else if (selectedItem == addAction) {
+            // add selected local log files to evaluation list
+            on_localFileUsePushButton_clicked();
+        }
+    }
+}
+
+/**
+ * Shows the context menu for the evaluation log file list
+ */
+void MainWindow::on_fileListWidget_customContextMenuRequested(const QPoint &pos)
+{
+    QPoint globalPos = ui->fileListWidget->mapToGlobal(pos);
+    QMenu menu;
+
+    QAction *removeAction = menu.addAction(tr("&Remove files from list"));
+
+    QAction *selectedItem = menu.exec(globalPos);
+    if (selectedItem) {
+        if (selectedItem == removeAction) {
+            // remove selected log files
+            removeLogFiles();
+        }
+    }
+}

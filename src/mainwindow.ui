@@ -76,6 +76,9 @@
            <height>0</height>
           </size>
          </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
          <property name="toolTip">
           <string>drop log files here</string>
          </property>
@@ -356,7 +359,7 @@ p, li { white-space: pre-wrap; }
        <item row="4" column="0">
         <widget class="QPushButton" name="localFileUsePushButton">
          <property name="toolTip">
-          <string>add the selected files to the log file list</string>
+          <string>Add the selected files to the evaluation log file list</string>
          </property>
          <property name="text">
           <string>&amp;Add selected files</string>
@@ -478,6 +481,9 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="3" column="0">
         <widget class="QTableWidget" name="localFilesTableWidget">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>

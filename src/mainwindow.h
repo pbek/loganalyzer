@@ -125,6 +125,10 @@ private slots:
 
     void on_eZPublishRemoteFilesTableWidget_itemDoubleClicked(QTableWidgetItem *item);
 
+    void on_localFilesTableWidget_customContextMenuRequested(const QPoint &pos);
+
+    void on_fileListWidget_customContextMenuRequested(const QPoint &pos);
+
 protected:
     void closeEvent(QCloseEvent *event);
 
