@@ -13,6 +13,8 @@
   locally
 - the optional prefix for downloaded files was reduced to the log file source
   name
+- the file size and modification time of the files in the evaluation list is 
+  now shown
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 

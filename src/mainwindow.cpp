@@ -1377,7 +1377,14 @@ void MainWindow::on_localFilesTableWidget_doubleClicked(
 void MainWindow::addPathToFileListWidget(QString path)
 {
     if (ui->fileListWidget->findItems(path, Qt::MatchExactly).count() == 0) {
-        ui->fileListWidget->addItem(path);
+        QFileInfo fileInfo(path);
+        qint64 fileSize = fileInfo.size();
+        QDateTime mTime = fileInfo.lastModified();
+
+        QListWidgetItem *item = new QListWidgetItem(path);
+        item->setToolTip(tr("File size: %1\nModified at: %2").arg(
+                Utils::Misc::friendlyUnit(fileSize), mTime.toString()));
+        ui->fileListWidget->addItem(item);
     } else {
         ui->statusBar->showMessage(tr("%1 was already in the list").arg(path));
     }
