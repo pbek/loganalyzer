@@ -15,6 +15,8 @@
   name
 - the file size and modification time of the files in the evaluation list is 
   now shown
+- files that are removed from the local log file table are now also removed 
+  from the evaluation file list widget
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 

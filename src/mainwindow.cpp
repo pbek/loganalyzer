@@ -489,11 +489,21 @@ bool MainWindow::removeLocalLogFiles() {
                   ui->localFilesTableWidget->selectedItems()) {
                 QString filePath = item->data(Qt::UserRole).toString();
                 QFile file(filePath);
-                if (file.exists()) {
 
-                    if (file.remove()) {
-                        // TODO(pbek): remove item from ui->fileListWidget
-                    }
+                // remove the file and check for items in the evaluation file
+                // list widget
+                if (file.exists() && file.remove()) {
+                    // search for items to remove in the evaluation file list
+                    // widget
+                    QList<QListWidgetItem*> items =
+                            ui->fileListWidget->findItems(
+                                    filePath,
+                                    Qt::MatchExactly);
+
+                    // remove found items from the evaluation file list widget
+                    Q_FOREACH(QListWidgetItem *listItem, items) {
+                            delete(listItem);
+                        }
                 }
             }
 
@@ -1382,6 +1392,7 @@ void MainWindow::addPathToFileListWidget(QString path)
         QDateTime mTime = fileInfo.lastModified();
 
         QListWidgetItem *item = new QListWidgetItem(path);
+        item->setData(Qt::UserRole, path);
         item->setToolTip(tr("File size: %1\nModified at: %2").arg(
                 Utils::Misc::friendlyUnit(fileSize), mTime.toString()));
         ui->fileListWidget->addItem(item);
