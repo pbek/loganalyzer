@@ -1184,11 +1184,8 @@ void MainWindow::on_action_Settings_triggered()
 void MainWindow::openSettingsDialog(int tab) {
     // open the settings dialog
     SettingsDialog *dialog = new SettingsDialog(tab, this);
-    int dialogResult = dialog->exec();
+    dialog->exec();
 
-    if (dialogResult == QDialog::Accepted) {
-    }
-    
     // read all relevant settings, that can be set in the settings dialog
     readSettingsFromSettingsDialog();
 }
@@ -1380,50 +1377,80 @@ void MainWindow::on_logFileSourceRemoteReloadButton_clicked()
 void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileDataList)
 {
     ui->eZPublishRemoteFilesTableWidget->clear();
-
     ui->eZPublishRemoteFilesTableWidget->setRowCount(fileDataList.count());
 
     QTableWidgetItem *nameHeader = new QTableWidgetItem(tr("File name"));
-    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(0, nameHeader);
+    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(
+            EzPublishRemoteFileListColumns::FileNameColumn, nameHeader);
 
     QTableWidgetItem *sizeHeader = new QTableWidgetItem(tr("File size"));
-    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(1, sizeHeader);
+    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(
+            EzPublishRemoteFileListColumns::SizeColumn, sizeHeader);
+
+    QTableWidgetItem *mtimeHeader = new QTableWidgetItem(tr("Modified at"));
+    ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(
+            EzPublishRemoteFileListColumns::MTimeColumn, mtimeHeader);
 
     QTableWidgetItem *downloadHeader = new QTableWidgetItem(tr("Download"));
     ui->eZPublishRemoteFilesTableWidget->setHorizontalHeaderItem(
-            2, downloadHeader);
+            EzPublishRemoteFileListColumns::DownloadColumn, downloadHeader);
 
     ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
-            ->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
-            ->setSectionResizeMode(1, QHeaderView::Interactive);
+            ->setSectionResizeMode(
+                    EzPublishRemoteFileListColumns::FileNameColumn,
+                    QHeaderView::Interactive);
+//    ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
+//            ->setSectionResizeMode(
+//                    EzPublishRemoteFileListColumns::SizeColumn,
+//                    QHeaderView::Interactive);
 
     int i = 0;
     Q_FOREACH(QJsonValue jsonValue, fileDataList) {
             QJsonObject obj = jsonValue.toObject();
             QString fileName = obj.value("file_name").toString();
-            int fileSize = obj.value("file_size").toInt();
+            uint fileSize = obj.value("file_size").toVariant().toUInt();
+            uint fileMTime = obj.value("file_mtime").toVariant().toUInt();
 
+            // set the name item
             QTableWidgetItem *nameItem = new QTableWidgetItem(fileName);
-            ui->eZPublishRemoteFilesTableWidget->setItem(i, 0, nameItem);
+            ui->eZPublishRemoteFilesTableWidget->setItem(
+                    i, EzPublishRemoteFileListColumns::FileNameColumn,
+                    nameItem);
 
+            // set the file size item
             // we use our custom table widget item for our custom sorting
-            // mechanism
+            // mechanism of the file size
             FileSizeTableWidgetItem *sizeItem = new FileSizeTableWidgetItem();
             sizeItem->setData(Qt::UserRole, fileSize);
             sizeItem->setText(Utils::Misc::friendlyUnit(fileSize));
             sizeItem->setFlags(sizeItem->flags() & ~Qt::ItemIsSelectable);
-            ui->eZPublishRemoteFilesTableWidget->setItem(i, 1, sizeItem);
+            ui->eZPublishRemoteFilesTableWidget->setItem(
+                    i, EzPublishRemoteFileListColumns::SizeColumn, sizeItem);
 
+            // set the file modification date
+            // we also use FileSizeTableWidgetItem for sorting
+            QDateTime mTime = QDateTime::fromTime_t(fileMTime);
+            QTableWidgetItem *mtimeItem = new FileSizeTableWidgetItem();
+            mtimeItem->setData(Qt::UserRole, fileMTime);
+            mtimeItem->setText(mTime.toString());
+            mtimeItem->setFlags(mtimeItem->flags()
+                                   & ~Qt::ItemIsSelectable);
+            ui->eZPublishRemoteFilesTableWidget->setItem(
+                    i, EzPublishRemoteFileListColumns::MTimeColumn, mtimeItem);
+
+            // set the download item
             QTableWidgetItem *downloadItem = new QTableWidgetItem();
             downloadItem->setData(Qt::UserRole, fileName);
             downloadItem->setFlags(downloadItem->flags()
                                    & ~Qt::ItemIsSelectable);
-            ui->eZPublishRemoteFilesTableWidget->setItem(i, 2, downloadItem);
+            ui->eZPublishRemoteFilesTableWidget->setItem(
+                    i, EzPublishRemoteFileListColumns::DownloadColumn,
+                    downloadItem);
 
             i++;
         }
 
+    ui->eZPublishRemoteFilesTableWidget->resizeColumnsToContents();
     ui->statusBar->clearMessage();
 }
 
@@ -1434,9 +1461,12 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileDataList)
 void MainWindow::updateEzPublishRemoteFileDownloadStatus(
         QString fileName, double percent)
 {
-    for (int i = 0; i < ui->eZPublishRemoteFilesTableWidget->rowCount(); i++) {
+    for (int row = 0;
+         row < ui->eZPublishRemoteFilesTableWidget->rowCount();
+         row++) {
         QTableWidgetItem *downloadItem =
-                ui->eZPublishRemoteFilesTableWidget->item(i, 2);
+                ui->eZPublishRemoteFilesTableWidget->item(
+                        row, EzPublishRemoteFileListColumns::DownloadColumn);
 
         if (fileName != downloadItem->data(Qt::UserRole)) {
             continue;
@@ -1445,13 +1475,29 @@ void MainWindow::updateEzPublishRemoteFileDownloadStatus(
         downloadItem->setText(QString("%1 %").arg(QString::number(percent)));
 
         QTableWidgetItem *nameItem =
-                ui->eZPublishRemoteFilesTableWidget->item(i, 0);
+                ui->eZPublishRemoteFilesTableWidget->item(
+                        row, EzPublishRemoteFileListColumns::FileNameColumn);
+        QColor backgroundColor;
 
         // disable selecting while downloading
         if (percent < 100) {
             nameItem->setFlags(downloadItem->flags() & ~Qt::ItemIsSelectable);
+            // light yellow
+            backgroundColor = QColor("#FFFFC0");
+
         } else {
             nameItem->setFlags(downloadItem->flags() | Qt::ItemIsSelectable);
+            // light green
+            backgroundColor = QColor("#C0FFC0");
+        }
+
+        // loop through every column to set the item background color
+        for (int col = 0;
+             col < ui->eZPublishRemoteFilesTableWidget->columnCount();
+             col++) {
+            QTableWidgetItem *item =
+                    ui->eZPublishRemoteFilesTableWidget->item(row, col);
+            item->setBackgroundColor(backgroundColor);
         }
 
         break;
@@ -1466,11 +1512,6 @@ void MainWindow::on_logFileSourceRemoteDownloadButton_clicked()
     ui->statusBar->showMessage(tr("Downloading log files from remote server"),
                                2000);
     EzPublishService *service = new EzPublishService(this);
-
-//    Q_FOREACH(QListWidgetItem *item,
-//               ui->eZPublishRemoteFilesListWidget->selectedItems() ) {
-//            service->downloadLogFile(this, item->text());
-//        }
 
     Q_FOREACH(QTableWidgetItem *item,
                ui->eZPublishRemoteFilesTableWidget->selectedItems() ) {

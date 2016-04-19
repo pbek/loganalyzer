@@ -459,6 +459,11 @@ p, li { white-space: pre-wrap; }
              </column>
              <column>
               <property name="text">
+               <string>Modification time</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
                <string>Download</string>
               </property>
              </column>

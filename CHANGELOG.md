@@ -6,6 +6,9 @@
   not for each log file source in the settings
 - log files are now also getting downloaded when double clicking on them
 - the active log file source will be selected when the settings dialog is opened
+- the modification time of the remote files will now be viewed in the remote 
+  files table
+- different row background colors will be used to indicate downloading files
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 
