@@ -5,6 +5,7 @@
 - you can now select whether you want a prefix for downloaded log files or 
   not for each log file source in the settings
 - log files are now also getting downloaded when double clicking on them
+- the active log file source will be selected when the settings dialog is opened
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 

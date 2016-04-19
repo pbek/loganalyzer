@@ -31,22 +31,33 @@ void SettingsDialog::setupLogFileSourceTab() {
             ->setCurrentIndex(SettingsDialog::LocalType);
     ui->logFileSourceTypeConfigStackedWidget
             ->setCurrentIndex(SettingsDialog::LocalType);
+    ui->logFileSourceListWidget->clear();
 
     QList<LogFileSource> logFileSources = LogFileSource::fetchAll();
     int logFileSourcesCount = logFileSources.count();
 
-    // populate the note folder list
+    // populate the log file source list
     if (logFileSourcesCount > 0) {
+        int i = 0;
+        int currentRow = 0;
+        int activeLogFileSourceId = LogFileSource::activeLogFileSourceId();
         Q_FOREACH(LogFileSource logFileSource, logFileSources) {
                 QListWidgetItem *item =
                         new QListWidgetItem(logFileSource.getName());
                 item->setData(Qt::UserRole,
                               logFileSource.getId());
                 ui->logFileSourceListWidget->addItem(item);
+
+                // select the active log file source as current row
+                if (logFileSource.getId() == activeLogFileSourceId) {
+                    currentRow = i;
+                }
+
+                i++;
             }
 
         // set the current row
-        ui->logFileSourceListWidget->setCurrentRow(0);
+        ui->logFileSourceListWidget->setCurrentRow(currentRow);
     }
 
     // update the visibility of frames and buttons
