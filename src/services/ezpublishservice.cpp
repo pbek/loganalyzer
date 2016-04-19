@@ -37,7 +37,10 @@ EzPublishService::EzPublishService(QObject *parent)
 void EzPublishService::slotAuthenticationRequired(
         QNetworkReply *reply, QAuthenticator *authenticator) {
     Q_UNUSED(authenticator);
-    qDebug() << "Username and/or password incorrect";
+
+    QMessageBox::critical(
+            0, tr("Connection error"),
+            tr("Could not connect to server:\n%1").arg(reply->errorString()));
 
     reply->abort();
 }
@@ -209,7 +212,7 @@ void EzPublishService::logFileDownloadProgress(
     QString fileName = getHeaderValue(reply, "X-FILE-NAME");
     ulong fileSize = getHeaderValue(reply, "X-FILE-SIZE").toULong();
 
-    double percent = 100 * bytesReceived / fileSize;
+    double percent = fileSize > 0 ? 100 * bytesReceived / fileSize : 0;
 
     mainWindow->updateEzPublishRemoteFileDownloadStatus(fileName, percent);
 }
@@ -245,7 +248,7 @@ void EzPublishService::showEzPublishServerErrorMessage(
             "Please check your eZ Publish configuration.").arg(message);
 
     if (withSettingsButton) {
-        if (QMessageBox::warning(
+        if (QMessageBox::critical(
                 0, headline, text,
                 tr("Open &settings"), tr("&Cancel"),
                 QString::null, 0, 1) == 0) {

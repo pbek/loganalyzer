@@ -17,6 +17,8 @@
   now shown
 - files that are removed from the local log file table are now also removed 
   from the evaluation file list widget
+- fixed a possible crash when downloading log files while there is a network 
+  connection error
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 

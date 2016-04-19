@@ -63,6 +63,9 @@
          <property name="text">
           <string>Evaluation area</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </item>
        <item>
