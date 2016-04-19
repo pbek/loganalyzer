@@ -6,8 +6,8 @@
   not for each log file source in the settings
 - log files are now also getting downloaded when double clicking on them
 - the active log file source will be selected when the settings dialog is opened
-- the modification time of the remote files will now be viewed in the remote 
-  files table
+- the modification time of the remote and local files will now be viewed
+  in the file tables
 - different row background colors will be used to indicate downloading files
 - downloaded files will now automatically get a suffix if they already exist 
   locally

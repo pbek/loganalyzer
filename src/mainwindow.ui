@@ -503,6 +503,11 @@ p, li { white-space: pre-wrap; }
            <string>File size</string>
           </property>
          </column>
+         <column>
+          <property name="text">
+           <string>Modified at</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>

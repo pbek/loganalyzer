@@ -37,6 +37,12 @@ public:
         DownloadColumn
     };
 
+    enum LocalFileListColumns {
+        LFileNameColumn = 0,
+        LSizeColumn,
+        LMTimeColumn
+    };
+
     Q_ENUMS(ToolTabs)
 
     explicit MainWindow(QWidget *parent = 0);

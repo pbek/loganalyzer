@@ -1290,10 +1290,16 @@ void MainWindow::loadLocalLogFileSourceFiles(QString localPath)
     ui->localFilesTableWidget->setRowCount(files.count());
 
     QTableWidgetItem *nameHeader = new QTableWidgetItem(tr("File name"));
-    ui->localFilesTableWidget->setHorizontalHeaderItem(0, nameHeader);
+    ui->localFilesTableWidget->setHorizontalHeaderItem(
+            LocalFileListColumns::LFileNameColumn, nameHeader);
 
     QTableWidgetItem *sizeHeader = new QTableWidgetItem(tr("File size"));
-    ui->localFilesTableWidget->setHorizontalHeaderItem(1, sizeHeader);
+    ui->localFilesTableWidget->setHorizontalHeaderItem(
+            LocalFileListColumns::LSizeColumn, sizeHeader);
+
+    QTableWidgetItem *mtimeHeader = new QTableWidgetItem(tr("Modified at"));
+    ui->localFilesTableWidget->setHorizontalHeaderItem(
+            LocalFileListColumns::LMTimeColumn, mtimeHeader);
 
     ui->localFilesTableWidget->horizontalHeader()
             ->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -1306,22 +1312,39 @@ void MainWindow::loadLocalLogFileSourceFiles(QString localPath)
                     dir.absolutePath() + QDir::separator() + fileName;
             QFileInfo fileInfo(filePath);
             qint64 fileSize = fileInfo.size();
+            QDateTime mTime = fileInfo.lastModified();
 
+            // set the name item
             QTableWidgetItem *nameItem = new QTableWidgetItem(fileName);
             nameItem->setData(Qt::UserRole, filePath);
             nameItem->setToolTip(filePath);
-            ui->localFilesTableWidget->setItem(i, 0, nameItem);
+            ui->localFilesTableWidget->setItem(
+                    i, LocalFileListColumns::LFileNameColumn, nameItem);
 
+            // set the file size item
             // we use our custom table widget item for our custom sorting
             // mechanism
             FileSizeTableWidgetItem *sizeItem = new FileSizeTableWidgetItem();
             sizeItem->setData(Qt::UserRole, fileSize);
             sizeItem->setText(Utils::Misc::friendlyUnit(fileSize));
             sizeItem->setFlags(sizeItem->flags() & ~Qt::ItemIsSelectable);
-            ui->localFilesTableWidget->setItem(i, 1, sizeItem);
+            ui->localFilesTableWidget->setItem(
+                    i, LocalFileListColumns::LSizeColumn, sizeItem);
+
+            // set the file modification date
+            // we also use FileSizeTableWidgetItem for sorting
+            QTableWidgetItem *mtimeItem = new FileSizeTableWidgetItem();
+            mtimeItem->setData(Qt::UserRole, mTime.toTime_t());
+            mtimeItem->setText(mTime.toString());
+            mtimeItem->setFlags(mtimeItem->flags()
+                                & ~Qt::ItemIsSelectable);
+            ui->localFilesTableWidget->setItem(
+                    i, LocalFileListColumns::LMTimeColumn, mtimeItem);
 
             i++;
         }
+
+    ui->localFilesTableWidget->resizeColumnsToContents();
 }
 
 /**
@@ -1399,10 +1422,6 @@ void MainWindow::fillEzPublishRemoteFilesListWidget(QJsonArray fileDataList)
             ->setSectionResizeMode(
                     EzPublishRemoteFileListColumns::FileNameColumn,
                     QHeaderView::Interactive);
-//    ui->eZPublishRemoteFilesTableWidget->horizontalHeader()
-//            ->setSectionResizeMode(
-//                    EzPublishRemoteFileListColumns::SizeColumn,
-//                    QHeaderView::Interactive);
 
     int i = 0;
     Q_FOREACH(QJsonValue jsonValue, fileDataList) {
