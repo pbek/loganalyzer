@@ -2,6 +2,8 @@
 
 ## 16.04.3
 - downloaded and decompressed `gz`-files are now correctly renamed
+- you can now select whether you want a prefix for downloaded log files or 
+  not for each log file source in the settings
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 

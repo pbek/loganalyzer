@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QSqlQuery>
+#include <QDebug>
 #include <QStringList>
 
 class LogFileSource
@@ -44,6 +45,8 @@ public:
     static LogFileSource activeLogFileSource();
     bool localPathExists();
     bool isEzPublishTypeValid();
+    void setAddDownloadedFilePrefix(bool state);
+    bool getAddDownloadedFilePrefix();
 
 private:
     int id;
@@ -54,4 +57,5 @@ private:
     QString ezpUsername;
     QString ezpPassword;
     int priority;
+    bool addDownloadedFilePrefix;
 };

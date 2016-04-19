@@ -48,6 +48,8 @@ private slots:
     void on_logFileSourceListWidget_currentItemChanged(
             QListWidgetItem *current, QListWidgetItem *previous);
 
+    void on_logFileSourceAddDownloadedFilePrefixCheckBox_toggled(bool checked);
+
 private:
     Ui::SettingsDialog *ui;
     LogFileSource _selectedLogFileSource;

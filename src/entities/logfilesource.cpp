@@ -1,5 +1,4 @@
 #include "logfilesource.h"
-#include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -45,6 +44,10 @@ int LogFileSource::getType() {
     return this->type;
 }
 
+bool LogFileSource::getAddDownloadedFilePrefix() {
+    return this->addDownloadedFilePrefix;
+}
+
 QString LogFileSource::getName() {
     return this->name;
 }
@@ -59,6 +62,10 @@ void LogFileSource::setName(QString text) {
 
 void LogFileSource::setType(int id) {
     this->type = id;
+}
+
+void LogFileSource::setAddDownloadedFilePrefix(bool state) {
+    this->addDownloadedFilePrefix = state;
 }
 
 void LogFileSource::setLocalPath(QString text) {
@@ -150,6 +157,8 @@ bool LogFileSource::fillFromQuery(QSqlQuery query) {
     this->ezpUsername = query.value("ezp_username").toString();
     this->ezpPassword = query.value("ezp_password").toString();
     this->priority = query.value("priority").toInt();
+    this->addDownloadedFilePrefix = query.value("add_downloaded_file_prefix")
+            .toBool();
 
     return true;
 }
@@ -188,16 +197,18 @@ bool LogFileSource::store() {
                         "ezp_server_url = :ezpServerUrl, "
                         "ezp_username = :ezpUsername, "
                         "ezp_password = :ezpPassword, "
-                        "priority = :priority "
+                        "priority = :priority, "
+                        "add_downloaded_file_prefix = :addDownloadedFilePrefix "
                         "WHERE id = :id");
         query.bindValue(":id", this->id);
     } else {
         query.prepare(
                 "INSERT INTO logFileSource (name, type, local_path, "
                         "ezp_server_url, ezp_username, ezp_password, "
-                        "priority) VALUES (:name, :type, :localPath, "
-                        ":ezpServerUrl, :ezpUsername, :ezpPassword, "
-                        ":priority)");
+                        "priority, add_downloaded_file_prefix) VALUES "
+                        "(:name, :type, :localPath, :ezpServerUrl, "
+                        ":ezpUsername, :ezpPassword, :priority, "
+                        ":addDownloadedFilePrefix)");
     }
 
     query.bindValue(":name", this->name);
@@ -207,6 +218,7 @@ bool LogFileSource::store() {
     query.bindValue(":ezpUsername", this->ezpUsername);
     query.bindValue(":ezpPassword", this->ezpPassword);
     query.bindValue(":priority", this->priority);
+    query.bindValue(":addDownloadedFilePrefix", this->addDownloadedFilePrefix);
 
     if (!query.exec()) {
         // on error
@@ -267,13 +279,9 @@ bool LogFileSource::isEzPublishTypeValid() {
         return false;
     }
 
-    if ( ezpUsername.isEmpty()
-         || ezpServerUrl.isEmpty()
-         || getEzpPassword().isEmpty() ) {
-        return false;
-    }
-
-    return true;
+    return !(ezpUsername.isEmpty()
+             || ezpServerUrl.isEmpty()
+             || getEzpPassword().isEmpty());
 }
 
 QDebug operator<<(QDebug dbg, const LogFileSource &logFileSource) {

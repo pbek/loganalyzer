@@ -222,10 +222,18 @@ void SettingsDialog::on_logFileSourceListWidget_currentItemChanged(
                 _selectedLogFileSource.getEzpPassword());
         ui->logFileSourceTypeComboBox->setCurrentIndex(
                 _selectedLogFileSource.getType() - 1);
+        ui->logFileSourceAddDownloadedFilePrefixCheckBox->setChecked(
+                _selectedLogFileSource.getAddDownloadedFilePrefix());
 
         const QSignalBlocker blocker(ui->logFileSourceActiveCheckBox);
         Q_UNUSED(blocker);
         ui->logFileSourceActiveCheckBox->setChecked(
                 _selectedLogFileSource.isActive());
     }
+}
+
+void SettingsDialog::on_logFileSourceAddDownloadedFilePrefixCheckBox_toggled(
+        bool checked) {
+    _selectedLogFileSource.setAddDownloadedFilePrefix(checked);
+    _selectedLogFileSource.store();
 }

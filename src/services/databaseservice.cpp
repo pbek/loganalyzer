@@ -114,6 +114,12 @@ bool DatabaseService::setupTables() {
         version = 1;
     }
 
+    if (version < 2) {
+        queryDisk.exec("ALTER TABLE logFileSource ADD "
+                               "add_downloaded_file_prefix BOOLEAN;");
+        version = 2;
+    }
+
     setAppData("database_version", QString::number(version));
 
     return true;

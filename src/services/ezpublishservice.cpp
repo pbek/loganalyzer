@@ -77,12 +77,16 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
                 fileName = Utils::Misc::removeIfEndsWith(fileName, ".gz");
             }
 
+            // use a prefix if we have to
+            QString prefix = logFileSource.getAddDownloadedFilePrefix() ?
+                             logFileSource.getName() + " - " +
+                             QDateTime::currentDateTime().toString(
+                                     "yyyyMMddhhmmss") + " - " : "";
+
             // generate local log file path
             QString localFilePath =
                     logFileSource.getLocalPath() + QDir::separator() +
-                    logFileSource.getName() + " - " +
-                    QDateTime::currentDateTime().toString("yyyyMMddhhmmss") +
-                    " - " + fileName;
+                            prefix + fileName;
 
             qDebug() << __func__ << " - 'localFilePath': " << localFilePath;
 

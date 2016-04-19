@@ -255,7 +255,7 @@
                 <enum>QFrame::Plain</enum>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>1</number>
                </property>
                <widget class="QWidget" name="logFileSourceTypeLocalPage">
                 <layout class="QGridLayout" name="gridLayout_3">
@@ -338,6 +338,16 @@
                    </property>
                    <property name="placeholderText">
                     <string notr="true">your username</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QCheckBox" name="logFileSourceAddDownloadedFilePrefixCheckBox">
+                   <property name="toolTip">
+                    <string>This is usefull when downloading from multiple log file sources to the same local directory</string>
+                   </property>
+                   <property name="text">
+                    <string>Add a prefix to downloaded files</string>
                    </property>
                   </widget>
                  </item>
