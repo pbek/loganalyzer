@@ -1477,3 +1477,12 @@ void MainWindow::on_logFileSourceRemoteDownloadButton_clicked()
             service->downloadLogFile(this, item->text());
         }
 }
+
+/**
+ * Downloads a remote log file when double clicked on it
+ */
+void MainWindow::on_eZPublishRemoteFilesTableWidget_itemDoubleClicked(
+        QTableWidgetItem *item) {
+    Q_UNUSED(item);
+    on_logFileSourceRemoteDownloadButton_clicked();
+}

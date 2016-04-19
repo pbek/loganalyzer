@@ -110,6 +110,8 @@ private slots:
 
     void on_localFilesTableWidget_doubleClicked(const QModelIndex &index);
 
+    void on_eZPublishRemoteFilesTableWidget_itemDoubleClicked(QTableWidgetItem *item);
+
 protected:
     void closeEvent(QCloseEvent *event);
 
