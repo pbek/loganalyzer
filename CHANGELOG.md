@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 16.04.3
+- downloaded and decompressed `gz`-files are now correctly renamed
+
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 
   style*, so it doesn't get confused with semantic versioning

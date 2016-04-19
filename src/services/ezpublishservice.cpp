@@ -63,10 +63,18 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             QString fileName = getHeaderValue(reply, "X-FILE-NAME");
             mainWindow->updateEzPublishRemoteFileDownloadStatus(fileName, 100);
 
-            // uncompress log file if it was compressed
+            // decompress log file if it was compressed
             if (fileName.endsWith(".gz")) {
-                data = QString(Utils::Misc::gUncompress(arr));
-                Utils::Misc::removeIfEndsWith(fileName, ".gz");
+                try {
+                    data = QString(Utils::Misc::gUncompress(arr));
+                } catch(std::exception const& e) {
+                    QMessageBox::critical(
+                            0, tr("Could not decompress file"),
+                            tr("Could not decompress file:\n%1").arg(e.what()));
+                    return;
+                }
+
+                fileName = Utils::Misc::removeIfEndsWith(fileName, ".gz");
             }
 
             // generate local log file path

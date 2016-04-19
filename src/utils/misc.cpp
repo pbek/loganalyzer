@@ -279,6 +279,9 @@ QString Utils::Misc::fromDouble(double n, int precision)
             std::floor(n * prec) / prec, 'f', precision);
 }
 
+/**
+ * Decompresses gzipped data with the help of miniz
+ */
 QByteArray Utils::Misc::gUncompress(QByteArray const& data)
 {
     mz_uint8 const* inPtr(reinterpret_cast<mz_uint8 const*>(data.data()) + 10);
@@ -301,7 +304,7 @@ QByteArray Utils::Misc::gUncompress(QByteArray const& data)
                 reinterpret_cast<mz_uint8*>(result.data()),
                 reinterpret_cast<mz_uint8*>(result.data()) + outTotal,
                 &outSize,
-                0 );
+                0);
 
         switch (ret) {
             case TINFL_STATUS_HAS_MORE_OUTPUT:
