@@ -344,10 +344,11 @@
                  <item row="6" column="0">
                   <widget class="QCheckBox" name="logFileSourceAddDownloadedFilePrefixCheckBox">
                    <property name="toolTip">
-                    <string>This is usefull when downloading from multiple log file sources to the same local directory, keep in mind that file are getting overwritten</string>
+                    <string>This is usefull when downloading from multiple log file sources to the same local directory,
+downloaded files will automatically get a suffix if they already exist</string>
                    </property>
                    <property name="text">
-                    <string>Add a prefix to downloaded files</string>
+                    <string>Add log file source name as prefix to downloaded files</string>
                    </property>
                   </widget>
                  </item>

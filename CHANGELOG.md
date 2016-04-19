@@ -9,6 +9,10 @@
 - the modification time of the remote files will now be viewed in the remote 
   files table
 - different row background colors will be used to indicate downloading files
+- downloaded files will now automatically get a suffix if they already exist 
+  locally
+- the optional prefix for downloaded files was reduced to the log file source
+  name
 
 ## 16.04.2
 - **switched LogAnalyzer release versioning** to a more *rolling release 

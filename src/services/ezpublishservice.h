@@ -47,4 +47,6 @@ private slots:
     void slotReplyFinished(QNetworkReply *);
 
     void logFileDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+
+    QString chooseFileNameSuffix(QString filePath, int suffix = 0);
 };

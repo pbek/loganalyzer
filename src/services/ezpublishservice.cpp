@@ -79,14 +79,15 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
 
             // use a prefix if we have to
             QString prefix = logFileSource.getAddDownloadedFilePrefix() ?
-                             logFileSource.getName() + " - " +
-                             QDateTime::currentDateTime().toString(
-                                     "yyyyMMddhhmmss") + " - " : "";
+                             logFileSource.getName() + " - " : "";
 
             // generate local log file path
             QString localFilePath =
                     logFileSource.getLocalPath() + QDir::separator() +
                             prefix + fileName;
+
+            // choose a proper suffix if the file already exists
+            localFilePath = chooseFileNameSuffix(localFilePath);
 
             qDebug() << __func__ << " - 'localFilePath': " << localFilePath;
 
@@ -255,5 +256,26 @@ void EzPublishService::showEzPublishServerErrorMessage(
         }
     } else {
         QMessageBox::warning(0, headline, text);
+    }
+}
+
+/**
+ * Returns a filename with a proper suffix if the file already exists
+ */
+QString EzPublishService::chooseFileNameSuffix(QString filePath, int suffix) {
+    QString newFilePath = filePath;
+
+    if (suffix > 0) {
+        // we are choose an unusual suffix here because the log files will
+        // already be named like `logfile.log.1`, `logfile.log.2` and so on
+        newFilePath += ".v" + QString::number(suffix);
+    }
+
+    QFileInfo file(newFilePath);
+
+    if (file.exists()) {
+        return chooseFileNameSuffix(filePath, ++suffix);
+    } else {
+        return newFilePath;
     }
 }
