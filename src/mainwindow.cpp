@@ -1546,12 +1546,21 @@ void MainWindow::updateEzPublishRemoteFileDownloadStatus(
  */
 void MainWindow::on_logFileSourceRemoteDownloadButton_clicked()
 {
-    ui->statusBar->showMessage(tr("Downloading log files from remote server"),
-                               2000);
+    QList<QTableWidgetItem *> list =
+            ui->eZPublishRemoteFilesTableWidget->selectedItems();
+    int listCount = list.count();
+
+    if (listCount == 0) {
+        ui->statusBar->showMessage(tr("No files to download selected"), 2000);
+        return;
+    }
+
+    ui->statusBar->showMessage(
+            tr("Downloading %n log file(s) from remote server", "", listCount),
+            2000);
     EzPublishService *service = new EzPublishService(this);
 
-    Q_FOREACH(QTableWidgetItem *item,
-               ui->eZPublishRemoteFilesTableWidget->selectedItems() ) {
+    Q_FOREACH(QTableWidgetItem *item, list) {
             service->downloadLogFile(this, item->text());
         }
 }

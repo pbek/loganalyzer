@@ -39,10 +39,18 @@ void EzPublishService::slotAuthenticationRequired(
         QNetworkReply *reply, QAuthenticator *authenticator) {
     Q_UNUSED(authenticator);
 
+    if (reply == NULL) {
+        return;
+    }
+
     reply->abort();
 }
 
 void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
+    if (reply == NULL) {
+        return;
+    }
+
     qDebug() << "Reply from " << reply->url().path();
     QByteArray arr = reply->readAll();
     QString data = QString(arr);

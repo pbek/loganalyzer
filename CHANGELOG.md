@@ -3,6 +3,7 @@
 ## 16.04.5
 - renamed the *Remove ignored patterns from text* button to *Filter ignored 
   patterns from text* and changed the icon
+- improved reporting and stability when downloading log files
 
 ## 16.04.4
 - a connection test to your eZ Publish server is now performed in the settings
