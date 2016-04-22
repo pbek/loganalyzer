@@ -80,7 +80,7 @@
           <enum>Qt::CustomContextMenu</enum>
          </property>
          <property name="toolTip">
-          <string>drop log files here</string>
+          <string>drop log files from your file manager here</string>
          </property>
          <property name="selectionMode">
           <enum>QAbstractItemView::ExtendedSelection</enum>
@@ -150,11 +150,11 @@
            <item row="2" column="0">
             <widget class="QPushButton" name="removeIgnoredPatternsButton">
              <property name="text">
-              <string>Remove ignored patterns from text</string>
+              <string>Filter ignored patterns from text</string>
              </property>
              <property name="icon">
-              <iconset theme="list-remove" resource="media.qrc">
-               <normaloff>:/media/list-remove.svg</normaloff>:/media/list-remove.svg</iconset>
+              <iconset theme="view-filter" resource="media.qrc">
+               <normaloff>:/media/view-filter.svg</normaloff>:/media/view-filter.svg</iconset>
              </property>
             </widget>
            </item>
@@ -530,7 +530,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1339</width>
-     <height>28</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

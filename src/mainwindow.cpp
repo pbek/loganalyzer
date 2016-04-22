@@ -759,7 +759,7 @@ void MainWindow::on_removeIgnoredPatternsButton_clicked()
     // update the line count
     updateLineCount();
 
-    ui->statusBar->showMessage(tr("Done with removing occurrences of the "
+    ui->statusBar->showMessage(tr("Done with filtering occurrences of the "
                                           "ignore patterns in the text"), 1000);
 }
 
