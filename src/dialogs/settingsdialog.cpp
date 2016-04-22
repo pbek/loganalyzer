@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <utils/misc.h>
+#include <services/ezpublishservice.h>
 
 SettingsDialog::SettingsDialog(int tab, QWidget *parent) :
     QDialog(parent),
@@ -240,6 +241,9 @@ void SettingsDialog::on_logFileSourceListWidget_currentItemChanged(
         Q_UNUSED(blocker);
         ui->logFileSourceActiveCheckBox->setChecked(
                 _selectedLogFileSource.isActive());
+
+        // start a connection test
+        on_connectionTestButton_clicked();
     }
 }
 
@@ -247,4 +251,25 @@ void SettingsDialog::on_logFileSourceAddDownloadedFilePrefixCheckBox_toggled(
         bool checked) {
     _selectedLogFileSource.setAddDownloadedFilePrefix(checked);
     _selectedLogFileSource.store();
+}
+
+/**
+ * Starts a connection test to the eZ Publish server
+ */
+void SettingsDialog::on_connectionTestButton_clicked() {
+    ui->connectionTestLabel->hide();
+
+    // start the connection test
+    EzPublishService *service = new EzPublishService(this);
+    service->settingsConnectionTest(this, _selectedLogFileSource);
+}
+
+/**
+ * This is the callback function from the eZ Publish service
+ */
+void SettingsDialog::setConnectionTestMessage(QString text, bool isError) {
+    QString color = isError ? "red" : "green";
+    ui->connectionTestLabel->setStyleSheet("color: " + color);
+    ui->connectionTestLabel->setText(text);
+    ui->connectionTestLabel->show();
 }

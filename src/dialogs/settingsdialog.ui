@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1049</width>
-    <height>815</height>
+    <height>858</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -192,14 +192,13 @@
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
-              <widget class="QPushButton" name="logFileSourceLocalPathButton">
-               <property name="text">
-                <string/>
+             <item row="1" column="0" colspan="2">
+              <widget class="QLineEdit" name="logFileSourceNameLineEdit">
+               <property name="toolTip">
+                <string>This name will be viewed in all the menus.</string>
                </property>
-               <property name="icon">
-                <iconset theme="document-open" resource="../media.qrc">
-                 <normaloff>:/media/document-open.svg</normaloff>:/media/document-open.svg</iconset>
+               <property name="placeholderText">
+                <string>a name you will recognize</string>
                </property>
               </widget>
              </item>
@@ -217,28 +216,16 @@
                </item>
               </widget>
              </item>
-             <item row="1" column="0" colspan="2">
-              <widget class="QLineEdit" name="logFileSourceNameLineEdit">
-               <property name="toolTip">
-                <string>This name will be viewed in all the menus.</string>
+             <item row="7" column="1">
+              <widget class="QPushButton" name="logFileSourceLocalPathButton">
+               <property name="text">
+                <string/>
                </property>
-               <property name="placeholderText">
-                <string>a name you will recognize</string>
+               <property name="icon">
+                <iconset theme="document-open" resource="../media.qrc">
+                 <normaloff>:/media/document-open.svg</normaloff>:/media/document-open.svg</iconset>
                </property>
               </widget>
-             </item>
-             <item row="10" column="0" colspan="2">
-              <spacer name="verticalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item row="8" column="0" colspan="2">
               <widget class="QStackedWidget" name="logFileSourceTypeConfigStackedWidget">
@@ -352,9 +339,64 @@ downloaded files will automatically get a suffix if they already exist</string>
                    </property>
                   </widget>
                  </item>
+                 <item row="7" column="0">
+                  <widget class="QPushButton" name="connectionTestButton">
+                   <property name="toolTip">
+                    <string>Click here to perform a connection test to your eZ Publish server</string>
+                   </property>
+                   <property name="text">
+                    <string>&amp;Test connection to server</string>
+                   </property>
+                   <property name="icon">
+                    <iconset theme="network-connect" resource="../media.qrc">
+                     <normaloff>:/media/network-connect.svg</normaloff>:/media/network-connect.svg</iconset>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="connectionTestLabel">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>120</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                   <property name="textInteractionFlags">
+                    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </widget>
+             </item>
+             <item row="12" column="0" colspan="2">
+              <spacer name="verticalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>5</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>

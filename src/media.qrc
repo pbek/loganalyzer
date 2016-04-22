@@ -24,5 +24,6 @@
         <file>media/list-add.svg</file>
         <file>media/edit-download.svg</file>
         <file>media/folder-sync.svg</file>
+        <file>media/network-connect.svg</file>
     </qresource>
 </RCC>

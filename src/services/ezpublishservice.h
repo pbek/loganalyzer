@@ -4,6 +4,7 @@
 #include <QAuthenticator>
 #include <QNetworkReply>
 #include <QObject>
+#include <dialogs/settingsdialog.h>
 #include "mainwindow.h"
 
 
@@ -18,6 +19,9 @@ public:
 
     void downloadLogFile(MainWindow *mainWindow, QString fileName);
 
+    void settingsConnectionTest(SettingsDialog *dialog,
+                                LogFileSource logFileSource);
+
 private:
 
     QNetworkAccessManager *networkManager;
@@ -26,7 +30,9 @@ private:
     static const QString rootPath;
     QString logFileListPath;
     QString logFileDownloadPath;
-    LogFileSource logFileSource;
+    QString connectionTestPath;
+    LogFileSource _logFileSource;
+    SettingsDialog *_settingsDialog;
 
     void addAuthHeader(QNetworkRequest *r);
 

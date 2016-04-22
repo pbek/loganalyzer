@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 16.04.4
+- a connection test to your eZ Publish server is now performed in the settings
+
 ## 16.04.3
 - downloaded and decompressed `gz`-files are now correctly renamed
 - you can now select whether you want a prefix for downloaded log files or 

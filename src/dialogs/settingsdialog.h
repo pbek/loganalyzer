@@ -26,6 +26,8 @@ public:
     explicit SettingsDialog(int tab, QWidget *parent = 0);
     ~SettingsDialog();
 
+    void setConnectionTestMessage(QString text, bool isError = false);
+
 private slots:
     void on_logFileSourceTypeComboBox_currentIndexChanged(int index);
 
@@ -49,6 +51,8 @@ private slots:
             QListWidgetItem *current, QListWidgetItem *previous);
 
     void on_logFileSourceAddDownloadedFilePrefixCheckBox_toggled(bool checked);
+
+    void on_connectionTestButton_clicked();
 
 private:
     Ui::SettingsDialog *ui;

@@ -20,6 +20,7 @@ EzPublishService::EzPublishService(QObject *parent)
         : QObject(parent) {
     logFileListPath = rootPath + "get_log_file_list";
     logFileDownloadPath = rootPath + "get_log_file";
+    connectionTestPath = rootPath + "connection_test";
 
     networkManager = new QNetworkAccessManager();
 
@@ -31,16 +32,12 @@ EzPublishService::EzPublishService(QObject *parent)
     QObject::connect(networkManager, SIGNAL(finished(QNetworkReply *)), this,
                      SLOT(slotReplyFinished(QNetworkReply *)));
 
-    logFileSource = LogFileSource::activeLogFileSource();
+    _logFileSource = LogFileSource::activeLogFileSource();
 }
 
 void EzPublishService::slotAuthenticationRequired(
         QNetworkReply *reply, QAuthenticator *authenticator) {
     Q_UNUSED(authenticator);
-
-    QMessageBox::critical(
-            0, tr("Connection error"),
-            tr("Could not connect to server:\n%1").arg(reply->errorString()));
 
     reply->abort();
 }
@@ -50,13 +47,46 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
     QByteArray arr = reply->readAll();
     QString data = QString(arr);
 
+    // handle requests for the connection test page
+    if (reply->url().path().endsWith(connectionTestPath)) {
+        qDebug() << "Reply from connection test";
+
+        if (reply->error() == QNetworkReply::NoError) {
+            if (data == "successfully connected") {
+                // output that everything is all right
+                _settingsDialog->setConnectionTestMessage(
+                        tr("A connection to the server was "
+                                   "made successfully!"));
+            } else if (data.startsWith(
+                    "Not a valid ezjscServerRouter argument")) {
+                // output the error message from the server if the
+                // connection test url wasn't found
+                _settingsDialog->setConnectionTestMessage(
+                        tr("An error occurred, it seems that the 'loganalyzer'"
+                                   " extension isn't installed correctly:\n%1")
+                                .arg(data), true);
+            } else {
+                // output the error message from the server
+                _settingsDialog->setConnectionTestMessage(
+                        tr("An error occurred:\n%1").arg(data), true);
+            }
+        } else {
+            // output a network connection error
+            _settingsDialog->setConnectionTestMessage(
+                    tr("An error occurred:\n%1").arg(reply->errorString()),
+                    true);
+        }
+
+        return;
+    }
+
     if (reply->error() == QNetworkReply::NoError) {
         if (reply->url().path().endsWith(logFileListPath)) {
             qDebug() << "Reply from log file list";
 //            qDebug() << data;
 
             // show the files in the main window
-            QJsonArray list =  QJsonDocument::fromJson(data.toUtf8()).array();
+            QJsonArray list = QJsonDocument::fromJson(data.toUtf8()).array();
             mainWindow->fillEzPublishRemoteFilesListWidget(list);
             return;
         } else if (reply->url().path().endsWith(logFileDownloadPath)) {
@@ -81,12 +111,12 @@ void EzPublishService::slotReplyFinished(QNetworkReply *reply) {
             }
 
             // use a prefix if we have to
-            QString prefix = logFileSource.getAddDownloadedFilePrefix() ?
-                             logFileSource.getName() + " - " : "";
+            QString prefix = _logFileSource.getAddDownloadedFilePrefix() ?
+                             _logFileSource.getName() + " - " : "";
 
             // generate local log file path
             QString localFilePath =
-                    logFileSource.getLocalPath() + QDir::separator() +
+                    _logFileSource.getLocalPath() + QDir::separator() +
                             prefix + fileName;
 
             // choose a proper suffix if the file already exists
@@ -151,13 +181,12 @@ void EzPublishService::ignoreSslErrorsIfAllowed(QNetworkReply *reply) {
 void EzPublishService::loadLogFileList(MainWindow *mainWindow) {
     this->mainWindow = mainWindow;
 
-    LogFileSource logFileSource = LogFileSource::activeLogFileSource();
-    if (!logFileSource.isEzPublishTypeValid()) {
+    if (!_logFileSource.isEzPublishTypeValid()) {
         showEzPublishServerErrorMessage();
         return;
     }
 
-    QString serverUrl = logFileSource.getEzpServerUrl();
+    QString serverUrl = _logFileSource.getEzpServerUrl();
     QUrl url(serverUrl + logFileListPath);
 
     QNetworkRequest r(url);
@@ -174,13 +203,12 @@ void EzPublishService::downloadLogFile(MainWindow *mainWindow,
                                        QString fileName) {
     this->mainWindow = mainWindow;
 
-    LogFileSource logFileSource = LogFileSource::activeLogFileSource();
-    if (!logFileSource.isEzPublishTypeValid()) {
+    if (!_logFileSource.isEzPublishTypeValid()) {
         showEzPublishServerErrorMessage();
         return;
     }
 
-    QString serverUrl = logFileSource.getEzpServerUrl();
+    QString serverUrl = _logFileSource.getEzpServerUrl();
     QUrl url(serverUrl + logFileDownloadPath);
 
     QUrlQuery q;
@@ -219,14 +247,13 @@ void EzPublishService::logFileDownloadProgress(
 
 void EzPublishService::addAuthHeader(QNetworkRequest *r) {
     if (r) {
-        LogFileSource logFileSource = LogFileSource::activeLogFileSource();
-        if (!logFileSource.isEzPublishTypeValid()) {
+        if (!_logFileSource.isEzPublishTypeValid()) {
             showEzPublishServerErrorMessage();
             return;
         }
 
-        QString userName = logFileSource.getEzpUsername();
-        QString password = logFileSource.getEzpPassword();
+        QString userName = _logFileSource.getEzpUsername();
+        QString password = _logFileSource.getEzpPassword();
         QString concatenated = userName + ":" + password;
 
         QByteArray data = concatenated.toLocal8Bit().toBase64();
@@ -281,4 +308,30 @@ QString EzPublishService::chooseFileNameSuffix(QString filePath, int suffix) {
     } else {
         return newFilePath;
     }
+}
+
+/**
+ * Starts a connection test for the settings
+ */
+void EzPublishService::settingsConnectionTest(SettingsDialog *dialog,
+                                              LogFileSource logFileSource) {
+    if (!logFileSource.isEzPublishTypeValid()) {
+        dialog->setConnectionTestMessage(
+                tr("Please complete your eZ Publish settings"), true);
+        return;
+    }
+
+    _settingsDialog = dialog;
+    _logFileSource = logFileSource;
+
+    qDebug() << __func__ << " - 'logFileSource': " << logFileSource;
+
+    QString serverUrl = logFileSource.getEzpServerUrl();
+    QUrl url(serverUrl + connectionTestPath);
+
+    QNetworkRequest r(url);
+    addAuthHeader(&r);
+
+    QNetworkReply *reply = networkManager->get(r);
+    ignoreSslErrorsIfAllowed(reply);
 }
