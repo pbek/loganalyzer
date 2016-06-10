@@ -40,9 +40,10 @@ the content with regular expression patterns you define.
 
 ### Ubuntu Linux
 
-You can add the repository and install LogAnalyzer with these commands:
+You can add the Ubuntu Launchpad repository and install LogAnalyzer with these 
+commands:
 
-```
+```shell
 sudo add-apt-repository ppa:pbek/loganalyzer
 sudo apt-get update
 sudo apt-get install loganalyzer
@@ -50,8 +51,9 @@ sudo apt-get install loganalyzer
 
 ### Microsoft Windows
 
-You will find releases for Windows here:
-[LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases)
+You will find releases for Windows at
+[LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases).
+Look for files named `LogAnalyzer.zip`.
 
 ## Building LogAnalyzer
 
