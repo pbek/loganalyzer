@@ -49,9 +49,55 @@ script:
   - qmake LogAnalyzer.pro CONFIG+=$CONFIG
   - make
 
+before_deploy:
+  - export VERSION_NUMBER=`cat version.h | sed "s/[^0-9,.]//g"`
+  # create a disk image for OSX
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+         ../travis/create-dmg.sh
+      ;
+    fi
+  #
+  # add a tag
+  #
+  - TIME_STRING=`date +%H%M%S`
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+         export GIT_TAG=macosx-b$TRAVIS_BUILD_NUMBER-$TIME_STRING
+      ;
+    fi
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+  - git push -q https://$TAGPERM@github.com/pbek/loganalyzer --tags
+
+deploy:
+  - provider: releases
+    api_key:
+        secure: EyOMTm+fzo7rWhRMfROH8/jeJnSFmLFz4pfD/HuFJI2ohayHJOIfASMdg0d7N2cGFS9G7iuPUmQ1S56YC8BSnEefc3lASB1i5hiSOMWJV+lO3N1JBFCWxCBzHc9Hs+XKwHwyhZ5iIYncx+JHPYRNWtUD+A6SZHiZ+sVI48gYMyA=
+    file: LogAnalyzer-$VERSION_NUMBER.dmg
+    skip_cleanup: true
+    on:
+        repo: pbek/loganalyzer
+#        branch: master
+        branch: develop
+        tags: false
+        condition: $CONFIG = release && ${TRAVIS_OS_NAME} = osx
+
 notifications:
   recipients:
     - developer@bekerle.com
   email:
     on_success: change
     on_failure: change
+  irc:
+    # https://docs.travis-ci.com/user/notifications/#IRC-notification
+    channels:
+      - "chat.freenode.net#fuf"
+    template:
+      - "[%{commit}] %{repository} (%{branch}): %{message}"
+      - "[%{commit}] Commit message : %{commit_message}"
+      - "[%{commit}] Change view : %{compare_url}"
+      - "[%{commit}] Build details : %{build_url}"
+    on_success: always
+    on_failure: always
+    use_notice: true
+    skip_join: true
