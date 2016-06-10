@@ -22,7 +22,7 @@ sed -i -e 's/com.yourcompany.LogAnalyzer/com.PBE.LogAnalyzer/g' $APP.app/Content
 rm -f $APP.app/Contents/Info.plist-e
 
 # copy translation files to app
-cp languages/*.qm $APP.app/Contents/Resources
+#cp languages/*.qm $APP.app/Contents/Resources
 
 # use macdeployqt to deploy the application
 echo "Calling macdeployqt"
