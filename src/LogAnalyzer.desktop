@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=QOwnNotes
+Name=LogAnalyzer
 Comment=Tool for analyzing your log files by reducing the content with regular expression patterns you define
 Exec=LogAnalyzer
 Icon=LogAnalyzer
