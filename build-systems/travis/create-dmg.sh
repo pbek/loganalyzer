@@ -4,6 +4,7 @@
 # creating the LogAnalyzer.dmg with Applications link
 #
 
+#QTDIR="/Applications/Qt/5.5/clang_64"
 QTDIR="/usr/local/opt/qt5"
 APP=LogAnalyzer
 # this directory name will also be shown in the title when the DMG is mounted
