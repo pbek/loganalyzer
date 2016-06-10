@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=QOwnNotes
+Comment=Tool for analyzing your log files by reducing the content with regular expression patterns you define
+Exec=LogAnalyzer
+Icon=LogAnalyzer
+Type=Application
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+Categories=Qt;TextEditor;

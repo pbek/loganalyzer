@@ -1,0 +1,5 @@
+LogAnalyzer.desktop usr/share/applications
+LogAnalyzer.png usr/share/pixmaps
+LogAnalyzer.png usr/share/icons/hicolor/512x512/apps
+LogAnalyzer.svg usr/share/icons/hicolor/scalable/apps
+LogAnalyzer usr/bin
