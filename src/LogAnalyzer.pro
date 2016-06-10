@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LogAnalyzer
 TEMPLATE = app
+ICON = LogAnalyzer.icns
 RC_FILE = LogAnalyzer.rc
 CONFIG += c++11
 
