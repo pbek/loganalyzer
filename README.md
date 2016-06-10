@@ -36,6 +36,23 @@ the content with regular expression patterns you define.
 - exporting of the report as PDF
 - printing of the report
 
+## Installation
+
+### Ubuntu Linux
+
+You can add the repository and install LogAnalyzer with these commands:
+
+```
+sudo add-apt-repository ppa:pbek/loganalyzer
+sudo apt-get update
+sudo apt-get install loganalyzer
+```
+
+### Microsoft Windows
+
+You will find releases for Windows here:
+[LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases)
+
 ## Building LogAnalyzer
 
 To get the most current features you can build the application from the 
