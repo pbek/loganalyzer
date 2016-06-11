@@ -49,6 +49,12 @@ sudo apt-get update
 sudo apt-get install loganalyzer
 ```
 
+### OS X
+
+You will find releases for OS X at
+[LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases).
+Look for files named `LogAnalyzer-<version-number>.dmg`.
+
 ### Microsoft Windows
 
 You will find releases for Windows at
