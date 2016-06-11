@@ -5,7 +5,7 @@
 #
 
 #QTDIR="/Applications/Qt/5.5/clang_64"
-QTDIR="/usr/local/opt/qt5"
+QTDIR="/usr/local/opt/qt55"
 APP=LogAnalyzer
 # this directory name will also be shown in the title when the DMG is mounted
 TEMPDIR=$APP
