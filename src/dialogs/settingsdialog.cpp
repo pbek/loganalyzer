@@ -63,6 +63,12 @@ void SettingsDialog::setupLogFileSourceTab() {
 
     // update the visibility of frames and buttons
     updateLogFileSourceTab();
+
+    // fixed a redraw error on OS X
+#ifdef Q_OS_MAC
+    hide();
+    show();
+#endif
 }
 
 /**

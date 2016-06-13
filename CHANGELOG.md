@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 16.06.0
+- fixed a redraw error on OS X in the settings dialog
+
 ## 16.04.5
 - renamed the *Remove ignored patterns from text* button to *Filter ignored 
   patterns from text* and changed the icon
