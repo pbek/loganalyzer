@@ -2,7 +2,7 @@
 
 [Changelog](https://github.com/pbek/loganalyzer/blob/develop/CHANGELOG.md) | 
 [Issues](https://github.com/pbek/loganalyzer/issues) | 
-[Releases](https://github.com/pbek/loganalyzer/releases)
+[Installation](https://github.com/pbek/loganalyzer/blob/develop/INSTALLATION.md)
 
 [![Build Status Linux / OS X](https://travis-ci.org/pbek/loganalyzer.svg?branch=develop)](https://travis-ci.org/pbek/loganalyzer)
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
@@ -41,28 +41,9 @@ directly from the server.
 
 ## Installation
 
-### Ubuntu Linux
-
-You can add the Ubuntu Launchpad repository and install LogAnalyzer with these 
-commands:
-
-```shell
-sudo add-apt-repository ppa:pbek/loganalyzer
-sudo apt-get update
-sudo apt-get install loganalyzer
-```
-
-### OS X
-
-You will find releases for OS X at
-[LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases).
-Look for files named `LogAnalyzer-<version-number>.dmg`.
-
-### Microsoft Windows
-
-You will find releases for Windows at
-[LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases).
-Look for files named `LogAnalyzer.zip`.
+See 
+[Installation](https://github.com/pbek/loganalyzer/blob/develop/INSTALLATION.md)
+for installation instructions on Linux, OS X and Windows.
 
 ## Building LogAnalyzer
 

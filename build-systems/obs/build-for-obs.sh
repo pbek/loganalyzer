@@ -10,7 +10,7 @@
 #
 
 # uncomment this if you want to force a version
-#LOGANALYZER_VERSION=16.04
+#LOGANALYZER_VERSION=16.04.5.3
 
 BRANCH=develop
 #BRANCH=master
