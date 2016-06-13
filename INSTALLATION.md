@@ -1,6 +1,6 @@
 # LogAnalyzer Installation
 
-## Ubuntu Linux (15.04 and newer)
+## Install on Ubuntu Linux (15.04 and newer)
 
 You can add the Ubuntu Launchpad repository and install LogAnalyzer with these 
 commands:
@@ -166,15 +166,15 @@ sudo pacman -Syy loganalyzer
 Of course you can also use this repository with other Arch Linux based distributions, like Manjaro.
 
 
-## OS X
+## Install on OS X
 
 You will find releases for OS X at
 [LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases).
-Look for files named `LogAnalyzer-<version-number>.dmg`.
+Look for the latest file named `LogAnalyzer-<version-number>.dmg`.
 
 
-## Microsoft Windows
+## Install on Microsoft Windows
 
 You will find releases for Windows at
 [LogAnalyzer releases](https://github.com/pbek/loganalyzer/releases).
-Look for files named `LogAnalyzer.zip`.
+Look for the latest file named `LogAnalyzer.zip`.
