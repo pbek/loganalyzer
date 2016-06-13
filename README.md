@@ -8,7 +8,10 @@
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
 
 **LogAnalyzer** is a tool that helps you analyzing your log files by reducing 
-the content with regular expression patterns you define.  
+the content with regular expression patterns you define.
+
+There is a an extension for eZ Publish (legacy) to download log files 
+directly from the server.
 
 ## Screenshot
 

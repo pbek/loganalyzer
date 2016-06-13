@@ -1,0 +1,33 @@
+# Maintainer: Patrizio Bekerle <patrizio at bekerle dot com>
+# see: https://wiki.archlinux.org/index.php/PKGBUILD
+
+pkgname=loganalyzer
+pkgver=VERSION-STRING
+pkgrel=1
+pkgdesc="Tool that helps you analyzing your log files by reducing the content with regular expression patterns you define"
+arch=('i686' 'x86_64')
+url='https://github.com/pbek/loganalyzer/'
+license=('GPL2')
+groups=('loganalyzer')
+depends=('qt5-base' 'qt5-svg' 'qt5-declarative' 'openssl')
+makedepends=('git' 'qt5-tools')
+provides=("${pkgname%-*}")
+conflicts=("${pkgname%-*}")
+source=("${pkgname}-${pkgver}.tar.xz")
+md5sums=('SKIP')
+
+build() {
+	cd "${pkgname}-${pkgver}"
+	qmake
+	make
+}
+
+package() {
+	cd "${pkgname}-${pkgver}"
+
+    install -D -m 0755 LogAnalyzer $pkgdir/usr/bin/LogAnalyzer
+    install -D -m 0644 LogAnalyzer.desktop $pkgdir/usr/share/applications/LogAnalyzer.desktop
+    install -D -m 0644 LogAnalyzer.png $pkgdir/usr/share/pixmaps/LogAnalyzer.png
+    install -D -m 0644 LogAnalyzer.png $pkgdir/usr/share/icons/hicolor/512x512/apps/LogAnalyzer.png
+    install -D -m 0644 LogAnalyzer.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/LogAnalyzer.svg
+}
