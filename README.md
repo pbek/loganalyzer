@@ -1,8 +1,8 @@
 # LogAnalyzer 
 
-[Changelog](https://github.com/pbek/loganalyzer/blob/develop/CHANGELOG.md) | 
+[Changelog](CHANGELOG.md) | 
 [Issues](https://github.com/pbek/loganalyzer/issues) | 
-[Installation](https://github.com/pbek/loganalyzer/blob/develop/INSTALLATION.md)
+[Installation](INSTALLATION.md)
 
 [![Build Status Linux / OS X](https://travis-ci.org/pbek/loganalyzer.svg?branch=develop)](https://travis-ci.org/pbek/loganalyzer)
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
@@ -42,7 +42,7 @@ directly from the server.
 ## Installation
 
 See 
-[Installation](https://github.com/pbek/loganalyzer/blob/develop/INSTALLATION.md)
+[Installation](INSTALLATION.md)
 for installation instructions on Linux, OS X and Windows.
 
 ## Building LogAnalyzer
