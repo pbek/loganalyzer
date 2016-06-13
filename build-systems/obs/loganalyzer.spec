@@ -102,11 +102,11 @@ install -D -m 0644 LogAnalyzer.svg $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/sca
 %fdupes $RPM_BUILD_ROOT/%{_prefix}
 
 %clean  
-rm -rf $RPM_BUILD_ROOT  
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc LICENSE README.md CHANGELOG.md SHORTCUTS.md
+%doc LICENSE.txt README.md CHANGELOG.md
 %{_bindir}/LogAnalyzer
 %{_datadir}/pixmaps/LogAnalyzer.png
 
@@ -117,8 +117,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/icons/hicolor/512x512/apps
 %dir %{_datadir}/icons/hicolor/512x512
 %dir %{_datadir}/icons/hicolor
-%dir %{_datadir}/icons/scalable
 %dir %{_datadir}/icons/scalable/apps
+%dir %{_datadir}/icons/scalable
 %dir %{_datadir}/LogAnalyzer
 
 %changelog
