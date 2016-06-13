@@ -91,7 +91,6 @@ popd
 install -D -m 0644 LogAnalyzer.desktop $RPM_BUILD_ROOT/%{_datadir}/applications/LogAnalyzer.desktop
 %endif
 
-install -D -m 0644 LogAnalyzer.desktop $RPM_BUILD_ROOT/%{_datadir}/applications/LogAnalyzer.desktop
 install -D -m 0644 LogAnalyzer.png $RPM_BUILD_ROOT/%{_datadir}/pixmaps/LogAnalyzer.png
 install -D -m 0644 LogAnalyzer.png $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/512x512/apps/LogAnalyzer.png
 install -D -m 0644 LogAnalyzer.svg $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/scalable/apps/LogAnalyzer.svg

@@ -134,16 +134,16 @@ cd $obsRepoPath
 osc add $archiveFile
 
 # add these files once
-osc add loganalyzer.bin
-osc add loganalyzer.spec
-osc add PKGBUILD
-osc add debian.changelog
-osc add debian.control
-osc add debian.rules
-osc add debian.copyright
-osc add debian.compat
-osc add debian.loganalyzer.install
-osc add loganalyzer.dsc
+#osc add loganalyzer.bin
+#osc add loganalyzer.spec
+#osc add PKGBUILD
+#osc add debian.changelog
+#osc add debian.control
+#osc add debian.rules
+#osc add debian.copyright
+#osc add debian.compat
+#osc add debian.loganalyzer.install
+#osc add loganalyzer.dsc
 
 echo "Committing changes..."
 
