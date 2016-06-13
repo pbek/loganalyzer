@@ -5,14 +5,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Upload source archive to SourceForge
-$DIR/sourceforge/build-sourceforge-src.sh
-
-# lets wait a bit to make sure SourceForce has their files in place
-sleep 3
-
 # List of commands to run, with parameters, in quotes, space-separated; do not use quotes inside (see bash arrays)
-COMMANDS=("$DIR/../ubuntu-launchpad/build-for-launchpad.sh" "$DIR/../obs/build-for-obs.sh" "$DIR/aur/build-for-aur.sh" "$DIR/gentoo/build-for-gentoo.sh")
+COMMANDS=("$DIR/ubuntu-launchpad/build-for-launchpad.sh" "$DIR/obs/build-for-obs.sh")
 
 # KDS=$KONSOLE_DBUS_SERVICE # This is the ref of the current konsole and only works in a konsole
 # KDS=$(org.kde.konsole)    # This is found in some examples but is incomplete
