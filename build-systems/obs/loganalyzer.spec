@@ -93,10 +93,9 @@ install -D -m 0644 LogAnalyzer.desktop $RPM_BUILD_ROOT/%{_datadir}/applications/
 
 install -D -m 0644 LogAnalyzer.png $RPM_BUILD_ROOT/%{_datadir}/pixmaps/LogAnalyzer.png
 install -D -m 0644 LogAnalyzer.png $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/512x512/apps/LogAnalyzer.png
-install -D -m 0644 LogAnalyzer.svg $RPM_BUILD_ROOT/%{_datadir}/icons/hicolor/scalable/apps/LogAnalyzer.svg
 
 %if 0%{?suse_version}
-%suse_update_desktop_file -c  LogAnalyzer LogAnalyzer LogAnalyzer LogAnalyzer LogAnalyzer "Utility;"
+%suse_update_desktop_file -c  LogAnalyzer LogAnalyzer LogAnalyzer LogAnalyzer LogAnalyzer "Qt;System;Monitor;"
 %endif
 
 %fdupes $RPM_BUILD_ROOT/%{_prefix}
@@ -111,15 +110,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pixmaps/LogAnalyzer.png
 
 %{_datadir}/icons/hicolor/512x512/apps/LogAnalyzer.png
-%{_datadir}/icons/hicolor/scalable/apps/LogAnalyzer.svg
 %{_datadir}/applications/LogAnalyzer.desktop
 
 %dir %{_datadir}/icons/hicolor/512x512/apps
 %dir %{_datadir}/icons/hicolor/512x512
 %dir %{_datadir}/icons/hicolor
-%dir %{_datadir}/icons/scalable/apps
-%dir %{_datadir}/icons/scalable
-%dir %{_datadir}/LogAnalyzer
 
 %changelog
 

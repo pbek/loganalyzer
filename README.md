@@ -2,7 +2,7 @@
 
 [Changelog](https://github.com/pbek/loganalyzer/blob/develop/CHANGELOG.md) | 
 [Issues](https://github.com/pbek/loganalyzer/issues) | 
-[Releases](https://github.com/pbek/loganalyzer/releases) |
+[Releases](https://github.com/pbek/loganalyzer/releases)
 
 [![Build Status Linux / OS X](https://travis-ci.org/pbek/loganalyzer.svg?branch=develop)](https://travis-ci.org/pbek/loganalyzer)
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
