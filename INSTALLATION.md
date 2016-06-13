@@ -30,7 +30,8 @@ sudo apt-get update
 sudo apt-get install loganalyzer
 ```
 
-If you use this repository for other Debian Linux version please make sure that you have **Qt** installed at least at **version 5.3**.
+If you use this repository for other Debian Linux versions please make sure 
+that you have **Qt** installed at least at **version 5.3**.
 
 [Direct Download](https://build.opensuse.org/package/binaries/home:pbek:LogAnalyzer/desktop?repository=Debian_8.0)
 
