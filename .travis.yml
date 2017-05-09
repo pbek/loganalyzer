@@ -80,7 +80,7 @@ before_deploy:
 deploy:
   - provider: releases
     api_key:
-        secure: "Q/G+YH4A3gfYBmdwPcqCbf5xAiKC5sceanaPF1qz/bj0BJ/HX9QTYonVkePjIqj8VVjVTprkOj6AqTupuuthhupVHBIZPLxB0GT75COCDziDg2vZuancyveCixPioziHzT+28UJOuvwSIjJmfwpxArukWG+Z1eyZ6ZA30/k0lo9u5vbceNYUq6iQti4/2bszJrs9e8lbm227hYMG/txdTsTUe6TQlA7+owFULbVlgBz5gqYqgbOyY5bQ6xB7IZx6hLSqnstdqSw+fzu23nD6XceWfqbuEJDpXqaMZt+xaNTh21hkUoAOa5Kzjltl/I4bpftvUvmkoEIhrriSWOj4sE/9jtjDf3jjeAoBpMXzF3/LkPx5THwnn1z2Oc9ugumpMluumxi3KKVQV06rBFaHUxVr6KGenBRWn2WCYq5E4ha4khUtOO9gzcxQNRZcXGFEcMrDNZQW7BdtzfWzSOYgMSd8IPtrbVzBy8tVaauSrcn7wcZ6WYTAvRE4TT6aiEJ+XChxXvdjp/EJ+DwoKFujFW68onLTQKMXnrnDQ+Qa9d+6bTjFgNa0wT3anLy53mrnqWCNkeU8oTDZCJqD2Jj2QGOWcoABnuGWeQG/023p0fDNK29GwjPOFi44+N/RcARNajzuurnQsACBdNPMuDSxCazaPNA/sMn5SwVouNN0rK8="
+        secure: "UbrULbI8TluNTUy9kn3s5FIRMEXuauTpJX20k+uhgcisj9BHiAi8n3f8FBEKeGPUb4SX6DDyfCCjLfJfMF9sqErF6tLKPKAx6BzdpwjdhujuRCuBtDG8b/7lagX2tLaffQQ0zkyuVt28xTKD12iOmsRDRK6xZFs/KXwlaBBGA4Q="
     file: LogAnalyzer-$VERSION_NUMBER.dmg
     skip_cleanup: true
     on:
