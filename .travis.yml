@@ -16,7 +16,8 @@ env:
     # generate a token at https://github.com/settings/tokens and encrypt it
     # with `travis encrypt TAGPERM=<yoursecrettoken> --add env.global`
     # also see: https://docs.travis-ci.com/user/encryption-keys/#Usage
-    - secure: tw2iN29O8KOzTTt/5aXcniGmHD/2N5I6RFdkDSeWvpI7DEYfPuVwUfuOosaU5Fc7Pf+qMCyzZtHyjKIrmVQ/DsD0hRF+0GvnN3a70x7B7+CfzU73w0TYAleYw542N7bGssOxHnNZa5nAIwT+h9yK1jf1JQ5uy526xpcP19v9Wz4jXbQfP+KM9luefpqZF8lSUF5ElRvbH5YIJF8Kvqie349YXbsmRQcI9bFuJMzNsucinKNPpLGUCDM3AkPRCrRFJQ5Z7qj0U6HuotIFiMLD8Wy2ZBfzA3cO/YXgl4O9gFFaFZXEhEGqRKvpccdyzh00mbyciH+S7ybcobLPqdfwO5s46hxk5VtNHygHvwTaMq+TQ5jAnOcCC7Bj7qT1RZAtwQbKHAEpavej3kdcIj7oneQJJZSkr4MVLBcvi+6sawxQ74jQvmPbRExeO6kqHnc1TUo4HXcIYmv+TLYeliXvlP11MXysQ6k0JumvvpAeuV3ZYLdmi1bPcs2OfTIi8eN7Vr/Ua+SlEe93od7i3lwVo9/3EEZG/X9Z9QXWoc5riYoWFnxO3/uMkoqX+IlTLllItminfUfwB+XXNZx4EJk0ek6nxt0PWfmtfnrrl0TzchTdiqmT0ciKO7Zr1+BPiLl2W1HB5a8vXtJNprodpHMUehlBGvRpMIlsqVAK3qfqRME=
+    # and: https://docs.travis-ci.com/user/best-practices-security/
+    - secure: SU8ZNOzs3sRC/tzLF2yvGKJOyiGb/RvEcTDupwXcrOLyhcc0HvmSSYPvsgVllTyUlycH7maTbztUei+W4zqqtbKCxhVEuShEi6k5qWS/1QgfJ8f/rT2IpdVftmOGFHB9J454HwFQJhoRtEuJ0dCSsOp7S5iAC/RrRqyfh+KSoPY=
   matrix:
     - CONFIG=release
     #- CONFIG=debug
@@ -80,7 +81,7 @@ before_deploy:
       ;
     fi
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://$TAGPERM@github.com/pbek/loganalyzer --tags
+  - git push -q https://$TAGPERM@github.com/pbek/loganalyzer --tags >/dev/null 2>&1
 
 deploy:
   - provider: releases
