@@ -22,36 +22,41 @@ env:
     #- CONFIG=debug
 
 install:
-  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-         lsb_release -a
-      && sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
-      && sudo apt-add-repository -y ppa:beineri/opt-qt542
-      && sudo apt-get -qq update
-      && sudo apt-get -qq install g++-4.8 libc6-i386 qt54tools qt54svg qt54webkit qt54script
-      && export CXX="g++-4.8"
-      && export CC="gcc-4.8"
-      ;
-    else
-         brew update > /dev/null
-      && brew tap homebrew/versions
-      && echo "We are using QT 5.5, because we had troubles with the current QT 5.6 brew. The deployed frameworks were loading libraries from /usr/local/Cellar/qt5 instead of the app bundle."
-      && brew install qt55
-      && chmod -R 755 /usr/local/opt/qt55/*
-      ;
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]
+    then
+      lsb_release -a
+      sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
+      sudo apt-add-repository -y ppa:beineri/opt-qt562
+      sudo apt-get -qq update
+      sudo apt-get -qq install g++-4.8 libc6-i386 qt56tools qt56svg qt56webkit qt56script
+      export CXX="g++-4.8"
+      export CC="gcc-4.8"
+    fi
+  # OS X Qt http://braumeister.org/search/qt5
+  # we need to use macdeployqtfix after using macdeployqt to fix the library paths!
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]
+    then
+      brew update > /dev/null
+      brew install qt5
+      export QTDIR="/usr/local/opt/qt5"
     fi
 
 script:
-  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-         QTDIR="/opt/qt54"
-      && PATH="$QTDIR/bin:$PATH"
-      && qt54-env.sh 
-      ;
-    else
-         QTDIR="/usr/local/opt/qt55"
-      && PATH="$QTDIR/bin:$PATH"
-      && LDFLAGS=-L$QTDIR/lib
-      && CPPFLAGS=-I$QTDIR/include
-      ;
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]
+    then
+      QTDIR="/opt/qt56"
+      PATH="$QTDIR/bin:$PATH"
+      qt56-env.sh
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]
+    then
+      PATH="$QTDIR/bin:$PATH"
+      LDFLAGS=-L$QTDIR/lib
+      CPPFLAGS=-I$QTDIR/include
     fi
   - cd src
   - qmake LogAnalyzer.pro CONFIG+=$CONFIG
