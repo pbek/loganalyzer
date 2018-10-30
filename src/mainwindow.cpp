@@ -719,7 +719,7 @@ void MainWindow::loadLogFiles()
     // update the line count
     updateLineCount();
 
-    ui->statusBar->showMessage(tr("Done loading log files"), 1000);
+    ui->statusBar->showMessage(tr("Done loading log files"), 4000);
 }
 
 /**
@@ -760,7 +760,7 @@ void MainWindow::on_removeIgnoredPatternsButton_clicked()
     updateLineCount();
 
     ui->statusBar->showMessage(tr("Done with filtering occurrences of the "
-                                          "ignore patterns in the text"), 1000);
+                                          "ignore patterns in the text"), 4000);
 }
 
 /**
@@ -1076,7 +1076,7 @@ void MainWindow::on_reportPatternsButton_clicked()
 
     ui->reportTextEdit->setHtml(reportHtml);
     ui->statusBar->showMessage(tr("Done with reporting occurrences of the "
-                                          "report patterns in the text"), 1000);
+                                          "report patterns in the text"), 4000);
 }
 
 /**
