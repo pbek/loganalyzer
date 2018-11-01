@@ -129,6 +129,8 @@ private slots:
 
     void on_fileListWidget_customContextMenuRequested(const QPoint &pos);
 
+    void on_fileTextEdit_customContextMenuRequested(const QPoint &pos);
+
 protected:
     void closeEvent(QCloseEvent *event);
 

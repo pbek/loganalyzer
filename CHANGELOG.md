@@ -1,5 +1,12 @@
 # LogAnalyzer Changelog
 
+## 18.11.0
+- added context menu entry for adding ignore and report patterns to the file view
+- selected patterns to ignore or report will now be added escaped as regular expression
+- added the report patterns menu to the toolbar
+- increased status message view time
+- the text fields to filter or add ignore and report patterns now have a clear button 
+
 ## 16.06.0
 - fixed a redraw error on OS X in the settings dialog
 

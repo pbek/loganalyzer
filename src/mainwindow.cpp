@@ -772,7 +772,7 @@ void MainWindow::on_actionAdd_ignore_pattern_triggered()
     QString selectedText = ui->fileTextEdit->textCursor().selectedText();
 
     // add an ignore pattern
-    addIgnorePattern(selectedText);
+    addIgnorePattern(".+" + QRegularExpression::escape(selectedText) + ".+");
 }
 
 /**
@@ -909,7 +909,7 @@ void MainWindow::on_actionAdd_report_pattern_triggered()
     QString selectedText = ui->fileTextEdit->textCursor().selectedText();
 
     // add report pattern
-    addReportPattern(selectedText);
+    addReportPattern(".+" + QRegularExpression::escape(selectedText) + ".+");
 }
 
 /**
@@ -1551,13 +1551,13 @@ void MainWindow::on_logFileSourceRemoteDownloadButton_clicked()
     int listCount = list.count();
 
     if (listCount == 0) {
-        ui->statusBar->showMessage(tr("No files to download selected"), 2000);
+        ui->statusBar->showMessage(tr("No files to download selected"), 4000);
         return;
     }
 
     ui->statusBar->showMessage(
             tr("Downloading %n log file(s) from remote server", "", listCount),
-            2000);
+            4000);
     EzPublishService *service = new EzPublishService(this);
 
     Q_FOREACH(QTableWidgetItem *item, list) {
@@ -1616,5 +1616,26 @@ void MainWindow::on_fileListWidget_customContextMenuRequested(const QPoint &pos)
             // remove selected log files
             removeLogFiles();
         }
+    }
+}
+
+void MainWindow::on_fileTextEdit_customContextMenuRequested(const QPoint &pos) {
+    QPoint globalPos = ui->fileTextEdit->mapToGlobal(pos);
+    QMenu *menu = ui->fileTextEdit->createStandardContextMenu();
+
+    menu->addSeparator();
+    QAction *addIgnorePatternAction = menu->addAction(tr("Add as &ignore pattern"));
+    QAction *addReportPatternAction = menu->addAction(tr("Add as &report pattern"));
+
+    QAction *selectedItem = menu->exec(globalPos);
+
+    if (!selectedItem) {
+        return;
+    }
+
+    if (selectedItem == addIgnorePatternAction) {
+        on_actionAdd_ignore_pattern_triggered();
+    } else if (selectedItem == addReportPatternAction) {
+        on_actionAdd_report_pattern_triggered();
     }
 }

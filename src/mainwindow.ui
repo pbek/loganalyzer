@@ -145,6 +145,9 @@
              <property name="placeholderText">
               <string>filter or create pattern</string>
              </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="2" column="0">
@@ -184,6 +187,9 @@
             <widget class="QLineEdit" name="reportPatternFilterLineEdit">
              <property name="placeholderText">
               <string>filter or create pattern</string>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -278,6 +284,9 @@
            </property>
            <item row="0" column="0">
             <widget class="QPlainTextEdit" name="fileTextEdit">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -597,6 +606,10 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionAdd_ignore_pattern"/>
    <addaction name="actionExport_ignore_patterns"/>
    <addaction name="actionImport_ignore_patterns"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd_report_pattern"/>
+   <addaction name="actionExport_report_patterns"/>
+   <addaction name="actionImport_report_patterns"/>
    <addaction name="separator"/>
    <addaction name="action_Quit"/>
   </widget>
