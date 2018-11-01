@@ -6,6 +6,7 @@
 - added the report patterns menu to the toolbar
 - increased status message view time
 - the text fields to filter or add ignore and report patterns now have a clear button 
+- added releases for Ubuntu Linux 18.04 and 18.10
 
 ## 16.06.0
 - fixed a redraw error on OS X in the settings dialog
