@@ -9,7 +9,7 @@ description: |
   https://github.com/pbek/LogAnalyzer
 
 apps:
-  qownnotes:
+  loganalyzer:
     command: desktop-launch ${SNAP}/usr/bin/LogAnalyzer -style=Fusion --snap
     environment:
         DISABLE_WAYLAND: 1
@@ -27,7 +27,7 @@ apps:
       - cups-control
 
 parts:
-  qownnotes:
+  loganalyzer:
     source: https://github.com/pbek/loganalyzer.git
     # see https://docs.snapcraft.io/reference/plugins/qmake
     plugin: qmake
