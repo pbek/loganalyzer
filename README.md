@@ -6,6 +6,7 @@
 
 [![Build Status Linux / OS X](https://travis-ci.org/pbek/loganalyzer.svg?branch=develop)](https://travis-ci.org/pbek/loganalyzer)
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
+[![Snap Status](https://build.snapcraft.io/badge/pbek/loganalyzer.svg)](https://build.snapcraft.io/user/pbek/loganalyzer)
 
 **LogAnalyzer** is a tool that helps you analyzing your log files by reducing 
 the content with regular expression patterns you define.
