@@ -18,8 +18,7 @@ env:
     # with `travis encrypt TAGPERM=<yoursecrettoken> --add env.global`
     # also see: https://docs.travis-ci.com/user/encryption-keys/#Usage
     # and: https://docs.travis-ci.com/user/best-practices-security/
-#    - secure: SU8ZNOzs3sRC/tzLF2yvGKJOyiGb
-  /RvEcTDupwXcrOLyhcc0HvmSSYPvsgVllTyUlycH7maTbztUei+W4zqqtbKCxhVEuShEi6k5qWS/1QgfJ8f/rT2IpdVftmOGFHB9J454HwFQJhoRtEuJ0dCSsOp7S5iAC/RrRqyfh+KSoPY=
+#    - secure: SU8ZNOzs3sRC/tzLF2yvGKJOyiGb/RvEcTDupwXcrOLyhcc0HvmSSYPvsgVllTyUlycH7maTbztUei+W4zqqtbKCxhVEuShEi6k5qWS/1QgfJ8f/rT2IpdVftmOGFHB9J454HwFQJhoRtEuJ0dCSsOp7S5iAC/RrRqyfh+KSoPY=
   matrix:
     - CONFIG=release
     #- CONFIG=debug
