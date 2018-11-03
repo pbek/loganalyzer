@@ -43,3 +43,34 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     media.qrc
+
+unix {
+
+  isEmpty(PREFIX) {
+    PREFIX = /usr
+  }
+
+  isEmpty(BINDIR) {
+    BINDIR = $$PREFIX/bin
+  }
+
+  isEmpty(DATADIR) {
+    DATADIR = $$PREFIX/share
+  }
+
+  INSTALLS += target desktop i18n icons
+
+  target.path = $$BINDIR
+  target.files += LogAnalyzer
+
+  desktop.path = $$DATADIR/applications
+  desktop.files += LogAnalyzer.desktop
+
+  i18n.path = $$DATADIR/LogAnalyzer/languages
+  i18n.files += languages/*.qm
+
+  icons.path = $$DATADIR/icons/hicolor
+  icons.files += images/icons/*
+}
+
+DEFINES += QAPPLICATION_CLASS=QApplication
