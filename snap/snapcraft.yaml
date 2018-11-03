@@ -10,7 +10,7 @@ description: |
   https://github.com/pbek/LogAnalyzer
 
 apps:
-  loganalyzer:
+  loganalyzer-pbek:
     command: desktop-launch ${SNAP}/usr/bin/LogAnalyzer -style=Fusion --snap
     environment:
       DISABLE_WAYLAND: 1
@@ -28,12 +28,12 @@ apps:
     - cups-control
 
 parts:
-  loganalyzer:
+  loganalyzer-pbek:
     source: https://github.com/pbek/loganalyzer.git
     # see https://docs.snapcraft.io/reference/plugins/qmake
     plugin: qmake
     qt-version: qt5
-    source-branch: develop
+#    source-branch: develop
     options:
     - ./src
     - CONFIG+=release

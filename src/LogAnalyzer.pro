@@ -60,17 +60,17 @@ unix {
 
   INSTALLS += target desktop i18n icons
 
-  target.path = $$BINDIR
-  target.files += LogAnalyzer
+  target.path = $$INSTROOT$$BINDIR
+#  target.files += LogAnalyzer
 
   desktop.path = $$DATADIR/applications
   desktop.files += LogAnalyzer.desktop
 
-  i18n.path = $$DATADIR/LogAnalyzer/languages
-  i18n.files += languages/*.qm
+#  i18n.path = $$DATADIR/LogAnalyzer/languages
+#  i18n.files += languages/*.qm
 
-  icons.path = $$DATADIR/icons/hicolor
-  icons.files += images/icons/*
+#  icons.path = $$DATADIR/icons/hicolor
+#  icons.files += images/icons/*
 }
 
 DEFINES += QAPPLICATION_CLASS=QApplication
