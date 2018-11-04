@@ -11,6 +11,11 @@ sudo apt-get update
 sudo apt-get install loganalyzer
 ```
 
+## Install as snap
+
+You can install the LogAnalyzer snap by typing: `snap install loganalyzer-pbek` and then run it with `loganalyzer-pbek`.
+
+[Snaps](https://snapcraft.io) are working on many Linux distributions like Ubuntu, Arch Linux, Debian, Fedora, openSUSE, Gentoo Linux, OpenWRT, open embedded and yocto project.
 
 ## Install on Debian Linux
 
