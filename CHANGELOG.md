@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 18.11.1
+- you can now reorder the log files in the *Evaluation area*
+
 ## 18.11.0
 - added context menu entry for adding ignore and report patterns to the file view
 - selected patterns to ignore or report will now be added escaped as regular expression
