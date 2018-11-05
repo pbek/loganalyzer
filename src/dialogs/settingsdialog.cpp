@@ -1,5 +1,6 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include "filedialog.h"
 #include <QDir>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -16,6 +17,9 @@ SettingsDialog::SettingsDialog(int tab, QWidget *parent) :
     ui->setupUi(this);
     ui->tabWidget->setCurrentIndex(tab);
     setupLogFileSourceTab();
+
+    // init the debug info search frame
+    ui->debugInfoTextEdit->initSearchFrame(ui->debugInfoTextEditSearchFrame);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -278,4 +282,49 @@ void SettingsDialog::setConnectionTestMessage(QString text, bool isError) {
     ui->connectionTestLabel->setStyleSheet("color: " + color);
     ui->connectionTestLabel->setText(text);
     ui->connectionTestLabel->show();
+}
+
+void SettingsDialog::on_saveDebugInfoButton_clicked() {
+    FileDialog dialog("SaveDebugInfo");
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setNameFilter(tr("Markdown files") + " (*.md)");
+    dialog.setWindowTitle(tr("Save debug information"));
+    dialog.selectFile("LogAnalyzer Debug Information.md");
+    int ret = dialog.exec();
+
+    if (ret == QDialog::Accepted) {
+        QString fileName = dialog.selectedFile();
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            qWarning() << file.errorString();
+            return;
+        }
+
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        out << ui->debugInfoTextEdit->toPlainText();
+        file.flush();
+        file.close();
+    }
+}
+
+void SettingsDialog::outputSettings() {
+    QString output = Utils::Misc::generateDebugInformation(
+            ui->gitHubLineBreaksCheckBox->isChecked());
+
+    ui->debugInfoTextEdit->setPlainText(output);
+}
+
+void SettingsDialog::on_gitHubLineBreaksCheckBox_toggled(bool checked) {
+    Q_UNUSED(checked);
+    outputSettings();
+}
+
+void SettingsDialog::on_tabWidget_currentChanged(int index)
+{
+    if (index == DebugTab) {
+        outputSettings();
+    }
 }

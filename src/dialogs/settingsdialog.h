@@ -15,7 +15,8 @@ class SettingsDialog : public QDialog
 
 public:
     enum SettingsTabs {
-        LogFileSourcesTab
+        LogFileSourcesTab,
+        DebugTab
     };
 
     enum LogFileSourceTypes {
@@ -54,6 +55,12 @@ private slots:
 
     void on_connectionTestButton_clicked();
 
+    void on_saveDebugInfoButton_clicked();
+
+    void on_gitHubLineBreaksCheckBox_toggled(bool checked);
+
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::SettingsDialog *ui;
     LogFileSource _selectedLogFileSource;
@@ -61,6 +68,8 @@ private:
     void setupLogFileSourceTab();
 
     void updateLogFileSourceTab();
+
+    void outputSettings();
 };
 
 #endif // SETTINGSDIALOG_H

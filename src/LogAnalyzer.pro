@@ -26,6 +26,7 @@ SOURCES += main.cpp \
         utils/misc.cpp \
         services/databaseservice.cpp \
         entities/logfilesource.cpp \
+        dialogs/filedialog.cpp \
         dialogs/settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
@@ -36,6 +37,7 @@ HEADERS  += mainwindow.h \
         utils/misc.h \
         services/databaseservice.h \
         entities/logfilesource.h \
+        dialogs/filedialog.h \
         dialogs/settingsdialog.h
 
 FORMS    += mainwindow.ui \
@@ -43,6 +45,8 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     media.qrc
+
+include(libraries/qmarkdowntextedit/qmarkdowntextedit.pri)
 
 unix {
 

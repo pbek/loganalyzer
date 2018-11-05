@@ -49,5 +49,10 @@ namespace Utils
         QString friendlyUnit(qint64 bytesValue, bool isSpeed = false);
         QString fromDouble(double n, int precision);
         QByteArray gUncompress(const QByteArray &data);
+        QString prepareDebugInformationLine(
+                const QString &headline, QString data,
+                bool withGitHubLineBreaks = true,
+                QString typeText = "");
+        QString generateDebugInformation(bool withGitHubLineBreaks = true);
     }
 }

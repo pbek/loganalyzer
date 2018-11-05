@@ -2,6 +2,8 @@
 
 ## 18.11.1
 - you can now reorder the log files in the *Evaluation area*
+- added a debug tab in the settings to show and export information about your
+  installation of LogAnalyzer
 
 ## 18.11.0
 - added context menu entry for adding ignore and report patterns to the file view

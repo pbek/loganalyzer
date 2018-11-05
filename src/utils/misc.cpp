@@ -22,8 +22,10 @@
 #include <QtWidgets/QApplication>
 #include <cmath>
 #include <stdexcept>
+#include <QtGui/QIcon>
 #include "misc.h"
 #include "libraries/miniz/tinfl.c"
+#include "version.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -323,4 +325,160 @@ QByteArray Utils::Misc::gUncompress(QByteArray const& data)
     } while (TINFL_STATUS_DONE != ret);
 
     return QByteArray::fromRawData(result.data(), outTotal);
+}
+/**
+ * @brief Prepares the debug information to output it as markdown
+ * @param headline
+ * @param data
+ */
+QString Utils::Misc::prepareDebugInformationLine(
+        const QString &headline, QString data, bool withGitHubLineBreaks,
+        QString typeText) {
+    // add two spaces if we don't want GitHub line breaks
+    QString spaces = withGitHubLineBreaks ? "" : "  ";
+
+    if (data.contains("\n")) {
+        data = "\n```\n" + data.trimmed() + "\n```";
+    } else {
+        data = (data.isEmpty()) ? "*empty*" : "`" + data + "`";
+    }
+
+    QString resultText = "**" + headline + "**";
+
+    if (!typeText.isEmpty()) {
+        resultText += " (" + typeText + ")";
+    }
+
+    resultText += ": " + data + spaces + "\n";
+    return resultText;
+}
+
+QString Utils::Misc::generateDebugInformation(bool withGitHubLineBreaks) {
+    QSettings settings;
+    QString output;
+
+    output += "LogAnalyzer Debug Information\n";
+    output += "=============================\n";
+
+    QDateTime dateTime = QDateTime::currentDateTime();
+
+    // add information about QOwnNotes
+    output += "\n## General Info\n\n";
+    output += prepareDebugInformationLine("Current Date", dateTime.toString(),
+                                          withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Version", QString(VERSION), withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Build date", QString(__DATE__), withGitHubLineBreaks);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    output += prepareDebugInformationLine("Operating System",
+                                          QSysInfo::prettyProductName(), withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Build architecture",
+                                          QSysInfo::buildCpuArchitecture(), withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Current architecture",
+                                          QSysInfo::currentCpuArchitecture(), withGitHubLineBreaks);
+#endif
+    output += prepareDebugInformationLine("Qt Version (build)", QT_VERSION_STR, withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Qt Version (runtime)", qVersion(), withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Settings path / key",
+                                          settings.fileName(), withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Application arguments",
+                                          qApp->property("arguments").toStringList().join("`, `"), withGitHubLineBreaks);
+
+    QString debug = "0";
+#ifdef QT_DEBUG
+    debug = "1";
+#endif
+
+    output += prepareDebugInformationLine("Qt Debug", debug, withGitHubLineBreaks);
+
+    output += prepareDebugInformationLine("Locale (system)",
+                                          QLocale::system().name(), withGitHubLineBreaks);
+    output += prepareDebugInformationLine("Locale (interface)",
+                                          settings.value("interfaceLanguage")
+                                                  .toString(), withGitHubLineBreaks);
+
+    output += prepareDebugInformationLine("Icon theme",
+                                          QIcon::themeName(), withGitHubLineBreaks);
+
+    // add information about the settings
+    output += "\n## Settings\n\n";
+
+    // hide values of these keys
+    QStringList keyHiddenList = (QStringList() << "cryptoKey");
+
+    // under OS X we have to ignore some keys
+#ifdef Q_OS_MAC
+    QStringList keyIgnoreList;
+    keyIgnoreList << "AKDeviceUnlockState" << "Apple" << "NS" << "NavPanel"
+    << "com/apple";
+#endif
+
+    QListIterator<QString> itr(settings.allKeys());
+    while (itr.hasNext()) {
+        QString key = itr.next();
+        QVariant value = settings.value(key);
+
+        // under OS X we have to ignore some keys
+#ifdef Q_OS_MAC
+        bool ignoreKey = false;
+
+        // ignore values of certain keys
+        QListIterator<QString> itr2(keyIgnoreList);
+        while (itr2.hasNext()) {
+            QString pattern = itr2.next();
+            if (key.startsWith(pattern)) {
+                ignoreKey = true;
+                break;
+            }
+        }
+
+        // check if key has to be ignored
+        if (ignoreKey) {
+            continue;
+        }
+#endif
+
+        // hide values of certain keys
+        if (keyHiddenList.contains(key)) {
+            output += prepareDebugInformationLine(key, "<hidden>",
+                                                  withGitHubLineBreaks, value.typeName());
+        } else {
+            switch (value.type()) {
+                case QVariant::StringList:
+                    output += prepareDebugInformationLine(
+                            key, value.toStringList().join(", "),
+                            withGitHubLineBreaks, value.typeName());
+                    break;
+                case QVariant::List:
+                    output += prepareDebugInformationLine(key,
+                                                          QString("<variant list with %1 item(s)>").arg(
+                                                                  value.toList().count()),
+                                                          withGitHubLineBreaks, value.typeName());
+                    break;
+                case QVariant::ByteArray:
+                case QVariant::UserType:
+                    output += prepareDebugInformationLine(key, "<binary data>",
+                                                          withGitHubLineBreaks, value.typeName());
+                    break;
+                default:
+                    output += prepareDebugInformationLine(
+                            key, value.toString(), withGitHubLineBreaks,
+                            value.typeName());
+            }
+        }
+    }
+
+    // add information about the system environment
+    output += "\n## System environment\n\n";
+
+    itr = QProcess::systemEnvironment();
+    while (itr.hasNext()) {
+        QStringList textList = itr.next().split("=");
+        QString key = textList.first();
+        textList.removeFirst();
+        QString value = textList.join("=");
+        output += prepareDebugInformationLine(key, value, withGitHubLineBreaks);
+    }
+
+    return output;
 }

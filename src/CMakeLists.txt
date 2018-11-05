@@ -16,9 +16,12 @@ find_package( Qt5PrintSupport REQUIRED )
 find_package( Qt5Network REQUIRED )
 
 qt5_wrap_ui(dialogs/ui_settingsdialog.h settingsdialog.ui)
+qt5_wrap_ui(libraries/qmarkdowntextedit/ui_qplaintexteditsearchwidget.h
+        libraries/qmarkdowntextedit/qplaintexteditsearchwidget.ui)
 
 set(RESOURCE_FILES
     media.qrc
+    libraries/qmarkdowntextedit/media.qrc
 )
 
 qt5_add_resources(RESOURCE_ADDED ${RESOURCE_FILES})
@@ -41,6 +44,8 @@ set(SOURCE_FILES
     dialogs/settingsdialog.ui
     dialogs/settingsdialog.h
     dialogs/settingsdialog.cpp
+    dialogs/filedialog.cpp
+    dialogs/filedialog.h
     libraries/simplecrypt/simplecrypt.h
     libraries/simplecrypt/simplecrypt.cpp
     libraries/miniz/tinfl.c
@@ -48,6 +53,13 @@ set(SOURCE_FILES
     services/cryptoservice.cpp
     services/ezpublishservice.h
     services/ezpublishservice.cpp
+    libraries/qmarkdowntextedit/markdownhighlighter.cpp
+    libraries/qmarkdowntextedit/markdownhighlighter.h
+    libraries/qmarkdowntextedit/qmarkdowntextedit.cpp
+    libraries/qmarkdowntextedit/qmarkdowntextedit.h
+    libraries/qmarkdowntextedit/qplaintexteditsearchwidget.cpp
+    libraries/qmarkdowntextedit/qplaintexteditsearchwidget.h
+    libraries/qmarkdowntextedit/qplaintexteditsearchwidget.ui
 )
 
 add_executable(LogAnalyzer ${SOURCE_FILES} ${RESOURCE_ADDED})
