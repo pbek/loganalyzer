@@ -2,8 +2,13 @@
 
 ## 18.11.1
 - you can now reorder the log files in the *Evaluation area*
-- added a debug tab in the settings to show and export information about your
+- added a *Debug* tab in the settings to show and export information about your
   installation of LogAnalyzer
+- there are now LogAnalyzer **snap packages** available for `amd64`, `i386`, 
+  `arm64` and `armhf`
+    - you can install it with `snap install loganalyzer-pbek` and run the 
+      application with `loganalyzer-pbek`
+- Qt versions for the Windows and macOS builds were updated to the current release
 
 ## 18.11.0
 - added context menu entry for adding ignore and report patterns to the file view
