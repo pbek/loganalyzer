@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 18.11.2
+- fixed icons
+
 ## 18.11.1
 - you can now reorder the log files in the *Evaluation area*
 - added a *Debug* tab in the settings to show and export information about your

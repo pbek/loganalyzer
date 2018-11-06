@@ -20,7 +20,7 @@ qt5_wrap_ui(libraries/qmarkdowntextedit/ui_qplaintexteditsearchwidget.h
         libraries/qmarkdowntextedit/qplaintexteditsearchwidget.ui)
 
 set(RESOURCE_FILES
-    media.qrc
+    loganalyzer.qrc
     libraries/qmarkdowntextedit/media.qrc
 )
 

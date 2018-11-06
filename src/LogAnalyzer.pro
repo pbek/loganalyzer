@@ -44,7 +44,7 @@ FORMS    += mainwindow.ui \
     dialogs/settingsdialog.ui
 
 RESOURCES += \
-    media.qrc
+    loganalyzer.qrc
 
 include(libraries/qmarkdowntextedit/qmarkdowntextedit.pri)
 

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/loganalyzer/">
         <file>LogAnalyzer.svg</file>
         <file>media/window-close.svg</file>
         <file>media/go-top.svg</file>

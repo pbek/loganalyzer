@@ -14,8 +14,8 @@
    <string>Log Analyzer</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="media.qrc">
-    <normaloff>:/LogAnalyzer.svg</normaloff>:/LogAnalyzer.svg</iconset>
+   <iconset resource="loganalyzer.qrc">
+    <normaloff>:/loganalyzer/LogAnalyzer.svg</normaloff>:/loganalyzer/LogAnalyzer.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -162,8 +162,8 @@
               <string>Filter ignored patterns from text</string>
              </property>
              <property name="icon">
-              <iconset theme="view-filter" resource="media.qrc">
-               <normaloff>:/media/view-filter.svg</normaloff>:/media/view-filter.svg</iconset>
+              <iconset theme="view-filter" resource="loganalyzer.qrc">
+               <normaloff>:/loganalyzer/media/view-filter.svg</normaloff>:/loganalyzer/media/view-filter.svg</iconset>
              </property>
             </widget>
            </item>
@@ -227,8 +227,8 @@
               <string>Report on patterns in view</string>
              </property>
              <property name="icon">
-              <iconset theme="edit-find" resource="media.qrc">
-               <normaloff>:/media/edit-find.svg</normaloff>:/media/edit-find.svg</iconset>
+              <iconset theme="edit-find" resource="loganalyzer.qrc">
+               <normaloff>:/loganalyzer/media/edit-find.svg</normaloff>:/loganalyzer/media/edit-find.svg</iconset>
              </property>
             </widget>
            </item>
@@ -380,8 +380,8 @@ p, li { white-space: pre-wrap; }
           <string>&amp;Add selected files</string>
          </property>
          <property name="icon">
-          <iconset theme="list-add" resource="media.qrc">
-           <normaloff>:/media/list-add.svg</normaloff>:/media/list-add.svg</iconset>
+          <iconset theme="list-add" resource="loganalyzer.qrc">
+           <normaloff>:/loganalyzer/media/list-add.svg</normaloff>:/loganalyzer/media/list-add.svg</iconset>
          </property>
         </widget>
        </item>
@@ -429,8 +429,8 @@ p, li { white-space: pre-wrap; }
               <string>&amp;Download</string>
              </property>
              <property name="icon">
-              <iconset theme="edit-download" resource="media.qrc">
-               <normaloff>:/media/edit-download.svg</normaloff>:/media/edit-download.svg</iconset>
+              <iconset theme="edit-download" resource="loganalyzer.qrc">
+               <normaloff>:/loganalyzer/media/edit-download.svg</normaloff>:/loganalyzer/media/edit-download.svg</iconset>
              </property>
             </widget>
            </item>
@@ -443,8 +443,8 @@ p, li { white-space: pre-wrap; }
               <string>&amp;Reload remote folder</string>
              </property>
              <property name="icon">
-              <iconset theme="folder-sync" resource="media.qrc">
-               <normaloff>:/media/folder-sync.svg</normaloff>:/media/folder-sync.svg</iconset>
+              <iconset theme="folder-sync" resource="loganalyzer.qrc">
+               <normaloff>:/loganalyzer/media/folder-sync.svg</normaloff>:/loganalyzer/media/folder-sync.svg</iconset>
              </property>
             </widget>
            </item>
@@ -622,8 +622,8 @@ p, li { white-space: pre-wrap; }
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Quit">
    <property name="icon">
-    <iconset theme="application-exit" resource="media.qrc">
-     <normaloff>:/media/application-exit.svg</normaloff>:/media/application-exit.svg</iconset>
+    <iconset theme="application-exit" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/application-exit.svg</normaloff>:/loganalyzer/media/application-exit.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -634,8 +634,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAdd_ignore_pattern">
    <property name="icon">
-    <iconset theme="format-add-node" resource="media.qrc">
-     <normaloff>:/media/format-add-node.svg</normaloff>:/media/format-add-node.svg</iconset>
+    <iconset theme="format-add-node" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/format-add-node.svg</normaloff>:/loganalyzer/media/format-add-node.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Add ignore pattern</string>
@@ -646,8 +646,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Find_in_file">
    <property name="icon">
-    <iconset theme="edit-find" resource="media.qrc">
-     <normaloff>:/media/edit-find.svg</normaloff>:/media/edit-find.svg</iconset>
+    <iconset theme="edit-find" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/edit-find.svg</normaloff>:/loganalyzer/media/edit-find.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Find in file</string>
@@ -658,8 +658,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionExport_ignore_patterns">
    <property name="icon">
-    <iconset theme="document-export" resource="media.qrc">
-     <normaloff>:/media/document-export.svg</normaloff>:/media/document-export.svg</iconset>
+    <iconset theme="document-export" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/document-export.svg</normaloff>:/loganalyzer/media/document-export.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Export ignore patterns</string>
@@ -670,8 +670,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionImport_ignore_patterns">
    <property name="icon">
-    <iconset theme="document-import" resource="media.qrc">
-     <normaloff>:/media/document-import.svg</normaloff>:/media/document-import.svg</iconset>
+    <iconset theme="document-import" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/document-import.svg</normaloff>:/loganalyzer/media/document-import.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Import ignore patterns</string>
@@ -682,8 +682,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Reload_file">
    <property name="icon">
-    <iconset theme="view-refresh" resource="media.qrc">
-     <normaloff>:/media/view-refresh.svg</normaloff>:/media/view-refresh.svg</iconset>
+    <iconset theme="view-refresh" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/view-refresh.svg</normaloff>:/loganalyzer/media/view-refresh.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Reload file</string>
@@ -694,8 +694,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAdd_report_pattern">
    <property name="icon">
-    <iconset theme="format-add-node" resource="media.qrc">
-     <normaloff>:/media/format-add-node.svg</normaloff>:/media/format-add-node.svg</iconset>
+    <iconset theme="format-add-node" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/format-add-node.svg</normaloff>:/loganalyzer/media/format-add-node.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Add report pattern</string>
@@ -706,8 +706,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionExport_report_patterns">
    <property name="icon">
-    <iconset theme="document-export" resource="media.qrc">
-     <normaloff>:/media/document-export.svg</normaloff>:/media/document-export.svg</iconset>
+    <iconset theme="document-export" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/document-export.svg</normaloff>:/loganalyzer/media/document-export.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Export report patterns</string>
@@ -718,8 +718,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionImport_report_patterns">
    <property name="icon">
-    <iconset theme="document-import" resource="media.qrc">
-     <normaloff>:/media/document-import.svg</normaloff>:/media/document-import.svg</iconset>
+    <iconset theme="document-import" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/document-import.svg</normaloff>:/loganalyzer/media/document-import.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Import report patterns</string>
@@ -730,8 +730,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionShow_changelog">
    <property name="icon">
-    <iconset theme="text-x-changelog" resource="media.qrc">
-     <normaloff>:/media/text-x-changelog.svg</normaloff>:/media/text-x-changelog.svg</iconset>
+    <iconset theme="text-x-changelog" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/text-x-changelog.svg</normaloff>:/loganalyzer/media/text-x-changelog.svg</iconset>
    </property>
    <property name="text">
     <string>Show &amp;changelog</string>
@@ -739,8 +739,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionReport_issues">
    <property name="icon">
-    <iconset theme="face-smile" resource="media.qrc">
-     <normaloff>:/media/face-smile.svg</normaloff>:/media/face-smile.svg</iconset>
+    <iconset theme="face-smile" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/face-smile.svg</normaloff>:/loganalyzer/media/face-smile.svg</iconset>
    </property>
    <property name="text">
     <string>Report &amp;issues or ideas</string>
@@ -748,8 +748,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionShow_releases">
    <property name="icon">
-    <iconset theme="svn-update" resource="media.qrc">
-     <normaloff>:/media/svn-update.svg</normaloff>:/media/svn-update.svg</iconset>
+    <iconset theme="svn-update" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/svn-update.svg</normaloff>:/loganalyzer/media/svn-update.svg</iconset>
    </property>
    <property name="text">
     <string>Show &amp;releases</string>
@@ -757,8 +757,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Export_report_as_PDF">
    <property name="icon">
-    <iconset theme="application-pdf" resource="media.qrc">
-     <normaloff>:/media/application-pdf.svg</normaloff>:/media/application-pdf.svg</iconset>
+    <iconset theme="application-pdf" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/application-pdf.svg</normaloff>:/loganalyzer/media/application-pdf.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Export report as PDF</string>
@@ -769,8 +769,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Print_report">
    <property name="icon">
-    <iconset theme="document-print" resource="media.qrc">
-     <normaloff>:/media/document-print.svg</normaloff>:/media/document-print.svg</iconset>
+    <iconset theme="document-print" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/document-print.svg</normaloff>:/loganalyzer/media/document-print.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Print report</string>
@@ -781,8 +781,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Settings">
    <property name="icon">
-    <iconset theme="configure" resource="media.qrc">
-     <normaloff>:/media/configure.svg</normaloff>:/media/configure.svg</iconset>
+    <iconset theme="configure" resource="loganalyzer.qrc">
+     <normaloff>:/loganalyzer/media/configure.svg</normaloff>:/loganalyzer/media/configure.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Settings</string>
@@ -794,7 +794,7 @@ p, li { white-space: pre-wrap; }
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="media.qrc"/>
+  <include location="loganalyzer.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -107,8 +107,8 @@
                    <string>&amp;Add source</string>
                   </property>
                   <property name="icon">
-                   <iconset theme="folder-new" resource="../media.qrc">
-                    <normaloff>:/media/folder-new.svg</normaloff>:/media/folder-new.svg</iconset>
+                   <iconset theme="folder-new" resource="../loganalyzer.qrc">
+                    <normaloff>:/loganalyzer/media/folder-new.svg</normaloff>:/loganalyzer/media/folder-new.svg</iconset>
                   </property>
                  </widget>
                 </item>
@@ -131,8 +131,8 @@
                    <string>&amp;Remove source</string>
                   </property>
                   <property name="icon">
-                   <iconset theme="edit-delete" resource="../media.qrc">
-                    <normaloff>:/media/edit-delete.svg</normaloff>:/media/edit-delete.svg</iconset>
+                   <iconset theme="edit-delete" resource="../loganalyzer.qrc">
+                    <normaloff>:/loganalyzer/media/edit-delete.svg</normaloff>:/loganalyzer/media/edit-delete.svg</iconset>
                   </property>
                  </widget>
                 </item>
@@ -222,8 +222,8 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset theme="document-open" resource="../media.qrc">
-                 <normaloff>:/media/document-open.svg</normaloff>:/media/document-open.svg</iconset>
+                <iconset theme="document-open" resource="../loganalyzer.qrc">
+                 <normaloff>:/loganalyzer/media/document-open.svg</normaloff>:/loganalyzer/media/document-open.svg</iconset>
                </property>
               </widget>
              </item>
@@ -348,8 +348,8 @@ downloaded files will automatically get a suffix if they already exist</string>
                     <string>&amp;Test connection to server</string>
                    </property>
                    <property name="icon">
-                    <iconset theme="network-connect" resource="../media.qrc">
-                     <normaloff>:/media/network-connect.svg</normaloff>:/media/network-connect.svg</iconset>
+                    <iconset theme="network-connect" resource="../loganalyzer.qrc">
+                     <normaloff>:/loganalyzer/media/network-connect.svg</normaloff>:/loganalyzer/media/network-connect.svg</iconset>
                    </property>
                   </widget>
                  </item>
@@ -504,7 +504,7 @@ downloaded files will automatically get a suffix if they already exist</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../media.qrc"/>
+  <include location="../loganalyzer.qrc"/>
  </resources>
  <connections>
   <connection>
