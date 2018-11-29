@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 18.11.3
+- fixed windows build
+
 ## 18.11.2
 - fixed icons
 
