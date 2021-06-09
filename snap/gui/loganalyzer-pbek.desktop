@@ -1,10 +1,11 @@
 [Desktop Entry]
 Name=LogAnalyzer
 Comment=Tool for analyzing your log files by reducing the content with regular expression patterns you define
-Exec=LogAnalyzer
-Icon=LogAnalyzer
+Exec=loganalyzer-pbek
+Icon=${SNAP}/meta/gui/LogAnalyzer.png
 Type=Application
 Terminal=false
 StartupNotify=true
 Encoding=UTF-8
 Categories=Qt;System;Monitor;
+StartupWMClass=LogAnalyzer
