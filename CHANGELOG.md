@@ -1,5 +1,11 @@
 # LogAnalyzer Changelog
 
+## 21.6.0
+- fixed snap desktop icon (for [#9](https://github.com/pbek/loganalyzer/issues/9))
+- added Ubuntu Launchpad builds for up to Ubuntu 21.10 (impish)
+- added Debian builds for up to Debian 10 and Debian Unstable
+- added openSUSE Leap builds for up to openSUSE Leap 15.3
+
 ## 18.11.3
 - fixed windows build
 
