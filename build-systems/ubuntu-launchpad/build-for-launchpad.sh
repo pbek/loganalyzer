@@ -15,7 +15,8 @@
 
 BRANCH=develop
 #BRANCH=master
-UBUNTU_RELEASES=( "xenial" "bionic" "cosmic" )
+# https://wiki.ubuntu.com/Releases
+UBUNTU_RELEASES=( "xenial" "bionic" "focal" "groovy" "hirsute" "impish" )
 
 
 DATE=$(LC_ALL=C date +'%a, %d %b %Y %T %z')
@@ -23,7 +24,7 @@ PROJECT_PATH="/tmp/loganalyzer-$$"
 CUR_DIR=$(pwd)
 UPLOAD="true"
 DEBUILD_ARGS=""
-GPG_PUBLIC_KEY=F5161BD3
+SIGNING_EMAIL=patrizio@bekerle.com
 export DEBFULLNAME="Patrizio Bekerle"
 export DEBEMAIL="patrizio@bekerle.com"
 
@@ -99,7 +100,7 @@ do
     echo " -- $DEBFULLNAME <$DEBEMAIL>  $DATE" >> $changelogPath
 
     # launch debuild
-    debuild -S -sa -k$GPG_PUBLIC_KEY $DEBUILD_ARGS
+    debuild -S -sa -k$SIGNING_EMAIL $DEBUILD_ARGS
     cd ..
 
     # send to launchpad
