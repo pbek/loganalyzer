@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 23.1.0
+- update [qmarkdowntextedit](https://github.com/pbek/qmarkdowntextedit/)
+
 ## 21.6.0
 - fixed snap desktop icon (for [#9](https://github.com/pbek/loganalyzer/issues/9))
 - added Ubuntu Launchpad builds for up to Ubuntu 21.10 (impish)

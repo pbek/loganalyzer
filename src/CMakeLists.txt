@@ -53,6 +53,9 @@ set(SOURCE_FILES
     services/cryptoservice.cpp
     services/ezpublishservice.h
     services/ezpublishservice.cpp
+    libraries/qmarkdowntextedit/linenumberarea.h
+    libraries/qmarkdowntextedit/qownlanguagedata.cpp
+    libraries/qmarkdowntextedit/qownlanguagedata.h
     libraries/qmarkdowntextedit/markdownhighlighter.cpp
     libraries/qmarkdowntextedit/markdownhighlighter.h
     libraries/qmarkdowntextedit/qmarkdowntextedit.cpp
