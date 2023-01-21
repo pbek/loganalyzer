@@ -8,11 +8,17 @@
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/github/pbek/LogAnalyzer)](https://ci.appveyor.com/project/pbek/loganalyzer)
 [![Snap Status](https://build.snapcraft.io/badge/pbek/loganalyzer.svg)](https://build.snapcraft.io/user/pbek/loganalyzer)
 
-**LogAnalyzer** is a tool that helps you to analyze your log files by reducing 
-the content with regular expression patterns you define.
+**LogAnalyzer** is a tool that helps you to manually analyze your log files by
+reducing the content with regular expression patterns you define.
 
-There is an extension for eZ Publish (legacy) to download log files 
-directly from the server.
+You are supposed to write regular expressions (*Ignore patterns*) for the parts
+that should be removed from the text view until only the interesting parts are left.
+
+And then there are regular expressions (*Report patterns*) that are used to
+generate a report.
+
+There is an extension for the content management system *eZ Publish (legacy)* to
+download log files directly from the server.
 
 ## Screenshot
 
