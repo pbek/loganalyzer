@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 23.5.0
+- update [qmarkdowntextedit](https://github.com/pbek/qmarkdowntextedit/)
+
 ## 23.1.0
 - update [qmarkdowntextedit](https://github.com/pbek/qmarkdowntextedit/)
 
