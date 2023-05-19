@@ -1,5 +1,8 @@
 # LogAnalyzer Changelog
 
+## 23.5.1
+- fix icon and translation path
+
 ## 23.5.0
 - update [qmarkdowntextedit](https://github.com/pbek/qmarkdowntextedit/)
 
