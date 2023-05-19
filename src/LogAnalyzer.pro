@@ -75,6 +75,12 @@ unix {
 
 #  icons.path = $$DATADIR/icons/hicolor
 #  icons.files += images/icons/*
+
+  i18n.path = $$DATADIR/qt5/translations
+  i18n.files += languages/*.qm
+
+  icons.path = $$DATADIR/icons/hicolor
+  icons.files += images/icons/*
 }
 
 DEFINES += QAPPLICATION_CLASS=QApplication
