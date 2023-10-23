@@ -20,8 +20,6 @@ jobs:
     - name: configure
       run: cd src
     - name: make
-      run: cmake
+      run: qmake
     - name: install
-      run: cmake install
-    - name: make distcheck
-      run: make distcheck
+      run: make
