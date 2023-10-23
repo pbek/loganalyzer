@@ -1,0 +1,42 @@
+# All actions have a name that will be displayed in the "Actions" page in GitHub.
+name: CI
+
+
+# The "on" option will specify when to run this action and on which branch
+# Usually for a CI action you would like to run it on every pull request and on push
+# For CD you would probably only want to run it on closed pull requests or direct pushes on master
+# If you want to run it manually you would add "worflow_dispatch"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+# The whole action can contain sub-items called jobs
+# Jobs are run separately and will spin up a new build machine for each sub-item
+jobs:
+  # Under jobs you can put whatever name you want
+
+  # This is just a custom name "build" but it can be anything
+  build:
+    # What build machine to start
+
+    # For Windows you can go with "windows-latest"
+    runs-on: ubuntu-latest
+
+    # Steps are the individual actions for each job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Usually this is always needed
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
