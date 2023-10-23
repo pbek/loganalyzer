@@ -14,6 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: configure
+      run: pwd
+      run: ls -al
       run: ./configure
     - name: make
       run: make
