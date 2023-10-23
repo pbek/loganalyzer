@@ -18,10 +18,10 @@ jobs:
     - name: list
       run: ls -al
     - name: configure
-      run: ./configure.sh
+      run: cd src
     - name: make
-      run: make
-    - name: make check
-      run: make check
+      run: cmake
+    - name: install
+      run: cmake install
     - name: make distcheck
       run: make distcheck
